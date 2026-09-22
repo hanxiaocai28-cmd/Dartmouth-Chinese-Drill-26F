@@ -50,19 +50,18 @@
   .view.on{display:block;animation:fade .3s ease}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-  /* ============ info cards (home) ============ */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-  .card{background:var(--card);border:1px solid var(--rule);padding:24px 26px}
-  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0 0 6px}
-  .card h3{font-family:var(--serif);font-size:21px;margin:0;font-weight:700}
-  .card p{margin:8px 0 0;font-size:14.5px;line-height:1.55;color:var(--ink2)}
-  .card.wide{grid-column:1 / -1}
+  /* ============ info cards (home) — stacked vertical rows ============ */
+  .cards{display:flex;flex-direction:column;gap:22px}
+  .card{background:var(--card);border:1px solid var(--rule);padding:30px 34px}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0 0 8px}
+  .card h3{font-family:var(--serif);font-size:25px;margin:0;font-weight:700}
+  .card p{margin:10px 0 0;font-size:15px;line-height:1.6;color:var(--ink2)}
   a.link{color:var(--seal);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(174,56,38,.35)}
   a.link:hover{color:var(--seal-lt);border-bottom-color:var(--seal-lt)}
 
-  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start}
-  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
-           font-family:var(--mincho);font-size:14px;color:var(--seal);flex:none}
+  .num{display:grid;grid-template-columns:40px 1fr;gap:22px;align-items:center}
+  .num .sq{width:40px;height:40px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:17px;color:var(--seal);flex:none}
 
   /* ============ slides list ============ */
   .week{margin-bottom:34px}
@@ -89,8 +88,8 @@
     .frame{padding:44px 28px 60px}
   }
   @media (max-width:720px){
-    .cards{grid-template-columns:1fr}
     .drills{grid-template-columns:1fr}
+    .card{padding:22px 24px}
     h1{font-size:34px}
   }
 </style>
