@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26F · First Year Courses in Chinese Drill</title>
+<style>
+  /* ============ DESIGN TOKENS — matches the deck style guide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--paper)}
+  body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+  /* ============ page frame with vertical rail + seal ============ */
+  .frame{max-width:960px;margin:0 auto;padding:56px 92px 72px 48px;position:relative;min-height:100vh}
+  .rail{position:fixed;top:0;right:max(calc((100vw - 960px)/2),0px);width:50px;height:100vh;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule);
+        pointer-events:none}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:fixed;top:36px;right:calc(max(calc((100vw - 960px)/2),0px) + 9px);
+        width:32px;height:32px;border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:44px;line-height:1.12;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:28px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:10px 0 0}
+
+  /* ============ toggle tabs ============ */
+  .tabs{display:flex;gap:0;margin:36px 0 40px;border:1px solid var(--rule);width:max-content;background:var(--card)}
+  .tabs button{appearance:none;border:0;background:transparent;cursor:pointer;
+               font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.18em;
+               text-transform:uppercase;color:var(--mute);padding:12px 30px;transition:color .2s,background .2s}
+  .tabs button + button{border-left:1px solid var(--rule)}
+  .tabs button.on{background:var(--seal);color:#F7F1E4}
+  .tabs button:not(.on):hover{color:var(--ink)}
+
+  /* ============ views ============ */
+  .view{display:none}
+  .view.on{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  /* ============ info cards (home) ============ */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .card{background:var(--card);border:1px solid var(--rule);padding:24px 26px}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0 0 6px}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0;font-weight:700}
+  .card p{margin:8px 0 0;font-size:14.5px;line-height:1.55;color:var(--ink2)}
+  .card.wide{grid-column:1 / -1}
+  a.link{color:var(--seal);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(174,56,38,.35)}
+  a.link:hover{color:var(--seal-lt);border-bottom-color:var(--seal-lt)}
+
+  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start}
+  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:14px;color:var(--seal);flex:none}
+
+  /* ============ slides list ============ */
+  .week{margin-bottom:34px}
+  .week-hd{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;border-bottom:1px solid var(--rule);padding-bottom:8px}
+  .week-hd .wk-sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+                  font-family:var(--mincho);font-size:14px;color:var(--seal);align-self:center}
+  .week-hd h3{font-family:var(--serif);font-size:20px;margin:0;font-weight:700}
+  .week-hd .file-hint{margin-left:auto;font-size:11px;font-style:italic;color:var(--mute)}
+  .drills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  a.drill{display:flex;flex-direction:column;gap:3px;background:var(--card);border:1px solid var(--rule);
+          padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .2s,transform .15s}
+  a.drill:hover{border-color:var(--seal);transform:translateY(-2px)}
+  .drill .d-kicker{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--seal)}
+  .drill .d-name{font-family:var(--serif);font-size:16px;font-weight:700}
+  .drill .d-file{font-size:11.5px;color:var(--mute);font-style:italic}
+  .note{font-size:12.5px;font-style:italic;color:var(--mute);margin:0 0 28px;line-height:1.5}
+
+  /* ============ footer ============ */
+  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);
+         font-size:11px;letter-spacing:.08em;color:var(--mute)}
+
+  @media (max-width:1060px){
+    .rail,.seal{display:none}
+    .frame{padding:44px 28px 60px}
+  }
+  @media (max-width:720px){
+    .cards{grid-template-columns:1fr}
+    .drills{grid-template-columns:1fr}
+    h1{font-size:34px}
+  }
+</style>
+</head>
+<body>
+
+<div class="seal">中</div>
+<div class="rail"><span>中文操練・二六年秋</span></div>
+
+<div class="frame">
+
+  <header>
+    <p class="kicker">26F · Drill Section</p>
+    <h1>First Year Courses in Chinese — Drill</h1>
+    <p class="dek">Course index &amp; slide archive</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Page sections">
+    <button id="tab-home" class="on" role="tab" aria-selected="true" aria-controls="view-home" onclick="show('home')">Home</button>
+    <button id="tab-slides" role="tab" aria-selected="false" aria-controls="view-slides" onclick="show('slides')">Slides</button>
+  </nav>
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home" class="view on" role="tabpanel" aria-labelledby="tab-home">
+    <div class="cards">
+      <div class="card">
+        <div class="num">
+          <div class="sq">一</div>
+          <div>
+            <p class="sub">Course</p>
+            <h3>26F — First Year Courses in Chinese Drill</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="num">
+          <div class="sq">二</div>
+          <div>
+            <p class="sub">Instructor</p>
+            <h3>Hanxiao Cai '28</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="num">
+          <div class="sq">三</div>
+          <div>
+            <p class="sub">Section</p>
+            <h3>Tue · Wed · Thu</h3>
+            <p>7:50 – 8:40</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="num">
+          <div class="sq">四</div>
+          <div>
+            <p class="sub">Attendance</p>
+            <h3><a class="link" href="https://docs.google.com/spreadsheets/d/16s9zTWS2BWByKP_FmPVFXFofcrR2bDi7pW7wFSvQK_k/edit?usp=sharing" target="_blank" rel="noopener">Attendance Sheet ↗</a></h3>
+            <p>Google Sheets — opens in a new tab.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES ============ -->
+  <section id="view-slides" class="view" role="tabpanel" aria-labelledby="tab-slides">
+    <p class="note">Slides are posted after each session. Links follow the pattern
+      <em>w&lt;week&gt;-d&lt;drill&gt;.html</em> — a link becomes live once the file is uploaded to this repository.</p>
+    <div id="weeks"><!-- generated --></div>
+  </section>
+
+  <footer>26F · FIRST YEAR COURSES IN CHINESE DRILL — HANXIAO CAI '28</footer>
+
+</div>
+
+<script>
+(function(){
+  /* ---- toggle ---- */
+  window.show = function(which){
+    ['home','slides'].forEach(function(k){
+      document.getElementById('view-'+k).classList.toggle('on', k===which);
+      var t=document.getElementById('tab-'+k);
+      t.classList.toggle('on', k===which);
+      t.setAttribute('aria-selected', k===which ? 'true' : 'false');
+    });
+    history.replaceState(null,'','#'+which);
+  };
+
+  /* ---- build 8 weeks x 3 drills (24 sessions), links prepped for future uploads ---- */
+  var WEEKS=8, DRILLS=3,
+      cn=['','一','二','三','四','五','六','七','八'],
+      days=['Tuesday','Wednesday','Thursday'],
+      root=document.getElementById('weeks');
+
+  for(var w=1; w<=WEEKS; w++){
+    var wk=document.createElement('div');
+    wk.className='week';
+
+    var hd=document.createElement('div');
+    hd.className='week-hd';
+    hd.innerHTML='<div class="wk-sq">'+cn[w]+'</div><h3>Week '+w+'</h3>'+
+                 '<span class="file-hint">w'+w+'-d1 … w'+w+'-d'+DRILLS+'</span>';
+    wk.appendChild(hd);
+
+    var grid=document.createElement('div');
+    grid.className='drills';
+    for(var d=1; d<=DRILLS; d++){
+      var file='w'+w+'-d'+d+'.html';
+      var a=document.createElement('a');
+      a.className='drill';
+      a.href=file;
+      a.innerHTML='<span class="d-kicker">'+days[d-1]+'</span>'+
+                  '<span class="d-name">Drill Session '+d+'</span>'+
+                  '<span class="d-file">'+file+'</span>';
+      grid.appendChild(a);
+    }
+    wk.appendChild(grid);
+    root.appendChild(wk);
+  }
+
+  /* ---- restore tab from URL hash ---- */
+  if(location.hash==='#slides') show('slides');
+})();
+</script>
+</body>
+</html>
