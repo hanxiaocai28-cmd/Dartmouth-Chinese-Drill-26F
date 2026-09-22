@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chinese 101 · Week 1 · Session 2</title>
+<style>
+  /* ============ DESIGN TOKENS — do not change per-slide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
+
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
+
+  /* ============ cards ============ */
+  .cols{display:grid;gap:24px;flex:1;min-height:0}
+  .c2{grid-template-columns:1fr 1fr}
+  .card{background:var(--card);border:1px solid var(--rule);padding:22px 24px;
+        display:flex;flex-direction:column;justify-content:center}
+  .night .card{background:var(--night2);border-color:#3D382F}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0 0 2px;font-weight:700}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0}
+
+  /* ============ bulleted lists ============ */
+  ul{margin:16px 0 0;padding:0;list-style:none}
+  li{position:relative;padding-left:16px;margin-bottom:11px;font-size:14.5px;line-height:1.5;color:var(--ink2)}
+  li:last-child{margin-bottom:0}
+  li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--seal)}
+  .night li{color:#CBC3B1}
+  .night li::before{background:var(--seal-lt)}
+  .jp{font-family:var(--mincho)}
+
+  /* ============ two-column content grid (reusable) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr;gap:36px}
+  .two .col{display:flex;flex-direction:column;min-height:0}
+
+  /* ============ numbered blocks ============ */
+  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;margin-bottom:14px}
+  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:14px;color:var(--seal)}
+  .num h4{font-family:var(--serif);font-size:19px;margin:1px 0 5px;font-weight:700}
+  .num p{margin:0;font-size:14px;line-height:1.5;color:var(--ink2)}
+
+  /* ============ plot / image frame ============ */
+  .plot{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule);padding:12px}
+  .plot svg,.plot img{width:100%;height:100%;object-fit:contain;display:block}
+  .cap{flex:none;font-size:11px;font-style:italic;color:var(--mute);margin:9px 2px 0;line-height:1.45}
+
+  /* ============ deck-specific helpers ============ */
+  .zh{font-family:var(--mincho);font-weight:700}
+  .py{font-style:italic;color:var(--seal)}
+  .night .py{color:var(--seal-lt)}
+  .en{color:var(--mute)}
+
+  /* hometown cards */
+  .homes{display:grid;gap:16px;flex:1;min-height:0}
+  .homes.g4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+  .homes.g3{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr}
+  .home{background:var(--card);border:1px solid var(--rule);padding:16px 18px;
+        display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;min-height:0}
+  .homes.g3 .home{grid-template-columns:1fr;grid-template-rows:auto 1fr;text-align:center;justify-items:center;
+                  align-content:start;padding-top:22px}
+  .home .pic{width:118px;height:118px;background:#F7F1E4;border:1px solid var(--rule)}
+  .home .pic svg{width:100%;height:100%;display:block}
+  .home h3{font-family:var(--serif);font-size:17px;margin:0 0 3px;font-weight:700}
+  .home .zh{font-size:25px;line-height:1.15;display:block}
+  .home .py{font-size:14px;display:block;margin:2px 0 6px}
+  .home .who{font-size:11.5px;color:var(--mute);margin:0;line-height:1.45}
+
+  /* listening drill rows */
+  .drill{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;align-content:center}
+  .drow{background:var(--card);border:1px solid var(--rule);padding:12px 16px;
+        display:flex;align-items:center;gap:14px;min-height:0}
+  .drow .n{flex:none;width:26px;height:26px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:13px;color:var(--seal)}
+  .drow .zh{font-size:22px;flex:none}
+  .drow .en{font-size:11.5px;font-style:italic;flex:1}
+  .drow .tones{flex:none;font-family:var(--serif);font-size:18px;letter-spacing:.14em;color:var(--ink2)}
+  .drow .tones.key{color:var(--seal);font-weight:700}
+  .drow .py{font-size:12.5px;flex:none}
+
+  /* sentence rows */
+  .sent{background:var(--card);border:1px solid var(--rule);padding:15px 22px;margin-bottom:14px}
+  .sent:last-child{margin-bottom:0}
+  .sent .zh{font-size:26px;line-height:1.3;display:block}
+  .sent .py{font-size:14.5px;display:block;margin:3px 0 2px}
+  .sent .en{font-size:13px;display:block}
+
+  /* dialogue rows */
+  .dlg{display:grid;grid-template-columns:38px 1fr;gap:14px;margin-bottom:13px;align-items:start}
+  .dlg:last-child{margin-bottom:0}
+  .dlg .who{width:38px;height:38px;border:1.4px solid var(--seal);display:grid;place-items:center;
+            font-family:var(--serif);font-size:17px;font-weight:700;color:var(--seal)}
+  .dlg.b .who{background:var(--seal);color:#F7F1E4}
+  .dlg .zh{font-size:22.5px;line-height:1.3;display:block}
+  .dlg .py{font-size:13px;display:block;margin-top:2px}
+
+  /* ============ chrome: bottom bar / notes / lightbox ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  #lb{position:fixed;inset:0;background:rgba(12,10,8,.96);z-index:60;display:none;
+      place-items:center;cursor:zoom-out;padding:18px}
+  #lb.on{display:grid}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+  <!-- ============ SLIDES START ============ -->
+
+  <!-- 1 · Title -->
+  <section class="slide night on" data-notes="Welcome everyone back. Today: review the four tones and everyone's hometown, review last session's sentences, then learn to say where you are from and ask/answer whether someone is a teacher or a student.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">Chinese 101 · Week 1 · Session 2</p>
+      <h1><span class="zh">你从哪里来？</span></h1>
+      <p class="dek" style="margin-top:10px">Tones, hometowns, and telling people who you are — Nǐ cóng nǎlǐ lái?</p>
+      <ul style="margin-top:30px">
+        <li>Review · the four tones &amp; our hometowns 复习四声调</li>
+        <li>Review · sentences from Session 1 复习句子</li>
+        <li>New · 我是……人 / 你是老师吗？ 学习新句子</li>
+        <li>Practice · pair dialogue 对话练习</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2 · Four tones review -->
+  <section class="slide" data-notes="Quick warm-up: model mā má mǎ mà, class repeats twice. Point at the contour chart while drilling. Remind them: tone number 1–4 is what they will write in the listening drill next.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Review · 复习</p>
+      <h2>The Four Tones <span class="zh">四声调</span></h2>
+    </div>
+    <div class="two">
+      <div class="col" style="justify-content:center">
+        <div class="num"><div class="sq">一</div><div><h4>First tone <span class="py">mā 妈</span></h4><p>High and flat — hold it level, like singing one long note.</p></div></div>
+        <div class="num"><div class="sq">二</div><div><h4>Second tone <span class="py">má 麻</span></h4><p>Rising — like asking “what?” in English.</p></div></div>
+        <div class="num"><div class="sq">三</div><div><h4>Third tone <span class="py">mǎ 马</span></h4><p>Dips down, then rises — the low, scooping tone.</p></div></div>
+        <div class="num"><div class="sq">四</div><div><h4>Fourth tone <span class="py">mà 骂</span></h4><p>Sharp fall — short and firm, like a command.</p></div></div>
+      </div>
+      <div class="col">
+        <div class="plot">
+          <svg viewBox="0 0 520 360">
+            <line x1="60" y1="60"  x2="490" y2="60"  stroke="#CDC0A7" stroke-width="1"/>
+            <line x1="60" y1="150" x2="490" y2="150" stroke="#CDC0A7" stroke-width="1"/>
+            <line x1="60" y1="240" x2="490" y2="240" stroke="#CDC0A7" stroke-width="1"/>
+            <line x1="60" y1="330" x2="490" y2="330" stroke="#CDC0A7" stroke-width="1"/>
+            <text x="40" y="65"  font-size="14" fill="#7C7160" text-anchor="end">5</text>
+            <text x="40" y="200" font-size="14" fill="#7C7160" text-anchor="end">3</text>
+            <text x="40" y="335" font-size="14" fill="#7C7160" text-anchor="end">1</text>
+            <path d="M80 62 L160 62" stroke="#AE3826" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <text x="120" y="42" font-size="20" fill="#2E2A24" text-anchor="middle" font-style="italic">mā ¹</text>
+            <path d="M190 200 L270 66" stroke="#2E3A48" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <text x="230" y="42" font-size="20" fill="#2E2A24" text-anchor="middle" font-style="italic">má ²</text>
+            <path d="M300 220 Q330 310 355 295 Q385 275 380 190" stroke="#AE3826" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <text x="340" y="42" font-size="20" fill="#2E2A24" text-anchor="middle" font-style="italic">mǎ ³</text>
+            <path d="M410 62 L470 300" stroke="#2E3A48" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <text x="443" y="42" font-size="20" fill="#2E2A24" text-anchor="middle" font-style="italic">mà ⁴</text>
+          </svg>
+        </div>
+        <p class="cap">Pitch contours of the four tones (5 = high, 1 = low). We write them with the numbers 1 2 3 4.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Hometowns I -->
+  <section class="slide" data-notes="From Session 1: everyone introduced their hometown. Read each place name aloud; class repeats. Ask each student: 你是哪里人? Just have them recognize their own place name for now.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Review · 复习 · Our Hometowns I</p>
+      <h2>Where We Come From <span class="zh">我们的家乡</span></h2>
+    </div>
+    <div class="homes g4">
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <circle cx="88" cy="30" r="12" fill="none" stroke="#AE3826" stroke-width="3"/>
+          <g stroke="#AE3826" stroke-width="2.5"><line x1="88" y1="10" x2="88" y2="14"/><line x1="88" y1="46" x2="88" y2="50"/><line x1="68" y1="30" x2="72" y2="30"/><line x1="104" y1="30" x2="108" y2="30"/></g>
+          <path d="M42 100 Q40 70 44 52" stroke="#2E3A48" stroke-width="5" fill="none"/>
+          <g stroke="#2E3A48" stroke-width="3.5" fill="none"><path d="M44 52 Q28 44 18 50"/><path d="M44 52 Q34 36 22 34"/><path d="M44 52 Q48 34 62 30"/><path d="M44 52 Q60 42 70 48"/></g>
+          <path d="M10 104 Q30 96 60 104 Q90 112 110 104" stroke="#2E3A48" stroke-width="3" fill="none"/>
+        </svg></div>
+        <div>
+          <h3>California</h3>
+          <span class="zh">加利福尼亚</span>
+          <span class="py">Jiālìfúníyà</span>
+          <p class="who">Angel Alejandro Avila</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <rect x="44" y="16" width="32" height="8" fill="none" stroke="#2E3A48" stroke-width="3"/>
+          <path d="M40 32 Q40 24 48 24 L72 24 Q80 24 80 32 Q84 52 76 66 L44 66 Q36 52 40 32Z" fill="none" stroke="#AE3826" stroke-width="3.5"/>
+          <path d="M44 66 Q60 74 76 66" fill="none" stroke="#AE3826" stroke-width="3.5"/>
+          <line x1="60" y1="70" x2="60" y2="84" stroke="#2E3A48" stroke-width="4"/>
+          <circle cx="60" cy="90" r="5" fill="#2E3A48"/>
+          <path d="M52 40 L56 52" stroke="#AE3826" stroke-width="2.5"/>
+          <path d="M20 104 L100 104" stroke="#2E3A48" stroke-width="3"/>
+        </svg></div>
+        <div>
+          <h3>Philadelphia</h3>
+          <span class="zh">费城</span>
+          <span class="py">Fèichéng</span>
+          <p class="who">Sarah Beth Hughes · Jonathan Alexander Talero</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <path d="M6 96 L38 46 L58 78 L74 52 L114 96Z" fill="none" stroke="#2E3A48" stroke-width="3.5"/>
+          <path d="M30 58 L38 46 L46 58" fill="none" stroke="#2E3A48" stroke-width="3"/>
+          <g stroke="#AE3826" stroke-width="3" fill="none">
+            <path d="M28 96 L28 82 M20 92 L28 78 L36 92 M22 84 L28 72 L34 84"/>
+            <path d="M92 96 L92 80 M83 91 L92 75 L101 91 M85 82 L92 68 L99 82"/>
+          </g>
+        </svg></div>
+        <div>
+          <h3>Hanover · New Hampshire</h3>
+          <span class="zh">汉诺威（新罕布什尔）</span>
+          <span class="py">Hànnuòwēi</span>
+          <p class="who">Rose Li Hurst</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <g fill="none" stroke="#AE3826" stroke-width="3">
+            <path d="M52 96 L52 46 Q60 26 68 46 L68 96"/>
+            <path d="M24 96 L24 62 Q31 46 38 62 L38 96"/>
+            <path d="M82 96 L82 62 Q89 46 96 62 L96 96"/>
+            <line x1="56" y1="56" x2="64" y2="56"/><line x1="54" y1="70" x2="66" y2="70"/>
+          </g>
+          <line x1="10" y1="96" x2="110" y2="96" stroke="#2E3A48" stroke-width="3.5"/>
+          <line x1="16" y1="104" x2="104" y2="104" stroke="#2E3A48" stroke-width="3"/>
+        </svg></div>
+        <div>
+          <h3>Cambodia</h3>
+          <span class="zh">柬埔寨</span>
+          <span class="py">Jiǎnpǔzhài</span>
+          <p class="who">Sonisa Leng</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Hometowns II -->
+  <section class="slide" data-notes="Second half of hometowns. Same routine: read aloud, class repeats, students find their own name. Then set up the listening drill on the next slide.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Review · 复习 · Our Hometowns II</p>
+      <h2>Where We Come From <span class="zh">我们的家乡</span></h2>
+    </div>
+    <div class="homes g3">
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <g fill="none" stroke="#2E3A48" stroke-width="3">
+            <rect x="14" y="60" width="18" height="40"/>
+            <rect x="38" y="40" width="20" height="60"/>
+            <rect x="64" y="52" width="16" height="48"/>
+            <rect x="86" y="30" width="20" height="70"/>
+            <line x1="96" y1="30" x2="96" y2="18"/>
+          </g>
+          <g stroke="#AE3826" stroke-width="2">
+            <line x1="43" y1="50" x2="53" y2="50"/><line x1="43" y1="60" x2="53" y2="60"/><line x1="43" y1="70" x2="53" y2="70"/>
+            <line x1="91" y1="44" x2="101" y2="44"/><line x1="91" y1="56" x2="101" y2="56"/><line x1="91" y1="68" x2="101" y2="68"/>
+          </g>
+          <line x1="8" y1="100" x2="112" y2="100" stroke="#2E3A48" stroke-width="3.5"/>
+        </svg></div>
+        <div>
+          <h3>New York</h3>
+          <span class="zh">纽约</span>
+          <span class="py">Niǔyuē</span>
+          <p class="who">Ayomide N Odumuyiwa</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <path d="M18 74 Q60 18 102 74Z" fill="none" stroke="#AE3826" stroke-width="3.5"/>
+          <path d="M12 74 L108 74" stroke="#AE3826" stroke-width="3.5"/>
+          <path d="M60 38 L64 50 L77 50 L67 58 L71 70 L60 62 L49 70 L53 58 L43 50 L56 50Z" fill="#2E3A48"/>
+          <path d="M16 92 Q40 84 60 92 Q80 100 104 92" stroke="#2E3A48" stroke-width="3" fill="none"/>
+          <path d="M24 102 Q44 95 60 102 Q76 109 96 102" stroke="#2E3A48" stroke-width="2.5" fill="none"/>
+        </svg></div>
+        <div>
+          <h3>Vietnam</h3>
+          <span class="zh">越南</span>
+          <span class="py">Yuènán</span>
+          <p class="who">Quynh Lan Tran</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="pic"><svg viewBox="0 0 120 120">
+          <path d="M84 26 Q70 34 70 48 Q70 62 84 70 Q76 58 76 48 Q76 38 84 26Z" fill="#AE3826"/>
+          <path d="M40 100 Q38 74 40 56" stroke="#2E3A48" stroke-width="5" fill="none"/>
+          <g stroke="#2E3A48" stroke-width="3.5" fill="none">
+            <path d="M40 56 Q24 50 16 56"/><path d="M40 56 Q30 40 20 40"/>
+            <path d="M40 56 Q42 38 52 32"/><path d="M40 56 Q56 46 64 54"/>
+          </g>
+          <line x1="12" y1="102" x2="108" y2="102" stroke="#2E3A48" stroke-width="3"/>
+        </svg></div>
+        <div>
+          <h3>South Carolina</h3>
+          <span class="zh">南卡（南卡罗来纳）</span>
+          <span class="py">Nánkǎ · Nánkǎluóláinà</span>
+          <p class="who">Elizabeth Dylan Yong</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Listening drill -->
+  <section class="slide" data-notes="Read each place name aloud twice, slowly. Students write only the tone numbers, one digit per syllable, e.g. 费城 → 4 2. Do #1 together as an example if needed. Then reveal the answer key on the next slide.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Listening Drill · 听力小练习</p>
+      <h2>Listen &amp; Write the Tones <span class="zh">听音写声调</span></h2>
+      <p class="dek">I will read each place name — write the tone of every syllable as a number (1 2 3 4).</p>
+    </div>
+    <div class="drill">
+      <div class="drow"><div class="n">1</div><span class="zh">费城</span><span class="en">Philadelphia</span><span class="tones">＿ ＿</span></div>
+      <div class="drow"><div class="n">2</div><span class="zh">纽约</span><span class="en">New York</span><span class="tones">＿ ＿</span></div>
+      <div class="drow"><div class="n">3</div><span class="zh">越南</span><span class="en">Vietnam</span><span class="tones">＿ ＿</span></div>
+      <div class="drow"><div class="n">4</div><span class="zh">南卡</span><span class="en">South Carolina</span><span class="tones">＿ ＿</span></div>
+      <div class="drow"><div class="n">5</div><span class="zh">柬埔寨</span><span class="en">Cambodia</span><span class="tones">＿ ＿ ＿</span></div>
+      <div class="drow"><div class="n">6</div><span class="zh">汉诺威</span><span class="en">Hanover</span><span class="tones">＿ ＿ ＿</span></div>
+      <div class="drow"><div class="n">7</div><span class="zh">加利福尼亚</span><span class="en">California</span><span class="tones">＿ ＿ ＿ ＿ ＿</span></div>
+      <div class="drow" style="background:transparent;border-style:dashed"><div class="n">✎</div><span class="en" style="font-size:12.5px">Example: 妈妈 māma → “1 · neutral”. Listen for the pitch shape, not the meaning!</span></div>
+    </div>
+  </section>
+
+  <!-- 6 · Answer key -->
+  <section class="slide" data-notes="Reveal answers one by one; have students self-check. Re-read any item that many people missed and drill it chorally. Note the neutral tone is not tested here; 加利福尼亚 is the long one — celebrate whoever got all five.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Listening Drill · 核对答案</p>
+      <h2>Check Your Answers <span class="zh">核对答案</span></h2>
+      <p class="dek">How many did you get right? Let's read each one together.</p>
+    </div>
+    <div class="drill">
+      <div class="drow"><div class="n">1</div><span class="zh">费城</span><span class="py">Fèichéng</span><span class="en">Philadelphia</span><span class="tones key">4 · 2</span></div>
+      <div class="drow"><div class="n">2</div><span class="zh">纽约</span><span class="py">Niǔyuē</span><span class="en">New York</span><span class="tones key">3 · 1</span></div>
+      <div class="drow"><div class="n">3</div><span class="zh">越南</span><span class="py">Yuènán</span><span class="en">Vietnam</span><span class="tones key">4 · 2</span></div>
+      <div class="drow"><div class="n">4</div><span class="zh">南卡</span><span class="py">Nánkǎ</span><span class="en">South Carolina</span><span class="tones key">2 · 3</span></div>
+      <div class="drow"><div class="n">5</div><span class="zh">柬埔寨</span><span class="py">Jiǎnpǔzhài</span><span class="en">Cambodia</span><span class="tones key">3 · 3 · 4</span></div>
+      <div class="drow"><div class="n">6</div><span class="zh">汉诺威</span><span class="py">Hànnuòwēi</span><span class="en">Hanover</span><span class="tones key">4 · 4 · 1</span></div>
+      <div class="drow"><div class="n">7</div><span class="zh">加利福尼亚</span><span class="py">Jiālìfúníyà</span><span class="en">California</span><span class="tones key">1 · 4 · 2 · 2 · 4</span></div>
+      <div class="drow" style="background:transparent;border-style:dashed"><div class="n">★</div><span class="en" style="font-size:12.5px">Bonus challenge: say your own hometown with perfect tones!</span></div>
+    </div>
+  </section>
+
+  <!-- 7 · Review sentences -->
+  <section class="slide" data-notes="Choral reading first, then cold-call pairs. For 你贵姓 remind them it is the polite form; the answer is 我姓… . For 你呢 point out how it bounces the question back.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Review · 复习句子</p>
+      <h2>Sentences from Session 1 <span class="zh">复习句子</span></h2>
+    </div>
+    <div class="main" style="justify-content:center">
+      <div class="sent">
+        <span class="zh">李老师好！</span>
+        <span class="py">Lǐ lǎoshī hǎo!</span>
+        <span class="en">Hello, Teacher Li!</span>
+      </div>
+      <div class="sent">
+        <span class="zh">你的妈妈叫什么名字？</span>
+        <span class="py">Nǐ de māma jiào shénme míngzi?</span>
+        <span class="en">What is your mom's name?</span>
+      </div>
+      <div class="sent">
+        <span class="zh">你贵姓？</span>
+        <span class="py">Nǐ guì xìng?</span>
+        <span class="en">What is your (honorable) family name?</span>
+      </div>
+      <div class="sent">
+        <span class="zh">我很好，你呢？</span>
+        <span class="py">Wǒ hěn hǎo, nǐ ne?</span>
+        <span class="en">I'm very well — and you?</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · New sentences -->
+  <section class="slide" data-notes="Teach 是 as the equative verb — no conjugation ever. Swap in each country with the hometown slide students: 美国 / 中国 / 越南 / 加拿大 / 柬埔寨. Point out 吗 turns a statement into a yes-no question, and 不 negates 是 (pronounced bú before 是). Drill 请问 as the polite opener.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">New · 学习新句子</p>
+      <h2>Saying Who You Are <span class="zh">学习新句子</span></h2>
+    </div>
+    <div class="two" style="grid-template-columns:1.35fr 1fr">
+      <div class="col" style="justify-content:center">
+        <div class="sent">
+          <span class="zh">我是美国人。</span>
+          <span class="py">Wǒ shì Měiguó rén.</span>
+          <span class="en">I am American. — swap in 中国 / 越南 / 加拿大 / 柬埔寨</span>
+        </div>
+        <div class="sent">
+          <span class="zh">你好，请问，你是老师吗？</span>
+          <span class="py">Nǐ hǎo, qǐngwèn, nǐ shì lǎoshī ma?</span>
+          <span class="en">Hello — may I ask, are you a teacher?</span>
+        </div>
+        <div class="sent">
+          <span class="zh">不是，我不是老师，我是学生。</span>
+          <span class="py">Bú shì, wǒ bú shì lǎoshī, wǒ shì xuésheng.</span>
+          <span class="en">No — I'm not a teacher, I'm a student.</span>
+        </div>
+      </div>
+      <div class="col" style="justify-content:center">
+        <div class="num"><div class="sq">是</div><div><h4>shì — to be</h4><p>Country + 人 rén = a person from there: 美国人, 中国人, 越南人…</p></div></div>
+        <div class="num"><div class="sq">吗</div><div><h4>ma — question particle</h4><p>Statement + 吗 = yes/no question. 你是老师 → 你是老师吗？</p></div></div>
+        <div class="num"><div class="sq">不</div><div><h4>bù — not</h4><p>不 + 是 = “is not”. Before 是 it is pronounced <em>bú</em>.</p></div></div>
+        <div class="num"><div class="sq">请</div><div><h4>qǐngwèn — “may I ask…”</h4><p>Polite opener before a question, like “excuse me”.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Dialogue practice -->
+  <section class="slide" data-notes="Pair students up; A asks first, then swap roles. Have them use their real names. Walk around and check tones on 老师 and 学生. Finish by asking two pairs to perform for the class.">
+    <div class="seal">汉</div>
+    <div class="rail"><span>中文入门・第一周・第二课</span></div>
+    <div class="hd">
+      <p class="kicker">Practice · 对话练习</p>
+      <h2>Pair Dialogue <span class="zh">对话练习</span></h2>
+      <p class="dek">Practice with a partner — use your real name, then switch roles.</p>
+    </div>
+    <div class="main" style="justify-content:center">
+      <div class="dlg"><div class="who">A</div><div>
+        <span class="zh">你好！你叫什么名字？</span>
+        <span class="py">Nǐ hǎo! Nǐ jiào shénme míngzi?</span>
+      </div></div>
+      <div class="dlg b"><div class="who">B</div><div>
+        <span class="zh">我叫……，你叫什么名字？</span>
+        <span class="py">Wǒ jiào ……, nǐ jiào shénme míngzi?</span>
+      </div></div>
+      <div class="dlg"><div class="who">A</div><div>
+        <span class="zh">我叫……；你是老师吗？</span>
+        <span class="py">Wǒ jiào ……; nǐ shì lǎoshī ma?</span>
+      </div></div>
+      <div class="dlg b"><div class="who">B</div><div>
+        <span class="zh">不，我不是老师，我是学生。请问，你是老师吗？</span>
+        <span class="py">Bù, wǒ bú shì lǎoshī, wǒ shì xuésheng. Qǐngwèn, nǐ shì lǎoshī ma?</span>
+      </div></div>
+      <div class="dlg"><div class="who">A</div><div>
+        <span class="zh">不，不是老师，我是学生。</span>
+        <span class="py">Bù, bú shì lǎoshī, wǒ shì xuésheng.</span>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES END ============ -->
+
+</div></div>
+
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>click image</kbd> zoom
+</div>
+<div id="lb"><img alt=""></div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('img'),
+      i=0, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n)});
+    ticks.appendChild(t);
+  });
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i)});
+    pos.textContent=(i+1)+' / '+slides.length;
+    nbody.textContent=slides[i].getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(i+1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+    else if(e.key==='Escape'&&lb.classList.contains('on')){lb.classList.remove('on');}
+  });
+
+  stage.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.tagName==='IMG'&&/zoom-in/.test(getComputedStyle(t).cursor)){
+      lbImg.src=t.src; lb.classList.add('on');
+    } else { go(i+1); }
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on');});
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide') },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
+</script>
+</body>
+</html>
