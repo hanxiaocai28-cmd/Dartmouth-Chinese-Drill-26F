@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W1 · S3 — 你来自哪里？</title>
+<style>
+  /* ============ DESIGN TOKENS — do not change per-slide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
+
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
+
+  /* ============ cards ============ */
+  .cols{display:grid;gap:24px;flex:1;min-height:0}
+  .c2{grid-template-columns:1fr 1fr}
+  .card{background:var(--card);border:1px solid var(--rule);padding:22px 24px;
+        display:flex;flex-direction:column;justify-content:center}
+  .night .card{background:var(--night2);border-color:#3D382F}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0 0 2px;font-weight:700}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0}
+
+  /* ============ bulleted lists ============ */
+  ul{margin:16px 0 0;padding:0;list-style:none}
+  li{position:relative;padding-left:16px;margin-bottom:11px;font-size:14.5px;line-height:1.5;color:var(--ink2)}
+  li:last-child{margin-bottom:0}
+  li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--seal)}
+  .night li{color:#CBC3B1}
+  .night li::before{background:var(--seal-lt)}
+  .jp{font-family:var(--mincho)}
+
+  /* ============ two-column content grid (reusable) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr;gap:36px}
+  .two .col{display:flex;flex-direction:column;min-height:0}
+
+  /* ============ numbered blocks ============ */
+  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;margin-bottom:14px}
+  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:14px;color:var(--seal)}
+  .num h4{font-family:var(--serif);font-size:19px;margin:1px 0 5px;font-weight:700}
+  .num p{margin:0;font-size:14px;line-height:1.5;color:var(--ink2)}
+
+  /* ============ plot / image frame ============ */
+  .plot{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule);padding:12px}
+  .plot svg,.plot img{width:100%;height:100%;object-fit:contain;display:block}
+  .cap{flex:none;font-size:11px;font-style:italic;color:var(--mute);margin:9px 2px 0;line-height:1.45}
+
+  /* ============ chrome: bottom bar / notes / lightbox ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  #lb{position:fixed;inset:0;background:rgba(12,10,8,.96);z-index:60;display:none;
+      place-items:center;cursor:zoom-out;padding:18px}
+  #lb.on{display:grid}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+  /* ============ deck-specific additions (tokens unchanged) ============ */
+  .zh{font-family:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",var(--mincho)}
+  .py{font-family:var(--serif);font-style:italic;color:var(--seal)}
+  .en{font-size:13px;color:var(--mute)}
+
+  /* step-by-step reveal */
+  .frag{opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease}
+  .frag.show{opacity:1;transform:none}
+  @keyframes pop{0%{opacity:0;transform:scale(.4)}70%{transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+
+  /* dictation grid */
+  .dgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:16px}
+  .dcard{background:var(--card);border:1px solid var(--rule);padding:12px 14px 14px;display:flex;flex-direction:column;min-height:0}
+  .dcard .top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .dcard .sq{width:26px;height:26px;border:1.4px solid var(--seal);display:grid;place-items:center;font-family:var(--mincho);font-size:13px;color:var(--seal);flex:none}
+  .dcard .nm{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)}
+  .dcard .pic{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule);padding:6px}
+  .dcard .pic svg{width:100%;height:100%;display:block}
+  .blanks{display:flex;gap:7px;justify-content:center;margin-top:10px}
+  .blanks i{width:30px;height:32px;border:1.4px dashed var(--mute);background:#F7F1E4}
+  .dcard.tip{background:var(--night2);color:var(--night-tx);border-color:#3D382F;justify-content:center}
+  .tones{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;text-align:center}
+  .tones div{border:1px solid #4A443A;padding:6px 0}
+  .tones b{display:block;font-family:var(--serif);font-size:22px;color:var(--seal-lt)}
+  .tones span{font-size:11px;color:var(--night-mu)}
+
+  /* answer rows */
+  .arows{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
+  .arow{flex:1;display:grid;grid-template-columns:30px 62px 190px 1fr;align-items:center;gap:16px;
+        background:var(--card);border:1px solid var(--rule);padding:4px 18px}
+  .arow .sq{width:28px;height:28px;border:1.4px solid var(--seal);display:grid;place-items:center;font-family:var(--mincho);font-size:13px;color:var(--seal)}
+  .arow .ico{height:46px;background:#F7F1E4;border:1px solid var(--rule)}
+  .arow .ico svg{width:100%;height:100%;display:block}
+  .arow .hz{font-size:28px;color:var(--ink);letter-spacing:.06em}
+  .ans{display:flex;gap:10px;align-items:center}
+  .syl{min-width:66px;text-align:center}
+  .syl .p{display:block;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink2)}
+  .syl .d{display:inline-grid;place-items:center;width:28px;height:28px;margin-top:2px;background:var(--seal);color:#F7F1E4;font-family:var(--serif);font-weight:700;font-size:17px}
+  .frag.show .syl{animation:pop .42s both;animation-delay:calc(var(--k) * 110ms)}
+  .ans .full{margin-left:14px;font-size:12px;color:var(--mute);font-style:italic}
+
+  /* sentence rows */
+  .sent{display:grid;grid-template-columns:34px 1fr;gap:16px;align-items:start;padding:14px 0;border-bottom:1px solid var(--rule)}
+  .sent:last-child{border-bottom:none}
+  .sent .sq{width:34px;height:34px;border:1.4px solid var(--seal);display:grid;place-items:center;font-family:var(--mincho);font-size:15px;color:var(--seal);margin-top:4px}
+  .sent .hz{font-size:34px;line-height:1.2;color:var(--ink)}
+  .sent .py{font-size:19px;margin-top:3px}
+  .sent .en{margin-top:2px;font-size:14px}
+  .lst{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+
+  .pat{background:var(--night2);color:var(--night-tx);border:1px solid #3D382F;padding:22px 24px;display:flex;flex-direction:column;justify-content:center;gap:18px}
+  .pat h3{font-family:var(--serif);font-size:21px;margin:0}
+  .pat .row .f{font-size:22px}
+  .pat .row .f em{font-style:normal;color:var(--seal-lt)}
+  .pat .row p{margin:4px 0 0;font-size:13px;color:var(--night-mu);line-height:1.5}
+
+  /* dialogue */
+  .dlg{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:10px}
+  .ln{display:flex;align-items:center;gap:14px}
+  .ln.b{flex-direction:row-reverse}
+  .who{width:40px;height:40px;flex:none;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:18px}
+  .a .who{background:var(--indigo);color:var(--night-tx)}
+  .b .who{border:1.5px solid var(--seal);color:var(--seal)}
+  .bub{background:var(--card);border:1px solid var(--rule);padding:8px 18px;max-width:760px}
+  .b .bub{background:#F7F1E4;text-align:right}
+  .bub .hz{font-size:24px;color:var(--ink)}
+  .bub .py{font-size:15px}
+  .blank{display:inline-block;min-width:88px;border-bottom:2px solid var(--seal);margin:0 4px}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+  
+  <!-- reusable illustrations -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- California: sun, sea, palm -->
+      <symbol id="i-ca" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#F2D9A8"/>
+        <circle cx="86" cy="30" r="14" fill="#D2563C"/>
+        <rect y="52" width="120" height="28" fill="#2E3A48"/>
+        <path d="M0 58 Q15 53 30 58 T60 58 T90 58 T120 58" stroke="#EFE6D6" stroke-width="2" fill="none"/>
+        <path d="M34 60 Q36 40 32 22" stroke="#4C4536" stroke-width="3.5" fill="none"/>
+        <path d="M32 22 Q20 16 12 24 M32 22 Q42 12 52 18 M32 22 Q26 10 18 12 M32 22 Q42 22 48 32 M32 22 Q22 26 18 36" stroke="#5E7A4A" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </symbol>
+      <!-- New Hampshire: mountains -->
+      <symbol id="i-nh" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#DCE3E0"/>
+        <path d="M0 80 L34 26 L56 56 L78 18 L120 80 Z" fill="#2E3A48"/>
+        <path d="M78 18 L66 36 L73 33 L78 38 L84 32 L90 36 Z M34 26 L27 37 L33 35 L38 39 L41 37 Z" fill="#F7F1E4"/>
+        <path d="M0 80 L10 66 L20 80 M16 80 L26 64 L36 80 M92 80 L102 62 L112 80" fill="#5E7A4A"/>
+      </symbol>
+      <!-- South Carolina: palmetto + crescent (state flag) -->
+      <symbol id="i-sc" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#2E3A48"/>
+        <path d="M22 14 A10 10 0 1 0 36 26 A8 8 0 1 1 22 14 Z" fill="#F1EADC"/>
+        <path d="M70 72 L72 34 L74 72 Z" fill="#F1EADC"/>
+        <path d="M73 34 Q58 22 50 30 M73 34 Q88 22 96 30 M73 34 Q64 16 58 14 M73 34 Q82 16 88 14 M73 34 Q73 18 73 12" stroke="#F1EADC" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </symbol>
+      <!-- Tennessee: three stars in circle (state flag) -->
+      <symbol id="i-tn" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#AE3826"/>
+        <rect x="104" width="16" height="80" fill="#2E3A48"/>
+        <rect x="101" width="3" height="80" fill="#F1EADC"/>
+        <circle cx="52" cy="40" r="24" fill="#2E3A48" stroke="#F1EADC" stroke-width="3"/>
+        <g fill="#F1EADC">
+          <path id="st" d="M0 -7 L2 -2 L7 -2 L3 1 L4.5 6.5 L0 3 L-4.5 6.5 L-3 1 L-7 -2 L-2 -2 Z" transform="translate(52 28)"/>
+          <use href="#st" transform="translate(-11 18)"/>
+          <use href="#st" transform="translate(11 18)"/>
+        </g>
+      </symbol>
+      <!-- Hanover: New England green + tower -->
+      <symbol id="i-hn" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#E4E8DA"/>
+        <rect y="64" width="120" height="16" fill="#7A9460"/>
+        <rect x="42" y="36" width="40" height="28" fill="#AE3826"/>
+        <rect x="55" y="16" width="14" height="20" fill="#F1EADC" stroke="#4C4536"/>
+        <path d="M53 16 L62 4 L71 16 Z" fill="#4C4536"/>
+        <circle cx="62" cy="24" r="3.2" fill="none" stroke="#4C4536" stroke-width="1.2"/>
+        <g fill="#F1EADC"><rect x="47" y="42" width="5" height="8"/><rect x="72" y="42" width="5" height="8"/><rect x="59" y="52" width="6" height="12"/></g>
+        <path d="M14 64 L22 34 L30 64 Z M92 64 L101 30 L110 64 Z" fill="#3F5A36"/>
+      </symbol>
+      <!-- New York: skyline -->
+      <symbol id="i-ny" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#F2D9A8"/>
+        <g fill="#2E3A48">
+          <rect x="6" y="46" width="14" height="34"/><rect x="22" y="36" width="12" height="44"/>
+          <rect x="48" y="24" width="16" height="56"/><rect x="52" y="14" width="8" height="10"/><rect x="55" y="4" width="2" height="10"/>
+          <rect x="36" y="42" width="10" height="38"/><rect x="66" y="34" width="14" height="46"/>
+          <rect x="82" y="44" width="12" height="36"/><rect x="96" y="28" width="16" height="52"/>
+        </g>
+        <g fill="#F2D9A8" opacity=".7"><rect x="52" y="30" width="3" height="3"/><rect x="58" y="30" width="3" height="3"/><rect x="52" y="38" width="3" height="3"/><rect x="58" y="38" width="3" height="3"/><rect x="100" y="34" width="3" height="3"/><rect x="106" y="34" width="3" height="3"/></g>
+      </symbol>
+      <!-- Cambodia: Angkor Wat silhouette -->
+      <symbol id="i-kh" viewBox="0 0 120 80">
+        <rect width="120" height="80" fill="#F2D9A8"/>
+        <circle cx="94" cy="20" r="9" fill="#D2563C"/>
+        <g fill="#4C4536">
+          <path d="M60 8 Q64 22 68 40 L52 40 Q56 22 60 8 Z"/>
+          <path d="M38 22 Q41 32 44 44 L32 44 Q35 32 38 22 Z"/>
+          <path d="M82 22 Q85 32 88 44 L76 44 Q79 32 82 22 Z"/>
+          <path d="M22 32 Q24 38 26 48 L18 48 Q20 38 22 32 Z"/>
+          <path d="M98 32 Q100 38 102 48 L94 48 Q96 38 98 32 Z"/>
+          <rect x="12" y="44" width="96" height="14"/>
+        </g>
+        <rect y="60" width="120" height="20" fill="#2E3A48"/>
+        <path d="M12 62 H108 L100 70 H20 Z" fill="#4C4536" opacity=".45"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ 1 · TITLE ============ -->
+  <section class="slide night on" data-notes="Welcome back. Today: tone dictation with place names, a quick review of Session 2 sentences, then new sentences with 来自 and 也, and finally a pair dialogue.">
+    <div class="seal zh">声</div>
+    <div class="rail"><span class="zh">第一周 · 第三课</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">Chinese Drill · Week 1 · Session 3</p>
+      <h1 class="zh" style="font-size:64px">你来自哪里？</h1>
+      <p class="py" style="font-size:24px;margin:8px 0 14px;color:var(--seal-lt)">Nǐ láizì nǎlǐ?</p>
+      <p class="dek">Where are you from? · Tone dictation, review, new patterns, and dialogue practice</p>
+      <ul style="margin-top:34px;max-width:560px">
+        <li>一 · 听写练习 &nbsp;Tone dictation</li>
+        <li>二 · 复习句子 &nbsp;Review</li>
+        <li>三 · 学习新句子 &nbsp;New sentences</li>
+        <li>四 · 对话练习 &nbsp;Dialogue practice</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 2 · DICTATION (questions) ============ -->
+  <section class="slide" data-notes="Read each place name aloud 2–3 times: 1 加利福尼亚, 2 新罕布什尔, 3 南卡罗琳娜, 4 田纳西, 5 汉诺威, 6 纽约, 7 柬埔寨. Students write one tone number (1–4) per box, one box per syllable. Then go to the next slide to check.">
+    <div class="seal zh">声</div>
+    <div class="rail"><span class="zh">一 · 听写练习</span></div>
+    <div class="hd">
+      <p class="kicker">Part 1 · 听写练习 · Tone Dictation</p>
+      <h2>Listen and write the tones</h2>
+      <p class="dek">Write one tone number (1 · 2 · 3 · 4) for each syllable you hear.</p>
+    </div>
+    <div class="dgrid">
+      <div class="dcard"><div class="top"><div class="sq">1</div><div class="nm">California</div></div><div class="pic"><svg><use href="#i-ca"/></svg></div><div class="blanks"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">2</div><div class="nm">New Hampshire</div></div><div class="pic"><svg><use href="#i-nh"/></svg></div><div class="blanks"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">3</div><div class="nm">South Carolina</div></div><div class="pic"><svg><use href="#i-sc"/></svg></div><div class="blanks"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">4</div><div class="nm">Tennessee</div></div><div class="pic"><svg><use href="#i-tn"/></svg></div><div class="blanks"><i></i><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">5</div><div class="nm">Hanover</div></div><div class="pic"><svg><use href="#i-hn"/></svg></div><div class="blanks"><i></i><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">6</div><div class="nm">New York</div></div><div class="pic"><svg><use href="#i-ny"/></svg></div><div class="blanks"><i></i><i></i></div></div>
+      <div class="dcard"><div class="top"><div class="sq">7</div><div class="nm">Cambodia</div></div><div class="pic"><svg><use href="#i-kh"/></svg></div><div class="blanks"><i></i><i></i><i></i></div></div>
+      <div class="dcard tip">
+        <p class="kicker" style="color:var(--seal-lt);margin-bottom:4px">Tone key</p>
+        <div class="nm" style="color:var(--night-tx);font-family:var(--serif);font-size:16px">Write the number</div>
+        <div class="tones">
+          <div><b>ā</b><span>1 high</span></div>
+          <div><b>á</b><span>2 rising</span></div>
+          <div><b>ǎ</b><span>3 dip</span></div>
+          <div><b>à</b><span>4 falling</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · DICTATION (answers, animated) ============ -->
+  <section class="slide" data-notes="Click / → to reveal each answer one at a time. Have students self-check before each reveal. Answers show dictionary tones. Sandhi reminder: 3+3 is spoken as 2+3, so 柬埔寨 jiǎn pǔ zhài sounds like jián pǔ zhài; accept 2 for its first syllable if students wrote what they heard.">
+    <div class="seal zh">声</div>
+    <div class="rail"><span class="zh">一 · 听写练习 · 答案</span></div>
+    <div class="hd" style="margin-bottom:12px">
+      <p class="kicker">Part 1 · 答案 · Answers</p>
+      <h2>Check your tones</h2>
+    </div>
+    <div class="arows">
+      <div class="arow"><div class="sq">1</div><div class="ico"><svg><use href="#i-ca"/></svg></div><div class="hz zh">加利福尼亚</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">jiā</span><span class="d">1</span></span><span class="syl" style="--k:1"><span class="p">lì</span><span class="d">4</span></span><span class="syl" style="--k:2"><span class="p">fú</span><span class="d">2</span></span><span class="syl" style="--k:3"><span class="p">ní</span><span class="d">2</span></span><span class="syl" style="--k:4"><span class="p">yà</span><span class="d">4</span></span><span class="full">Jiālìfúníyà</span></div></div>
+      <div class="arow"><div class="sq">2</div><div class="ico"><svg><use href="#i-nh"/></svg></div><div class="hz zh">新罕布什尔</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">xīn</span><span class="d">1</span></span><span class="syl" style="--k:1"><span class="p">hǎn</span><span class="d">3</span></span><span class="syl" style="--k:2"><span class="p">bù</span><span class="d">4</span></span><span class="syl" style="--k:3"><span class="p">shí</span><span class="d">2</span></span><span class="syl" style="--k:4"><span class="p">ěr</span><span class="d">3</span></span><span class="full">Xīnhǎnbùshí'ěr</span></div></div>
+      <div class="arow"><div class="sq">3</div><div class="ico"><svg><use href="#i-sc"/></svg></div><div class="hz zh">南卡罗琳娜</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">nán</span><span class="d">2</span></span><span class="syl" style="--k:1"><span class="p">kǎ</span><span class="d">3</span></span><span class="syl" style="--k:2"><span class="p">luó</span><span class="d">2</span></span><span class="syl" style="--k:3"><span class="p">lín</span><span class="d">2</span></span><span class="syl" style="--k:4"><span class="p">nà</span><span class="d">4</span></span><span class="full">Nánkǎluólínnà</span></div></div>
+      <div class="arow"><div class="sq">4</div><div class="ico"><svg><use href="#i-tn"/></svg></div><div class="hz zh">田纳西</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">tián</span><span class="d">2</span></span><span class="syl" style="--k:1"><span class="p">nà</span><span class="d">4</span></span><span class="syl" style="--k:2"><span class="p">xī</span><span class="d">1</span></span><span class="full">Tiánnàxī</span></div></div>
+      <div class="arow"><div class="sq">5</div><div class="ico"><svg><use href="#i-hn"/></svg></div><div class="hz zh">汉诺威</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">hàn</span><span class="d">4</span></span><span class="syl" style="--k:1"><span class="p">nuò</span><span class="d">4</span></span><span class="syl" style="--k:2"><span class="p">wēi</span><span class="d">1</span></span><span class="full">Hànnuòwēi</span></div></div>
+      <div class="arow"><div class="sq">6</div><div class="ico"><svg><use href="#i-ny"/></svg></div><div class="hz zh">纽约</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">niǔ</span><span class="d">3</span></span><span class="syl" style="--k:1"><span class="p">yuē</span><span class="d">1</span></span><span class="full">Niǔyuē</span></div></div>
+      <div class="arow"><div class="sq">7</div><div class="ico"><svg><use href="#i-kh"/></svg></div><div class="hz zh">柬埔寨</div>
+        <div class="ans frag"><span class="syl" style="--k:0"><span class="p">jiǎn</span><span class="d">3</span></span><span class="syl" style="--k:1"><span class="p">pǔ</span><span class="d">3</span></span><span class="syl" style="--k:2"><span class="p">zhài</span><span class="d">4</span></span><span class="full">Jiǎnpǔzhài</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 4 · REVIEW ============ -->
+  <section class="slide" data-notes="Review from Session 2. Students read the characters aloud first; click to reveal pinyin + English for each sentence. Ask students to answer each question (e.g. 我姓…, 我是学生, 我叫…).">
+    <div class="seal zh">习</div>
+    <div class="rail"><span class="zh">二 · 复习句子</span></div>
+    <div class="hd" style="margin-bottom:6px">
+      <p class="kicker">Part 2 · 复习句子 · Review</p>
+      <h2>Read it aloud, then check</h2>
+    </div>
+    <div class="lst">
+      <div class="sent"><div class="sq">一</div><div><div class="hz zh">我是美国人。</div><div class="frag"><div class="py">Wǒ shì Měiguó rén.</div><div class="en">I am American.</div></div></div></div>
+      <div class="sent"><div class="sq">二</div><div><div class="hz zh">您贵姓？</div><div class="frag"><div class="py">Nín guì xìng?</div><div class="en">What is your (honorable) surname? — polite</div></div></div></div>
+      <div class="sent"><div class="sq">三</div><div><div class="hz zh">请问，你是老师吗？</div><div class="frag"><div class="py">Qǐngwèn, nǐ shì lǎoshī ma?</div><div class="en">Excuse me, are you a teacher?</div></div></div></div>
+      <div class="sent"><div class="sq">四</div><div><div class="hz zh">你叫什么名字？</div><div class="frag"><div class="py">Nǐ jiào shénme míngzi?</div><div class="en">What is your name?</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 5 · NEW SENTENCES ============ -->
+  <section class="slide" data-notes="Model each sentence, choral repeat, then individuals. Focus: 来自 = come from; 也 = also, always placed before the verb (也是 / 也不是). Note 不 becomes bú before a 4th tone: bú shì. Substitution drill: swap in 中国人 / 法国人 / 美国人 and other names.">
+    <div class="seal zh">新</div>
+    <div class="rail"><span class="zh">三 · 学习新句子</span></div>
+    <div class="hd" style="margin-bottom:6px">
+      <p class="kicker">Part 3 · 学习新句子 · New Sentences</p>
+      <h2>Where you're from, and what you are</h2>
+    </div>
+    <div class="two" style="grid-template-columns:1.45fr 1fr;gap:30px">
+      <div class="col lst">
+        <div class="sent"><div class="sq">一</div><div><div class="hz zh">你来自哪里？</div><div class="py">Nǐ láizì nǎlǐ?</div><div class="en">Where are you from?</div></div></div>
+        <div class="sent"><div class="sq">二</div><div><div class="hz zh">晗啸是老师，也是学生。</div><div class="py">Hánxiào shì lǎoshī, yě shì xuésheng.</div><div class="en">Hanxiao is a teacher, and also a student.</div></div></div>
+        <div class="sent"><div class="sq">三</div><div><div class="hz zh" style="font-size:28px">我不是中国人，也不是法国人，<br>我是美国人。</div><div class="py">Wǒ bú shì Zhōngguó rén, yě bú shì Fǎguó rén, wǒ shì Měiguó rén.</div><div class="en">I'm not Chinese, and not French either — I'm American.</div></div></div>
+      </div>
+      <div class="pat" style="align-self:center;padding:30px 28px">
+        <p class="kicker" style="color:var(--seal-lt);margin:0">句型 · Patterns</p>
+        <div class="row"><div class="f zh">A <em>来自</em> 哪里？</div><p>来自 láizì = “to come from”. 哪里 nǎlǐ = where.</p></div>
+        <div class="row"><div class="f zh">A 是 X，<em>也</em>是 Y。</div><p>也 yě = “also”. It goes <b style="color:var(--night-tx)">before</b> the verb, never at the end.</p></div>
+        <div class="row"><div class="f zh">A <em>不是</em> X，<em>也不是</em> Y。</div><p>“Not X, and not Y either.” 不 bù → <b style="color:var(--night-tx)">bú</b> before a 4th tone (bú shì).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6 · DIALOGUE ============ -->
+  <section class="slide" data-notes="Click to reveal the dialogue line by line. Model with a student first, then pairs practice using their own names. Switch roles A/B. English: A: Hi, what's your name? B: I'm ___, and you? A: I'm ___. Are you a teacher? B: I'm not a teacher, I'm a student. A: Ah, where are you from? B: I'm American. Extension: B answers with 我不是…，也不是…，我是….">
+    <div class="seal zh">话</div>
+    <div class="rail"><span class="zh">四 · 对话练习</span></div>
+    <div class="hd" style="margin-bottom:8px">
+      <p class="kicker">Part 4 · 对话练习 · Dialogue Practice</p>
+      <h2>Practice with a partner</h2>
+      <p class="dek">Fill in your own names, then switch roles.</p>
+    </div>
+    <div class="dlg">
+      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">你好，你叫什么名字？</div><div class="py">Nǐ hǎo, nǐ jiào shénme míngzi?</div></div></div>
+      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我叫<span class="blank"></span>，你呢？</div><div class="py">Wǒ jiào ___, nǐ ne?</div></div></div>
+      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">我叫<span class="blank"></span>。你是老师吗？</div><div class="py">Wǒ jiào ___. Nǐ shì lǎoshī ma?</div></div></div>
+      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我不是老师，我是学生。</div><div class="py">Wǒ bú shì lǎoshī, wǒ shì xuésheng.</div></div></div>
+      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">啊～，你来自哪里？</div><div class="py">À～, nǐ láizì nǎlǐ?</div></div></div>
+      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我是美国人。</div><div class="py">Wǒ shì Měiguó rén.</div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES END ============ -->
+
+</div></div>
+
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>click image</kbd> zoom
+</div>
+<div id="lb"><img alt=""></div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('img'),
+      i=0, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n)});
+    ticks.appendChild(t);
+  });
+
+  function go(n,reveal){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    [].forEach.call(slides[i].querySelectorAll('.frag'),function(f){f.classList.toggle('show',!!reveal)});
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i)});
+    pos.textContent=(i+1)+' / '+slides.length;
+    nbody.textContent=slides[i].getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+  }
+
+  function frags(){return [].slice.call(slides[i].querySelectorAll('.frag'));}
+  function next(){
+    var hid=frags().filter(function(f){return !f.classList.contains('show')});
+    if(hid.length){hid[0].classList.add('show');} else if(i<slides.length-1){go(i+1,false);}
+  }
+  function prev(){
+    var sh=frags().filter(function(f){return f.classList.contains('show')});
+    if(sh.length){sh[sh.length-1].classList.remove('show');} else if(i>0){go(i-1,true);}
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){next();e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+    else if(e.key==='Escape'&&lb.classList.contains('on')){lb.classList.remove('on');}
+  });
+
+  // click any image with .cursor (zoom-in) to open lightbox
+  stage.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.tagName==='IMG'&&/zoom-in/.test(getComputedStyle(t).cursor)){
+      lbImg.src=t.src; lb.classList.add('on');
+    } else { next(); }
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on');});
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide') },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
+</script>
+</body>
+</html>
