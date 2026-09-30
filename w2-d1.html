@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中文练习 · Week 2 Drill 1</title>
+<style>
+  /* ============ DESIGN TOKENS — do not change per-slide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+    /* Simplified-Chinese serif stack so hanzi render with mainland glyph forms */
+    --hanzi:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
+
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .night .rail{border-left-color:#3D382F}
+  .rail span{writing-mode:vertical-rl;font-family:var(--hanzi);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--hanzi);font-size:16px;color:var(--seal);z-index:2}
+  .night .seal{border-color:var(--seal-lt);color:var(--seal-lt)}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h1.zh{font-family:var(--hanzi);font-size:76px;letter-spacing:.02em;margin-bottom:14px}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
+
+  /* ============ cards ============ */
+  .card{background:var(--card);border:1px solid var(--rule);padding:22px 24px;
+        display:flex;flex-direction:column;justify-content:center}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0 0 2px;font-weight:700}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0}
+
+  /* ============ two-column content grid (reusable) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr;gap:36px}
+  .two .col{display:flex;flex-direction:column;min-height:0}
+
+  /* ============ numbered square (shared) ============ */
+  .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+      font-family:var(--hanzi);font-size:14px;color:var(--seal);flex:none}
+
+  /* ============ step reveal ============ */
+  .frag{opacity:0;transform:scale(1.12);transition:opacity .28s ease,transform .38s cubic-bezier(.2,1.5,.4,1)}
+  .frag.in{opacity:1;transform:none}
+
+  /* ============ title slide agenda ============ */
+  .agenda{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:64px;
+          border-top:1px solid #3D382F;padding-top:20px;max-width:900px}
+  .agenda div{display:flex;gap:12px;align-items:baseline}
+  .agenda .zh{font-family:var(--hanzi);font-size:22px;color:var(--night-tx)}
+  .agenda .en{font-size:12.5px;color:var(--night-mu)}
+  .agenda .sq{border-color:var(--seal-lt);color:var(--seal-lt);width:26px;height:26px;font-size:13px;align-self:center}
+
+  /* ============ dictation grid ============ */
+  .pgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);
+         grid-template-rows:1fr 1fr;gap:16px}
+  .pc{background:var(--card);border:1px solid var(--rule);padding:12px 14px 14px;
+      display:flex;flex-direction:column;min-height:0}
+  .pc.bonus{grid-column:span 2;border-color:var(--seal)}
+  .pic{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule)}
+  .pic svg{width:100%;height:100%;display:block}
+  .ill .s{fill:var(--card);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+  .ill .l{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+  .ill .a{fill:var(--seal)}
+  .meta{flex:none;display:flex;align-items:center;gap:10px;margin-top:10px}
+  .meta .sq{width:24px;height:24px;font-family:var(--serif);font-size:13px}
+  .meta .en{font-size:12.5px;color:var(--mute)}
+  .meta .tag{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.18em;color:var(--seal);text-transform:uppercase}
+  .meta .hzq{font-family:var(--hanzi);font-size:21px;color:var(--ink);line-height:1}
+  .slot{flex:none;height:52px;margin-top:6px;border-bottom:1.5px dashed var(--mute)}
+  .ans{flex:none;height:60px;margin-top:6px;display:flex;flex-direction:column;justify-content:flex-end}
+  .ans .hz{font-family:var(--hanzi);font-size:17px;color:var(--ink2);line-height:1.3}
+  .ans .py{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--seal);line-height:1.25}
+
+  /* ============ sentence blocks ============ */
+  .stack{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:44px}
+  .sent{display:grid;grid-template-columns:30px 1fr;gap:20px;align-items:start}
+  .sent .sq{margin-top:10px}
+  .sent .hz{font-family:var(--hanzi);font-size:42px;line-height:1.3;color:var(--ink)}
+  .sent .py{font-family:var(--serif);font-size:21px;color:var(--seal);margin-top:6px}
+  .sent .en{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--mute);margin-top:3px}
+  .sent.md{gap:18px}
+  .sent.md .sq{margin-top:5px}
+  .sent.md .hz{font-family:var(--hanzi);font-size:31px}
+  .sent.md .py{font-size:18px;margin-top:3px}
+  .sent.md .en{font-size:14.5px}
+  .p3{grid-template-columns:1.55fr 1fr}
+  .p3 .stack{gap:30px}
+  .pt{margin-bottom:18px}
+  .pt:last-child{margin-bottom:0}
+  .pt h4{margin:0 0 4px;font-weight:700;font-size:19px;font-family:var(--serif)}
+  .pt h4 .zh{font-family:var(--hanzi);margin-right:8px}
+  .pt h4 .p{color:var(--seal);font-weight:400;font-style:italic}
+  .pt p{margin:0;font-size:14px;line-height:1.55;color:var(--ink2)}
+  .pt .zh{font-family:var(--hanzi)}
+
+  /* ============ dialogue ============ */
+  .dlg{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+  .ln{display:grid;grid-template-columns:36px 1fr 290px;gap:20px;align-items:start;
+      padding:16px 0;border-bottom:1px solid var(--rule)}
+  .ln:first-child{padding-top:0}
+  .ln:last-child{border-bottom:0;padding-bottom:0}
+  .sp{width:34px;height:34px;border:1.5px solid var(--seal);display:grid;place-items:center;
+      font-family:var(--serif);font-weight:700;font-size:16px;color:var(--seal)}
+  .ln.b .sp{background:var(--seal);color:var(--paper)}
+  .ln .hz{font-family:var(--hanzi);font-size:28px;line-height:1.3;color:var(--ink)}
+  .ln .py{font-family:var(--serif);font-size:16.5px;color:var(--seal);margin-top:3px}
+  .ln .en{font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.45;color:var(--mute);padding-top:7px}
+  .nm{display:inline-block;min-width:3em;border-bottom:2px solid var(--seal);vertical-align:-.1em}
+
+  /* pinyin toggle (P) — sentence and dialogue slides only; dictation answers stay visible */
+  body.nopy .sent .py, body.nopy .ln .py{visibility:hidden}
+
+  /* ============ chrome: bottom bar / notes / lightbox ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  #lb{position:fixed;inset:0;background:rgba(12,10,8,.96);z-index:60;display:none;
+      place-items:center;cursor:zoom-out;padding:18px}
+  #lb.on{display:grid}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  @media (prefers-reduced-motion:reduce){.slide,.frag{transition:none}.frag{transform:none}}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+  <!-- ============ SLIDES START ============ -->
+
+  <!-- 1 · Title -->
+  <section class="slide night on" data-notes="Today: dictation of seven place names, a quick review of 你来自哪里, three new sentences, then a partner dialogue. Press P at any point to hide pinyin on the sentence and dialogue slides.">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">Chinese Drill · Week 2 · Drill 1</p>
+      <h1 class="zh">你来自哪里？</h1>
+      <p class="dek">Nǐ láizì nǎlǐ? Place names, nationalities, and asking how someone’s day went</p>
+      <div class="agenda">
+        <div><span class="sq">一</span><span class="zh">听写</span><span class="en">Dictation</span></div>
+        <div><span class="sq">二</span><span class="zh">复习</span><span class="en">Review</span></div>
+        <div><span class="sq">三</span><span class="zh">新句子</span><span class="en">New sentences</span></div>
+        <div><span class="sq">四</span><span class="zh">对话</span><span class="en">Dialogue</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Dictation: questions -->
+  <section class="slide" data-notes="Read each name twice with a ~10 second pause, in card order: 1 内华达 · 2 达特茅斯 · 3 新罕布什尔 · 4 佛蒙特 · 5 越南 · 6 上海 · Bonus 巴布亚新几内亚. Remind students: tone marks required, write each place name as one word.">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="hd">
+      <p class="kicker">Part 1 · 听写 Dictation</p>
+      <h2>Listen, then write the full pinyin</h2>
+      <p class="dek">Tone marks count. The last one is a bonus.</p>
+    </div>
+    <div class="pgrid">
+      <div class="pc"><div class="pic" data-ill="nevada"></div><div class="meta"><span class="sq">1</span><span class="hzq">内华达</span></div><div class="slot"></div></div>
+      <div class="pc"><div class="pic" data-ill="dartmouth"></div><div class="meta"><span class="sq">2</span><span class="hzq">达特茅斯</span></div><div class="slot"></div></div>
+      <div class="pc"><div class="pic" data-ill="newhampshire"></div><div class="meta"><span class="sq">3</span><span class="hzq">新罕布什尔</span></div><div class="slot"></div></div>
+      <div class="pc"><div class="pic" data-ill="vermont"></div><div class="meta"><span class="sq">4</span><span class="hzq">佛蒙特</span></div><div class="slot"></div></div>
+      <div class="pc"><div class="pic" data-ill="vietnam"></div><div class="meta"><span class="sq">5</span><span class="hzq">越南</span></div><div class="slot"></div></div>
+      <div class="pc"><div class="pic" data-ill="shanghai"></div><div class="meta"><span class="sq">6</span><span class="hzq">上海</span></div><div class="slot"></div></div>
+      <div class="pc bonus"><div class="pic" data-ill="png"></div><div class="meta"><span class="sq">★</span><span class="hzq">巴布亚新几内亚</span><span class="tag">Bonus</span></div><div class="slot"></div></div>
+    </div>
+  </section>
+
+  <!-- 3 · Dictation: answers (step reveal) -->
+  <section class="slide" data-notes="The characters stay on screen; each click or → reveals the next pinyin. Watch for: 佛 is read fó here; 新罕布什尔 needs the apostrophe before ěr (shí'ěr); 达特茅斯 starts with dá, not dà; Papua New Guinea splits into two words.">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="hd">
+      <p class="kicker">Part 1 · 答案 Answers</p>
+      <h2>Check your pinyin</h2>
+      <p class="dek">Click or press → to reveal the pinyin one name at a time.</p>
+    </div>
+    <div class="pgrid">
+      <div class="pc"><div class="pic" data-ill="nevada"></div><div class="meta"><span class="sq">1</span><span class="en">Nevada</span></div>
+        <div class="ans"><div class="hz">内华达</div><div class="py frag">Nèihuádá</div></div></div>
+      <div class="pc"><div class="pic" data-ill="dartmouth"></div><div class="meta"><span class="sq">2</span><span class="en">Dartmouth</span></div>
+        <div class="ans"><div class="hz">达特茅斯</div><div class="py frag">Dátèmáosī</div></div></div>
+      <div class="pc"><div class="pic" data-ill="newhampshire"></div><div class="meta"><span class="sq">3</span><span class="en">New Hampshire</span></div>
+        <div class="ans"><div class="hz">新罕布什尔</div><div class="py frag">Xīnhǎnbùshí’ěr</div></div></div>
+      <div class="pc"><div class="pic" data-ill="vermont"></div><div class="meta"><span class="sq">4</span><span class="en">Vermont</span></div>
+        <div class="ans"><div class="hz">佛蒙特</div><div class="py frag">Fóméngtè</div></div></div>
+      <div class="pc"><div class="pic" data-ill="vietnam"></div><div class="meta"><span class="sq">5</span><span class="en">Vietnam</span></div>
+        <div class="ans"><div class="hz">越南</div><div class="py frag">Yuènán</div></div></div>
+      <div class="pc"><div class="pic" data-ill="shanghai"></div><div class="meta"><span class="sq">6</span><span class="en">Shanghai</span></div>
+        <div class="ans"><div class="hz">上海</div><div class="py frag">Shànghǎi</div></div></div>
+      <div class="pc bonus"><div class="pic" data-ill="png"></div><div class="meta"><span class="sq">★</span><span class="en">Papua New Guinea</span><span class="tag">Bonus</span></div>
+        <div class="ans"><div class="hz">巴布亚新几内亚</div><div class="py frag">Bābùyà Xīnjǐnèiyà</div></div></div>
+    </div>
+  </section>
+
+  <!-- 4 · Review -->
+  <section class="slide" data-notes="Students read the characters first; click once per sentence to show pinyin and English. Then substitute nationalities — 中国人, 日本人, 德国人, 加拿大人 — and have students chain 我不是……，也不是……，我是…… about themselves.">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="hd">
+      <p class="kicker">Part 2 · 复习 Review</p>
+      <h2>Read these aloud</h2>
+      <p class="dek">Characters first. Click to check the pinyin.</p>
+    </div>
+    <div class="stack">
+      <div class="sent"><span class="sq">一</span><div>
+        <div class="hz">你来自哪里？</div>
+        <div class="frag"><div class="py">Nǐ láizì nǎlǐ?</div><div class="en">Where are you from?</div></div>
+      </div></div>
+      <div class="sent"><span class="sq">二</span><div>
+        <div class="hz">我不是美国人，也不是法国人，我是英国人。</div>
+        <div class="frag"><div class="py">Wǒ bú shì Měiguó rén, yě bú shì Fǎguó rén, wǒ shì Yīngguó rén.</div><div class="en">I’m not American, and I’m not French either. I’m British.</div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 5 · New sentences -->
+  <section class="slide" data-notes="Model each line; class repeats twice. Sentences 1 and 2 work as a quick exchange — turn to a neighbor and ask. For sentence 3, swap 老师/学生 and the nationality: 李老师是中国老师，我是美国学生。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="hd">
+      <p class="kicker">Part 3 · 新句子 New sentences</p>
+      <h2>Three new sentences</h2>
+    </div>
+    <div class="two p3">
+      <div class="col"><div class="stack">
+        <div class="sent md"><span class="sq">一</span><div>
+          <div class="hz">你今天过得怎么样？</div>
+          <div class="py">Nǐ jīntiān guò de zěnmeyàng?</div>
+          <div class="en">How has your day been?</div>
+        </div></div>
+        <div class="sent md"><span class="sq">二</span><div>
+          <div class="hz">我很好，你呢？</div>
+          <div class="py">Wǒ hěn hǎo, nǐ ne?</div>
+          <div class="en">I’m good. And you?</div>
+        </div></div>
+        <div class="sent md"><span class="sq">三</span><div>
+          <div class="hz">李老师是美国老师，我也是美国学生。</div>
+          <div class="py">Lǐ lǎoshī shì Měiguó lǎoshī, wǒ yě shì Měiguó xuésheng.</div>
+          <div class="en">Teacher Li is an American teacher, and I’m also an American student.</div>
+        </div></div>
+      </div></div>
+      <div class="col">
+        <div class="card" style="flex:1">
+          <h3>Pieces to notice</h3>
+          <p class="sub" style="margin-bottom:20px">Small words doing big jobs</p>
+          <div class="pt">
+            <h4><span class="zh">过得</span><span class="p">guò de</span></h4>
+            <p>Verb + 得 describes how something went. <span class="zh">过得怎么样？</span> asks how your day, or life, is going.</p>
+          </div>
+          <div class="pt">
+            <h4><span class="zh">呢</span><span class="p">ne</span></h4>
+            <p>Bounces the same question back without repeating it: <span class="zh">我很好，你呢？</span></p>
+          </div>
+          <div class="pt">
+            <h4><span class="zh">也</span><span class="p">yě</span></h4>
+            <p>“Also.” It sits right before the verb, never at the end: <span class="zh">我也是美国学生。</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Dialogue -->
+  <section class="slide" data-notes="Model the dialogue with one student first. Pairs run it twice, swapping A and B; B says their own name in the blank. Second run: press P to hide the pinyin.">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文练习　第二周　第一课</span></div>
+    <div class="hd">
+      <p class="kicker">Part 4 · 对话 Dialogue</p>
+      <h2>Practice with a partner</h2>
+      <p class="dek">Run it twice and swap roles. B fills in their own name.</p>
+    </div>
+    <div class="dlg">
+      <div class="ln a"><span class="sp">A</span><div>
+        <div class="hz">你好！请问你是美国学生吗？</div>
+        <div class="py">Nǐ hǎo! Qǐngwèn nǐ shì Měiguó xuésheng ma?</div>
+      </div><div class="en">Hello! May I ask, are you an American student?</div></div>
+      <div class="ln b"><span class="sp">B</span><div>
+        <div class="hz">不，我是中国学生，你呢？</div>
+        <div class="py">Bù, wǒ shì Zhōngguó xuésheng, nǐ ne?</div>
+      </div><div class="en">No, I’m a Chinese student. And you?</div></div>
+      <div class="ln a"><span class="sp">A</span><div>
+        <div class="hz">我是美国学生。你叫什么名字？</div>
+        <div class="py">Wǒ shì Měiguó xuésheng. Nǐ jiào shénme míngzi?</div>
+      </div><div class="en">I’m an American student. What’s your name?</div></div>
+      <div class="ln b"><span class="sp">B</span><div>
+        <div class="hz">我叫<span class="nm"></span>，我的老师是李老师，他是中国老师。</div>
+        <div class="py">Wǒ jiào ____, wǒ de lǎoshī shì Lǐ lǎoshī, tā shì Zhōngguó lǎoshī.</div>
+      </div><div class="en">My name is ____. My teacher is Teacher Li; he’s a Chinese teacher.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES END ============ -->
+
+</div></div>
+
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>P</kbd> pinyin &nbsp; <kbd>F</kbd> full screen
+</div>
+<div id="lb"><img alt=""></div>
+
+<script>
+(function(){
+  /* ---------- simple schematic illustrations for the dictation cards ---------- */
+
+  /* rough coastline/border outlines, [lon, lat] */
+  var VN=[[102.14,22.40],[102.7,22.7],[103.3,22.8],[103.96,22.5],[104.8,22.8],[105.35,23.35],[106.1,22.95],[106.7,22.85],[106.65,22.35],[107.35,21.6],[108.05,21.55],[107.0,20.9],[106.6,20.3],[105.95,19.6],[105.7,18.8],[106.4,18.1],[106.9,17.4],[107.8,16.4],[108.3,15.9],[108.85,15.1],[109.2,13.9],[109.3,12.9],[109.2,11.7],[108.8,11.1],[107.8,10.6],[106.8,10.35],[106.6,9.7],[105.8,9.0],[105.2,8.6],[104.8,8.65],[104.85,9.6],[104.5,10.4],[105.0,10.85],[105.8,10.95],[106.25,11.0],[106.0,11.7],[106.5,11.95],[107.5,12.35],[107.55,13.2],[107.4,14.3],[107.55,15.0],[107.2,15.8],[106.6,16.5],[105.8,17.3],[105.2,18.1],[104.5,18.7],[103.9,19.25],[104.35,19.7],[104.0,20.2],[104.5,20.7],[103.7,20.7],[103.1,20.9],[102.75,21.5],[102.15,22.0]];
+  var PNG=[
+    [[141.0,-2.6],[142.0,-3.0],[143.0,-3.4],[144.0,-3.8],[144.8,-4.2],[145.5,-4.8],[145.8,-5.3],[146.4,-5.6],[147.3,-5.9],[147.9,-6.2],[147.9,-6.7],[147.2,-7.4],[147.6,-8.0],[148.2,-8.6],[148.6,-9.1],[149.2,-9.2],[149.3,-9.7],[150.0,-10.2],[150.8,-10.25],[150.6,-10.65],[150.0,-10.6],[149.5,-10.35],[148.6,-10.15],[147.8,-10.05],[147.2,-9.45],[146.6,-8.9],[146.1,-8.1],[145.4,-7.9],[144.6,-7.6],[144.0,-7.7],[143.5,-8.1],[143.3,-8.6],[143.4,-9.0],[142.6,-9.35],[141.9,-9.2],[141.0,-9.1],[141.0,-6.9],[140.85,-6.7],[141.0,-6.3]],
+    [[148.3,-5.6],[149.0,-5.55],[149.8,-5.5],[150.4,-5.45],[150.9,-5.1],[151.5,-4.9],[151.7,-4.2],[152.2,-4.2],[152.4,-4.7],[152.0,-5.4],[151.5,-5.6],[150.9,-5.95],[150.2,-6.2],[149.5,-6.2],[148.8,-6.1],[148.3,-5.85]],
+    [[150.8,-2.6],[151.4,-2.9],[152.1,-3.4],[152.7,-3.9],[153.1,-4.4],[153.1,-4.9],[152.8,-4.7],[152.3,-4.2],[151.8,-3.7],[151.2,-3.2],[150.7,-2.8]],
+    [[154.6,-5.0],[155.1,-5.4],[155.6,-6.0],[156.0,-6.6],[155.8,-6.9],[155.3,-6.6],[154.8,-6.1],[154.6,-5.5]],
+    [[146.5,-2.0],[147.0,-1.9],[147.4,-2.0],[147.0,-2.2],[146.6,-2.15]]
+  ];
+  VN=[VN]; // single polygon, same shape as PNG list
+  function geo(polys,dots){
+    var all=[].concat.apply([],polys), mlat=0;
+    all.forEach(function(p){mlat+=p[1]}); mlat/=all.length;
+    var c=Math.cos(mlat*Math.PI/180);
+    function xy(p){return [p[0]*c,-p[1]]}
+    var pts=all.map(xy), x0=Math.min.apply(null,pts.map(function(p){return p[0]})),
+        x1=Math.max.apply(null,pts.map(function(p){return p[0]})),
+        y0=Math.min.apply(null,pts.map(function(p){return p[1]})),
+        y1=Math.max.apply(null,pts.map(function(p){return p[1]})),
+        k=Math.min(144/(x1-x0),86/(y1-y0)), ox=80-(x0+x1)/2*k, oy=50-(y0+y1)/2*k;
+    function tr(p){var q=xy(p);return (q[0]*k+ox).toFixed(1)+','+(q[1]*k+oy).toFixed(1)}
+    return polys.map(function(pl){return '<polygon class="s" points="'+pl.map(tr).join(' ')+'"/>'}).join('')+
+      dots.map(function(d){var q=tr(d).split(',');return '<circle class="a" cx="'+q[0]+'" cy="'+q[1]+'" r="3"/>'}).join('');
+  }
+  var ILL={
+    nevada:function(){return '<polygon class="s" points="56,8 106,8 106,78 100,82 102,94 56,50"/><circle class="a" cx="97" cy="76" r="3"/>';},
+    dartmouth:function(){return '<line class="l" x1="22" y1="92" x2="138" y2="92"/>'+
+      '<rect class="s" x="38" y="62" width="84" height="30"/><rect class="s" x="68" y="34" width="24" height="28"/>'+
+      '<rect class="s" x="72" y="22" width="16" height="12"/><polygon class="a" points="72,22 80,5 88,22"/>'+
+      '<g class="l"><line x1="50" y1="70" x2="50" y2="84"/><line x1="60" y1="70" x2="60" y2="84"/>'+
+      '<line x1="100" y1="70" x2="100" y2="84"/><line x1="110" y1="70" x2="110" y2="84"/>'+
+      '<rect x="75" y="41" width="10" height="13"/></g>';},
+    newhampshire:function(){return '<polygon class="s" points="72,6 80,5 85,32 98,60 104,76 100,86 64,92 62,52 67,30"/><circle class="a" cx="66" cy="58" r="3"/>';},
+    vermont:function(){return '<polygon class="s" points="56,8 104,8 99,28 93,56 92,92 68,94 66,60 60,32"/>'+
+      '<polyline class="l" points="70,58 76,47 81,54 86,45 89,51"/>';},
+    vietnam:function(){return geo(VN,[[105.85,21.03]]);},
+    shanghai:function(){return '<line class="l" x1="20" y1="92" x2="140" y2="92"/>'+
+      '<rect class="s" x="32" y="58" width="16" height="34"/><rect class="s" x="50" y="44" width="12" height="48"/>'+
+      '<rect class="s" x="100" y="38" width="14" height="54"/><rect class="s" x="116" y="62" width="14" height="30"/>'+
+      '<g class="l"><line x1="80" y1="3" x2="80" y2="92"/><line x1="72" y1="92" x2="78" y2="66"/><line x1="88" y1="92" x2="82" y2="66"/></g>'+
+      '<circle class="a" cx="80" cy="60" r="10"/><circle class="a" cx="80" cy="29" r="6"/>';},
+    png:function(){return geo(PNG,[[147.18,-9.44]]);}
+  };
+  [].forEach.call(document.querySelectorAll('[data-ill]'),function(el){
+    var f=ILL[el.getAttribute('data-ill')];
+    if(f) el.innerHTML='<svg class="ill" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+f()+'</svg>';
+  });
+
+  /* ---------- deck navigation (from style guide, plus step reveals) ---------- */
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('img'),
+      i=0, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n)});
+    ticks.appendChild(t);
+  });
+
+  function go(n,showAll){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    [].forEach.call(slides[i].querySelectorAll('.frag'),function(f){f.classList.toggle('in',!!showAll)});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i)});
+    pos.textContent=(i+1)+' / '+slides.length;
+    nbody.textContent=slides[i].getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+  }
+  function next(){
+    var f=slides[i].querySelector('.frag:not(.in)');
+    if(f){f.classList.add('in');return;}
+    if(i<slides.length-1) go(i+1);
+  }
+  function prev(){
+    var f=slides[i].querySelectorAll('.frag.in');
+    if(f.length){f[f.length-1].classList.remove('in');return;}
+    if(i>0) go(i-1,true);
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){next();e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='p'||e.key==='P'){document.body.classList.toggle('nopy');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+    else if(e.key==='Escape'&&lb.classList.contains('on')){lb.classList.remove('on');}
+  });
+
+  stage.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.tagName==='IMG'&&/zoom-in/.test(getComputedStyle(t).cursor)){
+      lbImg.src=t.src; lb.classList.add('on');
+    } else { next(); }
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on');});
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide') },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
+</script>
+</body>
+</html>
