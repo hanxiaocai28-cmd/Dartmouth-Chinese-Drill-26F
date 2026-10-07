@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中文操练 · 第三周 第二次</title>
+<style>
+  /* ============ DESIGN TOKENS — do not change per-slide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+    /* Chinese deck additions: simplified-Chinese serif, and a Latin+CJK heading stack */
+    --song:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+    --serif-zh:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","SimSun",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
+
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
+  .night .rail{border-left-color:#3D382F}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
+
+  /* ============ cards ============ */
+  .cols{display:grid;gap:24px;flex:1;min-height:0}
+  .c2{grid-template-columns:1fr 1fr}
+  .card{background:var(--card);border:1px solid var(--rule);padding:22px 24px;
+        display:flex;flex-direction:column;justify-content:center}
+  .night .card{background:var(--night2);border-color:#3D382F}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0 0 2px;font-weight:700}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0}
+
+  /* ============ bulleted lists ============ */
+  ul{margin:16px 0 0;padding:0;list-style:none}
+  li{position:relative;padding-left:16px;margin-bottom:11px;font-size:14.5px;line-height:1.5;color:var(--ink2)}
+  li:last-child{margin-bottom:0}
+  li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--seal)}
+  .night li{color:#CBC3B1}
+  .night li::before{background:var(--seal-lt)}
+  .jp{font-family:var(--mincho)}
+
+  /* ============ two-column content grid (reusable) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr;gap:36px}
+  .two .col{display:flex;flex-direction:column;min-height:0}
+
+  /* ============ numbered blocks ============ */
+  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;margin-bottom:14px}
+  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:14px;color:var(--seal)}
+  .num h4{font-family:var(--serif);font-size:19px;margin:1px 0 5px;font-weight:700}
+  .num p{margin:0;font-size:14px;line-height:1.5;color:var(--ink2)}
+
+  /* ============ plot / image frame ============ */
+  .plot{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule);padding:12px}
+  .plot svg,.plot img{width:100%;height:100%;object-fit:contain;display:block}
+  .cap{flex:none;font-size:11px;font-style:italic;color:var(--mute);margin:9px 2px 0;line-height:1.45}
+
+  /* ============ chrome: bottom bar / notes / lightbox ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  #lb{position:fixed;inset:0;background:rgba(12,10,8,.96);z-index:60;display:none;
+      place-items:center;cursor:zoom-out;padding:18px}
+  #lb.on{display:grid}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+  /* =================================================================
+     DECK-SPECIFIC LAYER (Chinese drill) — built only from the tokens above
+     ================================================================= */
+  h1,h2,.card h3,.num h4{font-family:var(--serif-zh)}
+  .rail span,.seal,.num .sq,.sq,.zh{font-family:var(--song)}
+  .py{font-family:var(--serif)}
+  .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+      font-size:14px;color:var(--seal);flex:none}
+  .night .num h4{color:var(--night-tx)}
+  .night .num p{color:var(--night-mu)}
+  .night .num .sq{border-color:var(--seal-lt);color:var(--seal-lt)}
+  #bar #stp{color:var(--seal-lt);min-width:80px}
+
+  /* ---- step reveal ("pops out one by one") ---- */
+  [data-step]{opacity:0;transform:translateY(8px) scale(.94);transition:opacity .2s,transform .2s}
+  [data-step].shown{opacity:1;transform:none;animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+  [data-step].shown.quiet{animation:none}
+  .hzrow[data-step],.hzrow[data-step].shown{opacity:1;transform:none;animation:none}
+  @keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.88)}100%{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){[data-step]{transition:none}[data-step].shown{animation:none}}
+
+  /* ---- title slide agenda ---- */
+  .agenda{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:64px;
+          padding-top:26px;border-top:1px solid #3D382F}
+  .agenda .num{margin:0}
+  .agenda .num h4{font-size:19px}
+  .agenda .num p{font-size:12.5px}
+
+  /* ---- P1a: pinyin dictation cards ---- */
+  .dgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);
+         grid-template-rows:1fr 1fr;gap:18px}
+  .dk{background:var(--card);border:1px solid var(--rule);padding:18px 20px 20px;
+      display:flex;flex-direction:column;justify-content:space-between;position:relative;min-width:0}
+  .dk-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .ic{width:64px;height:64px;display:block;flex:none}
+  .dk-zh{font-size:46px;line-height:1.15;color:var(--ink);margin-top:8px}
+  .dk-ans{border-bottom:1.5px dotted var(--mute);min-height:46px;display:flex;align-items:flex-end;padding-bottom:5px}
+  .dk-py{font-size:28px;font-weight:700;color:var(--seal);line-height:1.1}
+  .dk.bonus{grid-column:span 2;border:1.5px dashed var(--seal);flex-direction:row;
+            align-items:center;justify-content:flex-start;gap:26px;padding:20px 28px}
+  .dk.bonus .ic{width:104px;height:104px}
+  .dk.bonus .bx{flex:1;min-width:0}
+  .dk.bonus .dk-zh{margin-top:0}
+  .tag{position:absolute;top:14px;right:16px;font-size:10.5px;font-weight:700;letter-spacing:.18em;
+       text-transform:uppercase;color:var(--seal)}
+  .tag .zh{letter-spacing:.1em;margin-right:6px;font-size:12px}
+
+  /* ---- P1b: character dictation cards with 田字格 ---- */
+  .hgrid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+  .hk{background:var(--card);border:1px solid var(--rule);padding:20px 26px;
+      display:grid;grid-template-columns:72px 1fr;gap:24px;align-items:center}
+  .hk-side{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .hk-py{font-size:32px;font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:14px}
+  .hzrow{display:flex;gap:10px}
+  .box{width:104px;height:104px;position:relative;flex:none;border:1.5px solid #C9907F;
+       background:#F7F1E4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0V100M0 50H100' stroke='%23D9AE9F' stroke-width='1' stroke-dasharray='4 3.5' fill='none'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  .hb{cursor:pointer}
+  .hb .hw{position:absolute;inset:0;display:grid;place-items:center}
+  .hb .hw svg{display:block}
+  .hz-fb{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--song);
+         font-size:74px;line-height:1;color:var(--ink);opacity:0;transition:opacity .3s}
+  .hb.static.on .hz-fb{opacity:1}
+  .hb:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+
+  /* ---- P2 / P3: sentence lists ---- */
+  .split{flex:1;min-height:0;display:grid;gap:36px}
+  .s155{grid-template-columns:1.55fr 1fr}
+  .one{grid-template-columns:1fr}
+  .one .sent .zh{font-size:32px}
+  .one .sent .py{font-size:17px}
+  .one .sent .en{font-size:16px}
+  .sents{display:flex;flex-direction:column;justify-content:center;gap:20px;min-height:0}
+  .sent{display:grid;grid-template-columns:30px 1fr;gap:16px;align-items:start}
+  .sent .sq{margin-top:6px}
+  .sent .zh{font-size:30px;line-height:1.3;color:var(--ink)}
+  .sent .py{font-size:16px;line-height:1.4;color:var(--indigo);margin-top:4px}
+  .sent .en{font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.4;color:var(--mute);margin-top:2px}
+  .new{color:var(--seal)}
+  .split > .card{align-self:center}
+  .notes-card li{font-size:14px}
+  .notes-card li .zh{font-size:16px;color:var(--ink)}
+  .notes-card li .py{color:var(--seal);font-style:italic}
+
+  /* ---- P3a: family matrix + titles ---- */
+  .fam{display:grid;grid-template-columns:62px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:14px;min-height:0}
+  .axis{grid-column:2 / 4;display:flex;align-items:center;justify-content:space-between;
+        font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);padding:0 6px}
+  .axis .me{font-family:var(--song);font-style:normal;font-size:20px;color:var(--seal);
+            width:38px;height:38px;border:1.5px solid var(--seal);display:grid;place-items:center}
+  .axis .ln{flex:1;height:1px;background:var(--rule);margin:0 14px}
+  .rowlab{display:flex;flex-direction:column;align-items:center;justify-content:center;
+          font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);gap:2px}
+  .rowlab .zh{font-style:normal;font-size:22px;color:var(--ink2)}
+  .fcell{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;
+         align-items:center;justify-content:center;text-align:center}
+  .fcell .zh{font-size:46px;line-height:1.15}
+  .fcell .py{font-size:20px;color:var(--seal);font-weight:700;margin-top:4px}
+  .fcell .en{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);margin-top:2px}
+  .titles{display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0}
+  .tt{background:var(--card);border:1px solid var(--rule);padding:18px 22px}
+  .tt .row1{display:flex;align-items:baseline;gap:12px}
+  .tt .zh{font-size:36px;line-height:1.1}
+  .tt .py{font-size:18px;color:var(--seal);font-weight:700}
+  .tt .en{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--mute);margin:4px 0 10px}
+  .tt .eg{font-size:14px;color:var(--ink2);border-top:1px solid var(--rule);padding-top:9px}
+  .tt .eg .zh{font-size:18px;color:var(--ink)}
+  .tip{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0}
+  .tip .zh{font-size:15px;color:var(--ink)}
+
+  /* ---- P4: dialogue ---- */
+  .dlg-wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .dcol{display:flex;flex-direction:column;min-height:0}
+  .phase{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);
+         margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  .phase .zh{font-style:normal;color:var(--ink2);margin-right:8px}
+  .dlg{display:flex;flex-direction:column;gap:17px}
+  .dl{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start}
+  .spk{width:30px;height:30px;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:14px;margin-top:2px}
+  .spk.a{background:var(--seal);color:#F7F1E4}
+  .spk.b{border:1.4px solid var(--indigo);color:var(--indigo)}
+  .dl .zh{font-size:24px;line-height:1.35;color:var(--ink)}
+  .dl .py{font-size:14px;line-height:1.4;color:var(--mute)}
+  .blank{display:inline-block;width:2.6em;border-bottom:2px solid var(--seal);margin:0 .12em;height:.95em;vertical-align:baseline}
+  .py .blank{width:3.2em;height:.9em}
+  .swap{margin-top:auto;font-size:13px;color:var(--ink2);line-height:1.5;padding-top:14px}
+  .swap b{color:var(--seal)}
+  .dcol .dlg{margin-bottom:18px}
+  .majors{margin-top:auto;background:var(--card);border:1px solid var(--rule);padding:14px 18px 16px}
+  .majors h3{font-family:var(--serif-zh);font-size:17px;margin:0 0 10px;font-weight:700}
+  .mj{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px}
+  .mj div{line-height:1.25}
+  .mj .zh{font-size:18px;color:var(--ink)}
+  .mj .py{font-size:12px;color:var(--seal);display:block}
+  .mj .en{font-size:11px;color:var(--mute);display:block}
+
+
+  /* ============ aligned pinyin (style-guide standard from W3-D1) ============
+     .rb > .w (one word) > .c (one character) > .h (character) + .p (syllable) */
+  .rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.3em;row-gap:.25em}
+  .rb .w{display:flex;align-items:flex-start;gap:.06em}
+  .rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em}
+  .rb .c.pu{min-width:0}
+  .rb .h{line-height:1.2}
+  .rb .p{font-family:var(--serif);font-size:.52em;line-height:1.3;color:var(--indigo);white-space:nowrap;min-height:1.3em}
+  .rb .new .h{color:var(--seal)}
+  .rb .lat .h{font-family:var(--serif);font-size:.82em;line-height:1.46;white-space:nowrap}
+  .rb .blank{margin:0}
+  .rb.ghost .p{visibility:hidden}
+  .jw{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--mute);margin-top:6px;min-height:1.4em}
+  .jw b{font-style:normal;color:var(--ink2)}
+
+  /* =================================================================
+     W3-D2 layout — built only from the tokens above
+     ================================================================= */
+  /* P1a: pinyin dictation cards */
+  .dk .rb{font-size:46px;color:var(--ink);border-bottom:1.5px dotted var(--mute);padding-bottom:4px;margin-top:8px}
+  .dk .rb .p{font-size:.5em;font-weight:700;color:var(--seal)}
+  .dk.bonus .rb{font-size:42px;margin-top:0}
+  .dk.bonus .ic{width:88px;height:88px}
+
+  /* P1b: five items, three on top and two wider below */
+  .hgrid.h5{grid-template-columns:repeat(6,1fr)}
+  .h5 .hk{grid-column:span 2;padding:18px 22px;gap:18px}
+  .h5 .hk:nth-child(4){grid-column:1 / span 3}
+  .h5 .hk:nth-child(5){grid-column:4 / span 3}
+  .hk-syl{display:flex;gap:10px;margin-bottom:10px}
+  .hk-syl span{width:104px;text-align:center;font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink)}
+
+  /* P2: 12 review words, three labeled rows */
+  .vgrid{flex:1;min-height:0;display:grid;grid-template-columns:116px repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:14px}
+  .vgrid .rowlab{text-align:center;line-height:1.3}
+  .vk{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;
+      align-items:center;justify-content:center;text-align:center;padding:10px}
+  .vk .rb{font-size:44px;color:var(--ink);justify-content:center}
+  .vk .rb .p{font-size:.45em;font-weight:700;color:var(--seal)}
+  .vk .en{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);margin-top:4px}
+
+  /* P3: sentences + new-word card */
+  .sents .rb{font-size:33px;color:var(--ink)}
+  .sents .sent .sq{margin-top:4px}
+  .sents .en{margin-top:4px}
+  .notes-card h3{margin-bottom:4px}
+  .notes-card ul{margin-top:12px}
+  .notes-card li{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+  .notes-card li::before{top:12px}
+  .notes-card li .rb{font-size:19px;color:var(--ink)}
+  .notes-card li .rb .p{font-size:.64em;color:var(--seal)}
+  .notes-card li .gl{padding-top:2px;color:var(--mute)}
+  .notes-card .qa{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);font-size:13.5px;line-height:1.6;color:var(--ink2)}
+  .notes-card .qa .zh{font-size:16px;color:var(--ink)}
+
+  /* P4: dialogue rounds */
+  .dlg.lg{gap:30px}
+  .dl .rb{font-size:27px;color:var(--ink)}
+  .dl .rb .blank{width:2.1em}
+  .dl .rb .p{color:var(--mute);font-size:.55em}
+  .dlg.lg .spk{margin-top:4px}
+  .dlg.en{gap:26px}
+  .dl .enl{font-family:var(--serif);font-size:23px;line-height:1.35;color:var(--ink)}
+  .enl .blank{width:3.4em;height:.9em}
+  .dl .ans{margin-top:6px;padding-left:10px;border-left:2px solid var(--seal)}
+  .dl .ans .rb{font-size:25px}
+  .dl .ans .rb .p{font-size:.6em}
+
+  /* P5: numbers one to ten, with hand signs */
+  .ngrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .nk{background:var(--card);border:1px solid var(--rule);padding:16px 14px 14px;display:flex;
+      flex-direction:column;align-items:center;justify-content:space-between;min-width:0}
+  .nk-hd{align-self:stretch;display:flex;align-items:baseline;justify-content:space-between;padding:0 4px}
+  .nk-ar{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--seal);line-height:1}
+  .nk-py{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink)}
+  .nk .box{width:160px;height:160px}
+  .nk .hz-fb{font-size:118px}
+  .hand{width:150px;height:181px;display:block}
+  .nk-cap{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--mute);text-align:center;line-height:1.35;min-height:2.7em;margin:0}
+</style>
+</head>
+<body>
+
+<!-- ============ icon sprite (simple schematic pictograms) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="star" viewBox="-10 -10 20 20">
+      <path d="M0-10 2.35-3.24 9.51-3.09 3.8 1.24 5.88 8.09 0 4-5.88 8.09-3.8 1.24-9.51-3.09-2.35-3.24Z"/>
+    </symbol>
+
+    <!-- Macau: Ruins of St. Paul's -->
+    <symbol id="ic-mo" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="12" y="30" width="40" height="18" fill="#F7F1E4"/>
+        <rect x="18" y="20" width="28" height="10" fill="#F7F1E4"/>
+        <path d="M24 20 L32 11 L40 20 Z" fill="#AE3826"/>
+        <path d="M32 11 V4 M29 6.5 H35" fill="none"/>
+        <path d="M28 48 V40 a4 4 0 0 1 8 0 V48 Z" fill="#2E3A48"/>
+        <path d="M17 44 V38 a2.5 2.5 0 0 1 5 0 V44 Z M42 44 V38 a2.5 2.5 0 0 1 5 0 V44 Z" fill="#2E3A48"/>
+        <path d="M29.5 28 V25 a2.5 2.5 0 0 1 5 0 V28 Z" fill="#2E3A48"/>
+        <path d="M8 52 H56 M4 56 H60" fill="none"/>
+      </g>
+    </symbol>
+
+    <!-- Ohio: state shape, Lake Erie above, capital star -->
+    <symbol id="ic-oh" viewBox="0 0 64 64">
+      <path d="M30 8 q4 -2.5 8 0 t8 0 t8 0" fill="none" stroke="#2E3A48" stroke-width="2" stroke-linecap="round"/>
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M8 14 L22 15 Q27 19 33 16 Q40 13 46 12 L55 12 L57 32 Q56 38 52 41 Q48 44 46 48 Q41 51 37 54 Q31 57 26 53 Q22 50 18 52 L9 53 Z" fill="#F7F1E4"/>
+      </g>
+      <use href="#star" x="26" y="26" width="11" height="11" fill="#AE3826"/>
+    </symbol>
+
+    <!-- Santorini: white houses, blue dome, the sea -->
+    <symbol id="ic-st" viewBox="0 0 64 64">
+      <circle cx="12" cy="13" r="5" fill="#AE3826"/>
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="6" y="34" width="20" height="16" fill="#F7F1E4"/>
+        <rect x="13" y="42" width="6" height="8" fill="#2E3A48"/>
+        <rect x="29" y="34" width="22" height="16" fill="#F7F1E4"/>
+        <path d="M30 34 A10 10 0 0 1 50 34 Z" fill="#2E3A48"/>
+        <path d="M40 24 V16 M37 19 H43" fill="none"/>
+        <path d="M37 50 V43 a3 3 0 0 1 6 0 V50 Z" fill="#2E3A48"/>
+        <rect x="54" y="40" width="7" height="10" fill="#F7F1E4"/>
+        <path d="M3 50 H62" fill="none"/>
+      </g>
+      <path d="M4 57 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#2E3A48" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Los Angeles: palm trees at sunset -->
+    <symbol id="ic-la" viewBox="0 0 64 64">
+      <path d="M24 52 A11 11 0 0 1 46 52 Z" fill="#AE3826"/>
+      <g fill="none" stroke="#2E2A24" stroke-width="2.4" stroke-linecap="round">
+        <path d="M22 52 Q25 36 20 20"/>
+        <path d="M47 52 Q45 41 48 30"/>
+      </g>
+      <g fill="none" stroke="#2E3A48" stroke-width="2.4" stroke-linecap="round">
+        <path d="M20 20 Q12 15 5 20 M20 20 Q15 10 8 8 M20 20 Q26 10 33 11 M20 20 Q30 17 34 24 M20 20 Q21 12 25 6"/>
+        <path d="M48 30 Q42 26 37 30 M48 30 Q44 22 40 20 M48 30 Q53 22 58 23 M48 30 Q56 28 59 34"/>
+      </g>
+      <path d="M4 52 H60" stroke="#2E2A24" stroke-width="2" stroke-linecap="round"/>
+      <path d="M10 57 H54" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Paris: Eiffel Tower -->
+    <symbol id="ic-pa" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M17 56 Q27 40 29.5 24 L31 9 H33 L34.5 24 Q37 40 47 56 H40 Q32 45 24 56 Z" fill="#2E3A48"/>
+        <path d="M32 9 V3" fill="none"/>
+      </g>
+      <rect x="21.5" y="43" width="21" height="3.2" fill="#AE3826"/>
+      <rect x="26.5" y="29" width="11" height="2.8" fill="#AE3826"/>
+      <path d="M6 56 H58" stroke="#2E2A24" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Montreal: twin-towered basilica -->
+    <symbol id="ic-mt" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="9" y="22" width="12" height="32" fill="#F7F1E4"/>
+        <rect x="43" y="22" width="12" height="32" fill="#F7F1E4"/>
+        <path d="M9 22 L15 8 L21 22 Z M43 22 L49 8 L55 22 Z" fill="#2E3A48"/>
+        <path d="M21 30 L32 21 L43 30 Z" fill="#F7F1E4"/>
+        <rect x="21" y="30" width="22" height="24" fill="#F7F1E4"/>
+        <path d="M24.5 54 V48 a2.5 2.5 0 0 1 5 0 V54 Z M29.5 54 V47 a2.5 2.5 0 0 1 5 0 V54 Z M34.5 54 V48 a2.5 2.5 0 0 1 5 0 V54 Z" fill="#2E3A48"/>
+        <path d="M4 54 H60" fill="none"/>
+      </g>
+      <circle cx="32" cy="38" r="3.6" fill="#AE3826"/>
+      <path d="M15 28 V34 M49 28 V34" stroke="#AE3826" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- George Orwell: a typewriter -->
+    <symbol id="ic-or" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="20" y="6" width="24" height="20" fill="#F7F1E4"/>
+        <rect x="11" y="22" width="42" height="6" rx="3" fill="#2E3A48"/>
+        <path d="M10 30 H54 L58 50 H6 Z" fill="#F7F1E4"/>
+      </g>
+      <path d="M24 11 H40 M24 15 H40 M24 19 H34" stroke="#AE3826" stroke-width="1.6" stroke-linecap="round"/>
+      <g fill="#2E2A24">
+        <circle cx="16" cy="36" r="2.1"/><circle cx="23" cy="36" r="2.1"/><circle cx="30" cy="36" r="2.1"/><circle cx="37" cy="36" r="2.1"/><circle cx="44" cy="36" r="2.1"/><circle cx="51" cy="36" r="2.1"/>
+        <circle cx="19.5" cy="42" r="2.1"/><circle cx="26.5" cy="42" r="2.1"/><circle cx="33.5" cy="42" r="2.1"/><circle cx="40.5" cy="42" r="2.1"/><circle cx="47.5" cy="42" r="2.1"/>
+      </g>
+      <rect x="22" y="45.5" width="20" height="2.6" fill="#AE3826"/>
+      <path d="M8 56 H56" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 你好: a person waving, speech bubble -->
+    <symbol id="ic-hello" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="24" cy="22" r="7" fill="#F7F1E4"/><path d="M10 56 Q10 36 24 36 Q38 36 38 56 Z" fill="#F7F1E4"/>
+        <path d="M34 42 L44 28" fill="none" stroke-width="2.6"/>
+        <circle cx="45" cy="26" r="3.6" fill="#F7F1E4"/>
+        <path d="M42 4 H61 V17 H51 L47 21 V17 H42 Z" fill="#AE3826"/>
+      </g>
+      <g fill="#F7F1E4"><circle cx="47" cy="10.5" r="1.4"/><circle cx="51.5" cy="10.5" r="1.4"/><circle cx="56" cy="10.5" r="1.4"/></g>
+      <path d="M51 28 l4 -1 M50 33 l4 1" stroke="#7C7160" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 爸爸: a dad and a child -->
+    <symbol id="ic-dad" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="22" cy="16" r="7" fill="#F7F1E4"/><path d="M8 56 Q8 30 22 30 Q36 30 36 56 Z" fill="#2E3A48"/>
+        <circle cx="47" cy="33" r="5.5" fill="#F7F1E4"/>
+        <path d="M38 56 Q38 42 47 42 Q56 42 56 56 Z" fill="#AE3826"/>
+      </g>
+    </symbol>
+
+    <!-- 妈妈: a mom and a child -->
+    <symbol id="ic-mom" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M13 22 Q11 5 23 5 Q35 5 33 22 Q33 28 30 29 H16 Q13 28 13 22 Z" fill="#2E3A48"/>
+        <circle cx="23" cy="17" r="7" fill="#F7F1E4"/>
+        <path d="M9 56 L16 30 H30 L37 56 Z" fill="#AE3826"/>
+        <circle cx="48" cy="33" r="5.5" fill="#F7F1E4"/>
+        <path d="M39 56 Q39 42 48 42 Q57 42 57 56 Z" fill="#F7F1E4"/>
+      </g>
+    </symbol>
+
+    <!-- 我姓王: a person with a name tag -->
+    <symbol id="ic-name" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="32" cy="15" r="7.5" fill="#F7F1E4"/>
+        <path d="M16 54 Q16 28 32 28 Q48 28 48 54 Z" fill="#F7F1E4"/>
+        <rect x="22" y="37" width="20" height="13" fill="#F7F1E4"/>
+      </g>
+      <rect x="22" y="37" width="20" height="4" fill="#AE3826"/>
+      <rect x="22" y="37" width="20" height="13" fill="none" stroke="#2E2A24" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M26 45.5 H38" stroke="#7C7160" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 朋友: two friends and a heart -->
+    <symbol id="ic-friends" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="19" cy="26" r="7" fill="#F7F1E4"/><path d="M5 56 Q5 40 19 40 Q33 40 33 56 Z" fill="#F7F1E4"/>
+        <circle cx="45" cy="26" r="7" fill="#F7F1E4"/><path d="M31 56 Q31 40 45 40 Q59 40 59 56 Z" fill="#2E3A48"/>
+      </g>
+      <path d="M32 17 C25 12 26 5 30.5 6.5 Q32 7.2 32 9 Q32 7.2 33.5 6.5 C38 5 39 12 32 17 Z" fill="#AE3826"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="viewport"><div id="stage">
+
+  <!-- ============ SLIDES START ============ -->
+
+  <!-- 01 · Title -->
+  <section class="slide night on" data-notes="开场：今天一共五个部分——听写（先地名拼音、后汉字）、复习家人词汇、新句子（没有、但是、谁的）、两人对话（第一遍照着读，第二遍看英文说中文）、一到十的写法和手势。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">Chinese Drill · Week 3 · Session 2</p>
+      <h1>第三周　第二次操练</h1>
+      <p class="dek" style="margin-top:14px">Place-name dictation, family words, sentences with 没有 and 谁的, a dialogue, and the numbers one to ten</p>
+      <div class="agenda">
+        <div class="num"><div class="sq">一</div><div><h4>听写</h4><p>Place names in pinyin, then characters</p></div></div>
+        <div class="num"><div class="sq">二</div><div><h4>复习词汇</h4><p>Family words</p></div></div>
+        <div class="num"><div class="sq">三</div><div><h4>新句子</h4><p>Not having, but, and whose</p></div></div>
+        <div class="num"><div class="sq">四</div><div><h4>对话练习</h4><p>Read it, then say it from English</p></div></div>
+        <div class="num"><div class="sq">五</div><div><h4>一到十</h4><p>Writing and hand signs</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · P1a questions -->
+  <section class="slide" data-notes="按顺序念，每个念两遍，语速放慢。提醒学生写完整拼音，包括声调；地名、人名首字母大写，一个地名连写。最后念附加题：乔治·奥威尔（英国作家，写了《1984》和《动物农场》）。念完翻到下一页核对。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 1</p>
+      <h2>听写一：听中文，写拼音</h2>
+      <p class="dek">Listen, then write the full pinyin with tone marks.</p>
+    </div>
+    <div class="dgrid">
+      <div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-mo"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">澳</span><span class="p">Ào</span></span><span class="c"><span class="h">门</span><span class="p">mén</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-oh"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">俄</span><span class="p">É</span></span><span class="c"><span class="h">亥</span><span class="p">hài</span></span><span class="c"><span class="h">俄</span><span class="p">é</span></span></span><span class="w"><span class="c"><span class="h">州</span><span class="p">Zhōu</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-st"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">圣</span><span class="p">Shèng</span></span><span class="c"><span class="h">托</span><span class="p">tuō</span></span><span class="c"><span class="h">里</span><span class="p">lǐ</span></span><span class="c"><span class="h">尼</span><span class="p">ní</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-la"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">洛</span><span class="p">Luò</span></span><span class="c"><span class="h">杉</span><span class="p">shān</span></span><span class="c"><span class="h">矶</span><span class="p">jī</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-pa"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">巴</span><span class="p">Bā</span></span><span class="c"><span class="h">黎</span><span class="p">lí</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">六</div><svg class="ic"><use href="#ic-mt"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">蒙</span><span class="p">Méng</span></span><span class="c"><span class="h">特</span><span class="p">tè</span></span><span class="c"><span class="h">利</span><span class="p">lì</span></span><span class="c"><span class="h">尔</span><span class="p">ěr</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk bonus">
+        <div class="tag"><span class="zh">附加题</span>Bonus</div>
+        <div class="sq">附</div>
+        <svg class="ic"><use href="#ic-or"/></svg>
+        <div class="bx"><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">乔</span><span class="p">Qiáo</span></span><span class="c"><span class="h">治</span><span class="p">zhì</span></span><span class="c pu"><span class="h">·</span></span></span><span class="w"><span class="c"><span class="h">奥</span><span class="p">Ào</span></span><span class="c"><span class="h">威</span><span class="p">wēi</span></span><span class="c"><span class="h">尔</span><span class="p">ěr</span></span></span></div><div class="jw"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · P1a answers -->
+  <section class="slide" data-notes="按 → 或点击，一个一个出答案，每个字下面是它的音节，下面一行是正式写法。可提的点：① 俄亥俄州 Éhài'é Zhōu：第三个音节 é 以元音开头，前面加隔音符号；“州”和州名分开写。② 圣托里尼 Shèngtuōlǐní：“圣”就是 saint，这个名字来自 Santa Irini。③ 蒙特利尔 Méngtèlì'ěr、奥威尔 Àowēi'ěr：ěr 前面都要加隔音符号。④ 乔治·奥威尔：外国人名中间的间隔号（·）在拼音里写成空格，名和姓各自首字母大写。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 1</p>
+      <h2>核对答案：拼音</h2>
+      <p class="dek">Check your pinyin, one place at a time.</p>
+    </div>
+    <div class="dgrid">
+      <div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-mo"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">澳</span><span class="p" data-step="a1">Ào</span></span><span class="c"><span class="h">门</span><span class="p" data-step="a1">mén</span></span></span></div><div class="jw" data-step="a1">Written as <b>Àomén</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-oh"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">俄</span><span class="p" data-step="a2">É</span></span><span class="c"><span class="h">亥</span><span class="p" data-step="a2">hài</span></span><span class="c"><span class="h">俄</span><span class="p" data-step="a2">é</span></span></span><span class="w"><span class="c"><span class="h">州</span><span class="p" data-step="a2">Zhōu</span></span></span></div><div class="jw" data-step="a2">Written as <b>Éhài'é Zhōu</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-st"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">圣</span><span class="p" data-step="a3">Shèng</span></span><span class="c"><span class="h">托</span><span class="p" data-step="a3">tuō</span></span><span class="c"><span class="h">里</span><span class="p" data-step="a3">lǐ</span></span><span class="c"><span class="h">尼</span><span class="p" data-step="a3">ní</span></span></span></div><div class="jw" data-step="a3">Written as <b>Shèngtuōlǐní</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-la"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">洛</span><span class="p" data-step="a4">Luò</span></span><span class="c"><span class="h">杉</span><span class="p" data-step="a4">shān</span></span><span class="c"><span class="h">矶</span><span class="p" data-step="a4">jī</span></span></span></div><div class="jw" data-step="a4">Written as <b>Luòshānjī</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-pa"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">巴</span><span class="p" data-step="a5">Bā</span></span><span class="c"><span class="h">黎</span><span class="p" data-step="a5">lí</span></span></span></div><div class="jw" data-step="a5">Written as <b>Bālí</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">六</div><svg class="ic"><use href="#ic-mt"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">蒙</span><span class="p" data-step="a6">Méng</span></span><span class="c"><span class="h">特</span><span class="p" data-step="a6">tè</span></span><span class="c"><span class="h">利</span><span class="p" data-step="a6">lì</span></span><span class="c"><span class="h">尔</span><span class="p" data-step="a6">ěr</span></span></span></div><div class="jw" data-step="a6">Written as <b>Méngtèlì'ěr</b></div></div></div>
+      <div class="dk bonus">
+        <div class="tag"><span class="zh">附加题</span>Bonus</div>
+        <div class="sq">附</div>
+        <svg class="ic"><use href="#ic-or"/></svg>
+        <div class="bx"><div class="zh rb "><span class="w"><span class="c"><span class="h">乔</span><span class="p" data-step="a7">Qiáo</span></span><span class="c"><span class="h">治</span><span class="p" data-step="a7">zhì</span></span><span class="c pu"><span class="h">·</span></span></span><span class="w"><span class="c"><span class="h">奥</span><span class="p" data-step="a7">Ào</span></span><span class="c"><span class="h">威</span><span class="p" data-step="a7">wēi</span></span><span class="c"><span class="h">尔</span><span class="p" data-step="a7">ěr</span></span></span></div><div class="jw" data-step="a7">Written as <b>Qiáozhì Àowēi'ěr</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · P1b questions -->
+  <section class="slide" data-notes="照着屏幕上的拼音念，每个念两遍。学生在纸上写汉字，每个格子写一个字。你好 实际读 ní hǎo（三声变调）。念完翻页核对。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 2</p>
+      <h2>听写二：听拼音，写汉字</h2>
+      <p class="dek">Listen, then write the characters. One box per character.</p>
+    </div>
+    <div class="hgrid h5">
+      <div class="hk"><div class="hk-side"><div class="sq">一</div><svg class="ic"><use href="#ic-hello"/></svg></div>
+        <div><div class="hk-syl"><span>nǐ</span><span>hǎo</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">二</div><svg class="ic"><use href="#ic-dad"/></svg></div>
+        <div><div class="hk-syl"><span>bà</span><span>ba</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">三</div><svg class="ic"><use href="#ic-mom"/></svg></div>
+        <div><div class="hk-syl"><span>mā</span><span>ma</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">四</div><svg class="ic"><use href="#ic-name"/></svg></div>
+        <div><div class="hk-syl"><span>wǒ</span><span>xìng</span><span>Wáng</span></div><div class="hzrow"><div class="box"></div><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">五</div><svg class="ic"><use href="#ic-friends"/></svg></div>
+        <div><div class="hk-syl"><span>péng</span><span>you</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 05 · P1b answers -->
+  <section class="slide" data-notes="按 → 或点击，一个词一个词出汉字，并自动播放笔顺；点任意一个格子可以重播那个字。可提的笔顺：好、妈、姓——女字旁三笔，最后一笔“横”变成“提”；爸——上面是“父”，下面是“巴”；妈——右边“马”只有三笔；王——最后一横最长；朋——左边“月”的撇写成竖撇；友——先横后撇，再写“又”。需要联网加载笔顺数据；没网时会直接显示汉字。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 2</p>
+      <h2>核对答案：汉字和笔顺</h2>
+      <p class="dek">Watch the stroke order. Click any box to replay it.</p>
+    </div>
+    <div class="hgrid h5">
+      <div class="hk"><div class="hk-side"><div class="sq">一</div><svg class="ic"><use href="#ic-hello"/></svg></div>
+        <div><div class="hk-syl"><span>nǐ</span><span>hǎo</span></div><div class="hzrow" data-step><div class="box hb" data-ch="你" tabindex="0"></div><div class="box hb" data-ch="好" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">二</div><svg class="ic"><use href="#ic-dad"/></svg></div>
+        <div><div class="hk-syl"><span>bà</span><span>ba</span></div><div class="hzrow" data-step><div class="box hb" data-ch="爸" tabindex="0"></div><div class="box hb" data-ch="爸" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">三</div><svg class="ic"><use href="#ic-mom"/></svg></div>
+        <div><div class="hk-syl"><span>mā</span><span>ma</span></div><div class="hzrow" data-step><div class="box hb" data-ch="妈" tabindex="0"></div><div class="box hb" data-ch="妈" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">四</div><svg class="ic"><use href="#ic-name"/></svg></div>
+        <div><div class="hk-syl"><span>wǒ</span><span>xìng</span><span>Wáng</span></div><div class="hzrow" data-step><div class="box hb" data-ch="我" tabindex="0"></div><div class="box hb" data-ch="姓" tabindex="0"></div><div class="box hb" data-ch="王" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">五</div><svg class="ic"><use href="#ic-friends"/></svg></div>
+        <div><div class="hk-syl"><span>péng</span><span>you</span></div><div class="hzrow" data-step><div class="box hb" data-ch="朋" tabindex="0"></div><div class="box hb" data-ch="友" tabindex="0"></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 · P2 review words -->
+  <section class="slide" data-notes="先让学生不看拼音读这十二个词（可以点名每人读一行）。按 → 显示全部拼音，再按一次显示英文。提醒：爷爷、奶奶、哥哥、姐姐、弟弟、妹妹、爸爸、妈妈的第二个字都读轻声；外公、外婆不读轻声。可以快速问答：“爸爸的爸爸是谁？”——“是爷爷。”">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P2 · 复习 Review</p>
+      <h2>复习词汇：家人</h2>
+      <p class="dek">Read each word aloud first. Pinyin comes next, then English.</p>
+    </div>
+    <div class="vgrid">
+        <div class="rowlab">Grandparents</div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">爷</span><span class="p" data-step="py">yé</span></span><span class="c"><span class="h">爷</span><span class="p" data-step="py">ye</span></span></span></div><span class="en" data-step="en">grandpa (Dad’s dad)</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">奶</span><span class="p" data-step="py">nǎi</span></span><span class="c"><span class="h">奶</span><span class="p" data-step="py">nai</span></span></span></div><span class="en" data-step="en">grandma (Dad’s mom)</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">外</span><span class="p" data-step="py">wài</span></span><span class="c"><span class="h">公</span><span class="p" data-step="py">gōng</span></span></span></div><span class="en" data-step="en">grandpa (Mom’s dad)</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">外</span><span class="p" data-step="py">wài</span></span><span class="c"><span class="h">婆</span><span class="p" data-step="py">pó</span></span></span></div><span class="en" data-step="en">grandma (Mom’s mom)</span></div>
+        <div class="rowlab">Siblings</div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">哥</span><span class="p" data-step="py">gē</span></span><span class="c"><span class="h">哥</span><span class="p" data-step="py">ge</span></span></span></div><span class="en" data-step="en">older brother</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">姐</span><span class="p" data-step="py">jiě</span></span><span class="c"><span class="h">姐</span><span class="p" data-step="py">jie</span></span></span></div><span class="en" data-step="en">older sister</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">弟</span><span class="p" data-step="py">dì</span></span><span class="c"><span class="h">弟</span><span class="p" data-step="py">di</span></span></span></div><span class="en" data-step="en">younger brother</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">妹</span><span class="p" data-step="py">mèi</span></span><span class="c"><span class="h">妹</span><span class="p" data-step="py">mei</span></span></span></div><span class="en" data-step="en">younger sister</span></div>
+        <div class="rowlab">Parents and kids</div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">爸</span><span class="p" data-step="py">bà</span></span><span class="c"><span class="h">爸</span><span class="p" data-step="py">ba</span></span></span></div><span class="en" data-step="en">dad</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">妈</span><span class="p" data-step="py">mā</span></span><span class="c"><span class="h">妈</span><span class="p" data-step="py">ma</span></span></span></div><span class="en" data-step="en">mom</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">男</span><span class="p" data-step="py">nán</span></span><span class="c"><span class="h">孩</span><span class="p" data-step="py">hái</span></span></span></div><span class="en" data-step="en">boy</span></div>
+        <div class="vk"><div class="zh rb "><span class="w"><span class="c"><span class="h">女</span><span class="p" data-step="py">nǚ</span></span><span class="c"><span class="h">孩</span><span class="p" data-step="py">hái</span></span></span></div><span class="en" data-step="en">girl</span></div>
+    </div>
+  </section>
+
+  <!-- 07 · P3 new sentences -->
+  <section class="slide" data-notes="先读，按 → 出拼音，再按出英文。红色是新词。讲两点：① “有”的否定是“没有”，不说“不有”：我没有哥哥。② “谁的”就是 whose：这张照片是谁的？——是我的。“张”是量词，用在照片、纸、桌子这些平的东西前面。安哲宇是人名。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P3 · 新句子 New sentences</p>
+      <h2>学习新句子</h2>
+      <p class="dek">New words are in red. Read first, then check the pinyin and English.</p>
+    </div>
+    <div class="split s155">
+      <div class="sents">
+        <div class="sent"><div class="sq">一</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">安</span><span class="p" data-step="py">Ān</span></span><span class="c"><span class="h">哲</span><span class="p" data-step="py">Zhé</span></span><span class="c"><span class="h">宇</span><span class="p" data-step="py">yǔ</span></span></span><span class="w"><span class="c new"><span class="h">没</span><span class="p" data-step="py">méi</span></span><span class="c new"><span class="h">有</span><span class="p" data-step="py">yǒu</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p" data-step="py">gē</span></span><span class="c"><span class="h">哥</span><span class="p" data-step="py">ge</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c new"><span class="h">但</span><span class="p" data-step="py">dàn</span></span><span class="c new"><span class="h">是</span><span class="p" data-step="py">shì</span></span></span><span class="w"><span class="c"><span class="h">他</span><span class="p" data-step="py">tā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p" data-step="py">yǒu</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p" data-step="py">mèi</span></span><span class="c"><span class="h">妹</span><span class="p" data-step="py">mei</span></span><span class="c pu"><span class="h">。</span></span></span></div>
+          <div class="en" data-step="en">An Zheyu doesn’t have an older brother, but he has a younger sister.</div></div></div>
+        <div class="sent"><div class="sq">二</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p" data-step="py">Wǒ</span></span></span><span class="w"><span class="c new"><span class="h">没</span><span class="p" data-step="py">méi</span></span><span class="c new"><span class="h">有</span><span class="p" data-step="py">yǒu</span></span></span><span class="w"><span class="c"><span class="h">儿</span><span class="p" data-step="py">ér</span></span><span class="c"><span class="h">子</span><span class="p" data-step="py">zi</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p" data-step="py">wǒ</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p" data-step="py">yě</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p" data-step="py">bù</span></span></span><span class="w"><span class="c new"><span class="h">想</span><span class="p" data-step="py">xiǎng</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p" data-step="py">yǒu</span></span></span><span class="w"><span class="c"><span class="h">儿</span><span class="p" data-step="py">ér</span></span><span class="c"><span class="h">子</span><span class="p" data-step="py">zi</span></span><span class="c pu"><span class="h">。</span></span></span></div>
+          <div class="en" data-step="en">I don’t have a son, and I don’t want one either.</div></div></div>
+        <div class="sent"><div class="sq">三</div><div>
+          <div class="zh rb "><span class="w"><span class="c new"><span class="h">这</span><span class="p" data-step="py">Zhè</span></span></span><span class="w"><span class="c new"><span class="h">张</span><span class="p" data-step="py">zhāng</span></span></span><span class="w"><span class="c new"><span class="h">照</span><span class="p" data-step="py">zhào</span></span><span class="c new"><span class="h">片</span><span class="p" data-step="py">piàn</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p" data-step="py">shì</span></span></span><span class="w"><span class="c new"><span class="h">谁</span><span class="p" data-step="py">shéi</span></span><span class="c new"><span class="h">的</span><span class="p" data-step="py">de</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">Whose photo is this?</div></div></div>
+        <div class="sent"><div class="sq">四</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">那</span><span class="p" data-step="py">Nà</span></span><span class="c"><span class="h">个</span><span class="p" data-step="py">ge</span></span></span><span class="w"><span class="c"><span class="h">男</span><span class="p" data-step="py">nán</span></span><span class="c"><span class="h">孩</span><span class="p" data-step="py">hái</span></span></span><span class="w"><span class="c"><span class="h">姓</span><span class="p" data-step="py">xìng</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p" data-step="py">shén</span></span><span class="c"><span class="h">么</span><span class="p" data-step="py">me</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">What is that boy’s surname?</div></div></div>
+      </div>
+      <div class="card notes-card">
+        <h3>新词</h3>
+        <p class="sub">New words</p>
+        <ul>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span></div><span class="gl">to not have</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">但</span><span class="p">dàn</span></span><span class="c"><span class="h">是</span><span class="p">shì</span></span></span></div><span class="gl">but</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">想</span><span class="p">xiǎng</span></span></span></div><span class="gl">to want to</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">这</span><span class="p">zhè</span></span></span></div><span class="gl">this</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">张</span><span class="p">zhāng</span></span></span></div><span class="gl">measure word for flat things</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">照</span><span class="p">zhào</span></span><span class="c"><span class="h">片</span><span class="p">piàn</span></span></span></div><span class="gl">photo</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">谁</span><span class="p">shéi</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span></div><span class="gl">whose</span></li>
+        </ul>
+        <p class="qa"><span class="zh">有</span> is negated with <span class="zh">没</span>, never <span class="zh">不</span>:<br><span class="zh">我没有哥哥。</span>　<span class="zh">这张照片是谁的？</span> → <span class="zh">是我的。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · P4 dialogue round 1 -->
+  <section class="slide" data-notes="第一遍：两人一组，照着中文和拼音读，横线处换成自己的名字。读完交换角色。最后一句：TA 是网上常用的写法，不区分男女，读 tā；gender fluid 用英文说就可以（中文叫“性别流动”xìngbié liúdòng）。翻页进入第二遍。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P4 · 对话 Dialogue · Round 1</p>
+      <h2>对话练习：第一遍</h2>
+      <p class="dek">Read it in pairs. Fill each blank with your own name.</p>
+    </div>
+    <div class="dlg-wrap">
+      <div class="dcol">
+        <p class="phase"><span class="zh">名字和弟弟妹妹</span>Names and younger siblings</p>
+        <div class="dlg lg">
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span></span><span class="w"><span class="c"><span class="h">或</span><span class="p">huò</span></span><span class="c"><span class="h">者</span><span class="p">zhě</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+        </div>
+      </div>
+      <div class="dcol">
+        <p class="phase"><span class="zh">哥哥</span>An older brother</p>
+        <div class="dlg lg">
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">有</span><span class="p">Yǒu</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">男</span><span class="p">nán</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p">hái</span></span><span class="c"><span class="h">是</span><span class="p">shi</span></span></span><span class="w"><span class="c"><span class="h">女</span><span class="p">nǚ</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c lat"><span class="h">TA</span><span class="p">Tā</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c lat"><span class="h">gender fluid</span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+        </div>
+        <p class="swap">Read it once as written, then <b>swap roles</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · P4 dialogue round 2 -->
+  <section class="slide" data-notes="第二遍：只看英文，两人一组用中文说出来，顺序和第一遍一样。说完一句按 → 显示这一句的中文和拼音核对，一共八句。时间允许的话，请一两组到前面表演。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+      <h2>对话练习：第二遍</h2>
+      <p class="dek">Say each line in Chinese from the English. Press → to check it.</p>
+    </div>
+    <div class="dlg-wrap">
+      <div class="dcol">
+        <p class="phase"><span class="zh">名字和弟弟妹妹</span>Names and younger siblings</p>
+        <div class="dlg en">
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>, and you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. Do you have a younger brother or a younger sister?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span></span><span class="w"><span class="c"><span class="h">或</span><span class="p">huò</span></span><span class="c"><span class="h">者</span><span class="p">zhě</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">No. I don’t have a younger brother, or a younger sister.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
+        </div>
+      </div>
+      <div class="dcol">
+        <p class="phase"><span class="zh">哥哥</span>An older brother</p>
+        <div class="dlg en">
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">Do you have an older brother?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">I do! My older brother is called Monroe.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">有</span><span class="p">Yǒu</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">Is Monroe a guy or a girl?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">男</span><span class="p">nán</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p">hái</span></span><span class="c"><span class="h">是</span><span class="p">shi</span></span></span><span class="w"><span class="c"><span class="h">女</span><span class="p">nǚ</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">They’re gender fluid.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c lat"><span class="h">TA</span><span class="p">Tā</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c lat"><span class="h">gender fluid</span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · P5 numbers 1-5 -->
+  <section class="slide" data-notes="按 → 一个一个出数字：自动播放笔顺，同时出现手势；点格子可以重播。让学生在纸上跟着写，再跟着比划。笔顺：二、三——都是从上到下，二上短下长，三中间那横最短、最下面最长；四——先左竖，再横折，里面撇、竖弯，最后一横封口；五——横、竖、横折、横，一共四笔。手势：一到五和英语差不多，但“三”中国人多用食指、中指、无名指。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P5 · 互动 Numbers 1–5</p>
+      <h2>一到五：写法和手势</h2>
+      <p class="dek">Press → to write each number. Then try the hand sign.</p>
+    </div>
+    <div class="ngrid">
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">1</span><span class="nk-py">yī</span></div>
+        <div class="hzrow" data-step="n1"><div class="box hb" data-ch="一" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n1" role="img" aria-label="Hand sign for 1"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L33 22" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L33 22" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Index finger up</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">2</span><span class="nk-py">èr</span></div>
+        <div class="hzrow" data-step="n2"><div class="box hb" data-ch="二" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n2" role="img" aria-label="Hand sign for 2"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L29 23" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L51 16" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L29 23" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L51 16" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Index and middle fingers</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">3</span><span class="nk-py">sān</span></div>
+        <div class="hzrow" data-step="n3"><div class="box hb" data-ch="三" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n3" role="img" aria-label="Hand sign for 3"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L33 22" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L33 22" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Index, middle and ring fingers</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">4</span><span class="nk-py">sì</span></div>
+        <div class="hzrow" data-step="n4"><div class="box hb" data-ch="四" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n4" role="img" aria-label="Hand sign for 4"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L33 22" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 62 L71 32" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L33 22" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 62 L71 32" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Four fingers, thumb tucked in</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">5</span><span class="nk-py">wǔ</span></div>
+        <div class="hzrow" data-step="n5"><div class="box hb" data-ch="五" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n5" role="img" aria-label="Hand sign for 5"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L33 22" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 62 L71 32" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 80 L13 57" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L33 22" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 62 L47 15" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 62 L60 21" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 62 L71 32" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 80 L13 57" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Open hand</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · P5 numbers 6-10 -->
+  <section class="slide" data-notes="六到十的手势是重点，和英语国家完全不同：六（拇指和小指）、七（拇指、食指、中指指尖捏在一起）、八（拇指和食指，像 L）、九（食指弯成钩）、十（握拳）。笔顺：六——点、横、撇、点；七——先横后竖弯钩，横要穿过去；八——撇、捺；九——先撇，再横折弯钩；十——先横后竖。小游戏：老师比手势，学生说数字；再反过来，老师说数字，学生比手势。各地手势有些差别，可以顺便问问学生见过哪种。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第二次</span></div>
+    <div class="hd">
+      <p class="kicker">P5 · 互动 Numbers 6–10</p>
+      <h2>六到十：写法和手势</h2>
+      <p class="dek">These hand signs are the ones that differ from English. Press → for each number.</p>
+    </div>
+    <div class="ngrid">
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">6</span><span class="nk-py">liù</span></div>
+        <div class="hzrow" data-step="n6"><div class="box hb" data-ch="六" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n6" role="img" aria-label="Hand sign for 6"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M67.5 62 L71 32" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 78 L9 66" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M67.5 62 L71 32" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 78 L9 66" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M36.5 64 L36.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M36.5 64 L36.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Thumb and pinky out</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">7</span><span class="nk-py">qī</span></div>
+        <div class="hzrow" data-step="n7"><div class="box hb" data-ch="七" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n7" role="img" aria-label="Hand sign for 7"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M37 62 L45 26" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M48 62 L47 24" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 80 L24 58 L43 27" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M37 62 L45 26" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M48 62 L47 24" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 80 L24 58 L43 27" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Fingertips pinched together</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">8</span><span class="nk-py">bā</span></div>
+        <div class="hzrow" data-step="n8"><div class="box hb" data-ch="八" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n8" role="img" aria-label="Hand sign for 8"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L33 22" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 80 L9 74" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L33 22" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 80 L9 74" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Thumb and index, like an L</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">9</span><span class="nk-py">jiǔ</span></div>
+        <div class="hzrow" data-step="n9"><div class="box hb" data-ch="九" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n9" role="img" aria-label="Hand sign for 9"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><path d="M36.5 62 L35 36 L45 28 L49 37" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 62 L35 36 L45 28 L49 37" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">Index finger bent into a hook</p>
+      </div>
+      <div class="nk">
+        <div class="nk-hd"><span class="nk-ar">10</span><span class="nk-py">shí</span></div>
+        <div class="hzrow" data-step="n10"><div class="box hb" data-ch="十" data-sz="154" tabindex="0"></div></div>
+        <svg class="hand" viewBox="0 6 88 106" data-step="n10" role="img" aria-label="Hand sign for 10"><rect x="38" y="86" width="28" height="30" rx="4" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#2E2A24" stroke="#2E2A24" stroke-width="3"/><rect x="38" y="86" width="28" height="30" rx="4" fill="#F7F1E4"/><rect x="30" y="54" width="44" height="40" rx="11" fill="#F7F1E4"/><path d="M36.5 64 L36.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M36.5 64 L36.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 64 L47 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.5 64 L57.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M67.5 64 L67.5 55" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#2E2A24" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M37 77 L55 71" fill="none" stroke="#F7F1E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="nk-cap">A closed fist</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES END ============ -->
+
+</div></div>
+
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <span id="stp"></span>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move / reveal &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>F</kbd> full screen
+</div>
+<div id="lb"><img alt=""></div>
+
+<!-- Stroke-order data (needs internet; falls back to plain characters offline) -->
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3/dist/hanzi-writer.min.js"></script>
+
+<script>
+/* ================= deck controller (style-guide script + step reveals) ================= */
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      stp=document.getElementById('stp'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('img'),
+      i=-1, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  /* ---- stroke-order writers ---- */
+  var HZ=(typeof HanziWriter!=='undefined');
+  [].forEach.call(document.querySelectorAll('.hb'),function(b){
+    var ch=b.getAttribute('data-ch');
+    var fb=document.createElement('span'); fb.className='hz-fb'; fb.textContent=ch; b.appendChild(fb);
+    var host=document.createElement('div'); host.className='hw'; b.appendChild(host);
+    b.setAttribute('aria-label',ch);
+    if(HZ){
+      try{
+        var W=parseInt(b.getAttribute('data-sz'),10)||100;
+        b._w=HanziWriter.create(host,ch,{
+          width:W,height:W,padding:Math.round(W*.07),
+          showCharacter:false,showOutline:false,
+          strokeColor:'#2E2A24',outlineColor:'#D8CCB4',
+          strokeAnimationSpeed:1.1,delayBetweenStrokes:150,
+          onLoadCharDataError:function(){b.classList.add('static');}
+        });
+      }catch(err){b.classList.add('static');}
+    } else { b.classList.add('static'); }
+    function replay(e){
+      e.stopPropagation();
+      var row=b.closest('.hzrow');
+      if(!row.classList.contains('shown')) return;
+      if(b._w&&!b.classList.contains('static')){ b._w.showOutline(); b._w.animateCharacter(); }
+    }
+    b.addEventListener('click',replay);
+    b.addEventListener('keydown',function(e){ if(e.key==='Enter'){replay(e);} });
+  });
+
+  function reveal(el,quiet){
+    if(!el.classList.contains('hzrow')) return;
+    var tok=el._tok=(el._tok||0)+1;
+    var bs=[].slice.call(el.querySelectorAll('.hb'));
+    bs.forEach(function(b){b.classList.add('on');});
+    if(quiet){ bs.forEach(function(b){ if(b._w){b._w.showOutline();b._w.showCharacter();} }); return; }
+    (function run(j){
+      if(el._tok!==tok||j>=bs.length) return;
+      var b=bs[j];
+      if(!b._w||b.classList.contains('static')){ setTimeout(function(){run(j+1);},280); return; }
+      b._w.showOutline();
+      b._w.animateCharacter({onComplete:function(){ setTimeout(function(){run(j+1);},120); }});
+    })(0);
+  }
+  function conceal(el){
+    if(!el.classList.contains('hzrow')) return;
+    el._tok=(el._tok||0)+1;
+    [].forEach.call(el.querySelectorAll('.hb'),function(b){
+      b.classList.remove('on');
+      if(b._w){ b._w.hideCharacter(); b._w.hideOutline(); }
+    });
+  }
+
+  /* ---- step groups: same data-step value = revealed together ---- */
+  slides.forEach(function(s){
+    var map={}, groups=[];
+    [].forEach.call(s.querySelectorAll('[data-step]'),function(el,idx){
+      var key=el.getAttribute('data-step')||('_'+idx);
+      if(!(key in map)){map[key]=groups.length;groups.push([]);}
+      groups[map[key]].push(el);
+    });
+    s._g=groups; s._k=0;
+  });
+
+  function status(){
+    var s=slides[i];
+    pos.textContent=(i+1)+' / '+slides.length;
+    stp.textContent=s._g.length?('reveal '+s._k+' / '+s._g.length):'';
+  }
+  function setStep(s,k,quiet){
+    s._g.forEach(function(g,idx){
+      var on=idx<k;
+      g.forEach(function(el){
+        var has=el.classList.contains('shown');
+        if(on&&!has){ el.classList.add('shown'); el.classList.toggle('quiet',!!quiet); reveal(el,quiet); }
+        else if(!on&&has){ el.classList.remove('shown','quiet'); conceal(el); }
+      });
+    });
+    s._k=k; status();
+  }
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n);});
+    ticks.appendChild(t);
+  });
+
+  function go(n,back){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    if(n===i) return;
+    i=n;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i);});
+    var s=slides[i];
+    setStep(s, back?s._g.length:0, true);
+    nbody.textContent=s.getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+    if(document.activeElement&&document.activeElement!==document.body&&!s.contains(document.activeElement)){document.activeElement.blur();}
+  }
+  function next(){ var s=slides[i]; if(s._k<s._g.length) setStep(s,s._k+1); else go(i+1); }
+  function prev(){ var s=slides[i]; if(s._k>0) setStep(s,s._k-1); else go(i-1,true); }
+
+  document.addEventListener('keydown',function(e){
+    var t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')){ if(e.key==='Escape'){t.blur();} return; }
+    if(e.key==='/'){ var inp=slides[i].querySelector('input'); if(inp){inp.focus();inp.select();e.preventDefault();} return; }
+    if(t&&t.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter')) return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){next();e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+    else if(e.key==='Escape'&&lb.classList.contains('on')){lb.classList.remove('on');}
+  });
+
+  stage.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.closest('input,button,a,textarea,.hb,[data-noclick]')) return;
+    if(t.tagName==='IMG'&&/zoom-in/.test(getComputedStyle(t).cursor)){
+      lbImg.src=t.src; lb.classList.add('on');
+    } else { next(); }
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on');});
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide'); },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
+</script>
+</body>
+</html>
