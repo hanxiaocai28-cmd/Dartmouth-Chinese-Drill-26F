@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中文操练 · 第三周 第三次</title>
+<style>
+  /* ============ DESIGN TOKENS — do not change per-slide ============ */
+  :root{
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
+    /* Chinese deck additions: simplified-Chinese serif, and a Latin+CJK heading stack */
+    --song:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+    --serif-zh:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","SimSun",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
+
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
+  .night .rail{border-left-color:#3D382F}
+
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
+
+  /* ============ cards ============ */
+  .cols{display:grid;gap:24px;flex:1;min-height:0}
+  .c2{grid-template-columns:1fr 1fr}
+  .card{background:var(--card);border:1px solid var(--rule);padding:22px 24px;
+        display:flex;flex-direction:column;justify-content:center}
+  .night .card{background:var(--night2);border-color:#3D382F}
+  .card h3{font-family:var(--serif);font-size:21px;margin:0 0 2px;font-weight:700}
+  .card .sub{font-size:12.5px;font-style:italic;color:var(--seal);margin:0}
+
+  /* ============ bulleted lists ============ */
+  ul{margin:16px 0 0;padding:0;list-style:none}
+  li{position:relative;padding-left:16px;margin-bottom:11px;font-size:14.5px;line-height:1.5;color:var(--ink2)}
+  li:last-child{margin-bottom:0}
+  li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--seal)}
+  .night li{color:#CBC3B1}
+  .night li::before{background:var(--seal-lt)}
+  .jp{font-family:var(--mincho)}
+
+  /* ============ two-column content grid (reusable) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr;gap:36px}
+  .two .col{display:flex;flex-direction:column;min-height:0}
+
+  /* ============ numbered blocks ============ */
+  .num{display:grid;grid-template-columns:30px 1fr;gap:14px;margin-bottom:14px}
+  .num .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+           font-family:var(--mincho);font-size:14px;color:var(--seal)}
+  .num h4{font-family:var(--serif);font-size:19px;margin:1px 0 5px;font-weight:700}
+  .num p{margin:0;font-size:14px;line-height:1.5;color:var(--ink2)}
+
+  /* ============ plot / image frame ============ */
+  .plot{flex:1;min-height:0;background:#F7F1E4;border:1px solid var(--rule);padding:12px}
+  .plot svg,.plot img{width:100%;height:100%;object-fit:contain;display:block}
+  .cap{flex:none;font-size:11px;font-style:italic;color:var(--mute);margin:9px 2px 0;line-height:1.45}
+
+  /* ============ chrome: bottom bar / notes / lightbox ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  #lb{position:fixed;inset:0;background:rgba(12,10,8,.96);z-index:60;display:none;
+      place-items:center;cursor:zoom-out;padding:18px}
+  #lb.on{display:grid}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+  /* =================================================================
+     DECK-SPECIFIC LAYER (Chinese drill) — built only from the tokens above
+     ================================================================= */
+  h1,h2,.card h3,.num h4{font-family:var(--serif-zh)}
+  .rail span,.seal,.num .sq,.sq,.zh{font-family:var(--song)}
+  .py{font-family:var(--serif)}
+  .sq{width:30px;height:30px;border:1.4px solid var(--seal);display:grid;place-items:center;
+      font-size:14px;color:var(--seal);flex:none}
+  .night .num h4{color:var(--night-tx)}
+  .night .num p{color:var(--night-mu)}
+  .night .num .sq{border-color:var(--seal-lt);color:var(--seal-lt)}
+  #bar #stp{color:var(--seal-lt);min-width:80px}
+
+  /* ---- step reveal ("pops out one by one") ---- */
+  [data-step]{opacity:0;transform:translateY(8px) scale(.94);transition:opacity .2s,transform .2s}
+  [data-step].shown{opacity:1;transform:none;animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+  [data-step].shown.quiet{animation:none}
+  .hzrow[data-step],.hzrow[data-step].shown{opacity:1;transform:none;animation:none}
+  @keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.88)}100%{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){[data-step]{transition:none}[data-step].shown{animation:none}}
+
+  /* ---- title slide agenda ---- */
+  .agenda{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:64px;
+          padding-top:26px;border-top:1px solid #3D382F}
+  .agenda .num{margin:0}
+  .agenda .num h4{font-size:19px}
+  .agenda .num p{font-size:12.5px}
+
+  /* ---- P1a: pinyin dictation cards ---- */
+  .dgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);
+         grid-template-rows:1fr 1fr;gap:18px}
+  .dk{background:var(--card);border:1px solid var(--rule);padding:18px 20px 20px;
+      display:flex;flex-direction:column;justify-content:space-between;position:relative;min-width:0}
+  .dk-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .ic{width:64px;height:64px;display:block;flex:none}
+  .dk-zh{font-size:46px;line-height:1.15;color:var(--ink);margin-top:8px}
+  .dk-ans{border-bottom:1.5px dotted var(--mute);min-height:46px;display:flex;align-items:flex-end;padding-bottom:5px}
+  .dk-py{font-size:28px;font-weight:700;color:var(--seal);line-height:1.1}
+  .dk.bonus{grid-column:span 2;border:1.5px dashed var(--seal);flex-direction:row;
+            align-items:center;justify-content:flex-start;gap:26px;padding:20px 28px}
+  .dk.bonus .ic{width:104px;height:104px}
+  .dk.bonus .bx{flex:1;min-width:0}
+  .dk.bonus .dk-zh{margin-top:0}
+  .tag{position:absolute;top:14px;right:16px;font-size:10.5px;font-weight:700;letter-spacing:.18em;
+       text-transform:uppercase;color:var(--seal)}
+  .tag .zh{letter-spacing:.1em;margin-right:6px;font-size:12px}
+
+  /* ---- P1b: character dictation cards with 田字格 ---- */
+  .hgrid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+  .hk{background:var(--card);border:1px solid var(--rule);padding:20px 26px;
+      display:grid;grid-template-columns:72px 1fr;gap:24px;align-items:center}
+  .hk-side{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .hk-py{font-size:32px;font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:14px}
+  .hzrow{display:flex;gap:10px}
+  .box{width:104px;height:104px;position:relative;flex:none;border:1.5px solid #C9907F;
+       background:#F7F1E4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0V100M0 50H100' stroke='%23D9AE9F' stroke-width='1' stroke-dasharray='4 3.5' fill='none'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  .hb{cursor:pointer}
+  .hb .hw{position:absolute;inset:0;display:grid;place-items:center}
+  .hb .hw svg{display:block}
+  .hz-fb{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--song);
+         font-size:74px;line-height:1;color:var(--ink);opacity:0;transition:opacity .3s}
+  .hb.static.on .hz-fb{opacity:1}
+  .hb:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+
+  /* ---- P2 / P3: sentence lists ---- */
+  .split{flex:1;min-height:0;display:grid;gap:36px}
+  .s155{grid-template-columns:1.55fr 1fr}
+  .one{grid-template-columns:1fr}
+  .one .sent .zh{font-size:32px}
+  .one .sent .py{font-size:17px}
+  .one .sent .en{font-size:16px}
+  .sents{display:flex;flex-direction:column;justify-content:center;gap:20px;min-height:0}
+  .sent{display:grid;grid-template-columns:30px 1fr;gap:16px;align-items:start}
+  .sent .sq{margin-top:6px}
+  .sent .zh{font-size:30px;line-height:1.3;color:var(--ink)}
+  .sent .py{font-size:16px;line-height:1.4;color:var(--indigo);margin-top:4px}
+  .sent .en{font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.4;color:var(--mute);margin-top:2px}
+  .new{color:var(--seal)}
+  .split > .card{align-self:center}
+  .notes-card li{font-size:14px}
+  .notes-card li .zh{font-size:16px;color:var(--ink)}
+  .notes-card li .py{color:var(--seal);font-style:italic}
+
+  /* ---- P3a: family matrix + titles ---- */
+  .fam{display:grid;grid-template-columns:62px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:14px;min-height:0}
+  .axis{grid-column:2 / 4;display:flex;align-items:center;justify-content:space-between;
+        font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);padding:0 6px}
+  .axis .me{font-family:var(--song);font-style:normal;font-size:20px;color:var(--seal);
+            width:38px;height:38px;border:1.5px solid var(--seal);display:grid;place-items:center}
+  .axis .ln{flex:1;height:1px;background:var(--rule);margin:0 14px}
+  .rowlab{display:flex;flex-direction:column;align-items:center;justify-content:center;
+          font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);gap:2px}
+  .rowlab .zh{font-style:normal;font-size:22px;color:var(--ink2)}
+  .fcell{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;
+         align-items:center;justify-content:center;text-align:center}
+  .fcell .zh{font-size:46px;line-height:1.15}
+  .fcell .py{font-size:20px;color:var(--seal);font-weight:700;margin-top:4px}
+  .fcell .en{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);margin-top:2px}
+  .titles{display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0}
+  .tt{background:var(--card);border:1px solid var(--rule);padding:18px 22px}
+  .tt .row1{display:flex;align-items:baseline;gap:12px}
+  .tt .zh{font-size:36px;line-height:1.1}
+  .tt .py{font-size:18px;color:var(--seal);font-weight:700}
+  .tt .en{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--mute);margin:4px 0 10px}
+  .tt .eg{font-size:14px;color:var(--ink2);border-top:1px solid var(--rule);padding-top:9px}
+  .tt .eg .zh{font-size:18px;color:var(--ink)}
+  .tip{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0}
+  .tip .zh{font-size:15px;color:var(--ink)}
+
+  /* ---- P4: dialogue ---- */
+  .dlg-wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .dcol{display:flex;flex-direction:column;min-height:0}
+  .phase{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute);
+         margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  .phase .zh{font-style:normal;color:var(--ink2);margin-right:8px}
+  .dlg{display:flex;flex-direction:column;gap:17px}
+  .dl{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start}
+  .spk{width:30px;height:30px;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:14px;margin-top:2px}
+  .spk.a{background:var(--seal);color:#F7F1E4}
+  .spk.b{border:1.4px solid var(--indigo);color:var(--indigo)}
+  .dl .zh{font-size:24px;line-height:1.35;color:var(--ink)}
+  .dl .py{font-size:14px;line-height:1.4;color:var(--mute)}
+  .blank{display:inline-block;width:2.6em;border-bottom:2px solid var(--seal);margin:0 .12em;height:.95em;vertical-align:baseline}
+  .py .blank{width:3.2em;height:.9em}
+  .swap{margin-top:auto;font-size:13px;color:var(--ink2);line-height:1.5;padding-top:14px}
+  .swap b{color:var(--seal)}
+  .dcol .dlg{margin-bottom:18px}
+  .majors{margin-top:auto;background:var(--card);border:1px solid var(--rule);padding:14px 18px 16px}
+  .majors h3{font-family:var(--serif-zh);font-size:17px;margin:0 0 10px;font-weight:700}
+  .mj{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px}
+  .mj div{line-height:1.25}
+  .mj .zh{font-size:18px;color:var(--ink)}
+  .mj .py{font-size:12px;color:var(--seal);display:block}
+  .mj .en{font-size:11px;color:var(--mute);display:block}
+
+  /* ---- P5: sports word bank ---- */
+  .wb{flex:1;min-height:0;display:grid;grid-template-columns:1.25fr 1fr;gap:32px}
+  .search{display:flex;flex-direction:column;min-height:0}
+  .inp{width:100%;font-family:var(--serif);font-size:24px;padding:13px 18px;background:#F7F1E4;
+       border:1.5px solid var(--ink2);color:var(--ink);outline:none;border-radius:0}
+  .inp::placeholder{color:#A99D88;font-style:italic}
+  .inp:focus{border-color:var(--seal);box-shadow:0 0 0 3px rgba(174,56,38,.18)}
+  .hint{font-size:11.5px;color:var(--mute);margin:7px 2px 0}
+  .hint kbd{font:inherit;font-weight:700;color:var(--ink2)}
+  .sugg{display:flex;gap:8px;flex-wrap:wrap;min-height:32px;margin:12px 0 12px;align-content:flex-start}
+  .chip{font:13px var(--sans);padding:6px 11px;border:1px solid var(--rule);background:var(--card);
+        color:var(--ink2);cursor:pointer}
+  .chip:hover{border-color:var(--seal);color:var(--seal)}
+  .result{flex:1;min-height:0;background:var(--card);border:1px solid var(--rule);display:flex;
+          flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 24px;position:relative}
+  .r-zh{font-family:var(--song);font-size:112px;line-height:1.1;color:var(--ink)}
+  .r-py{font-family:var(--serif);font-size:34px;color:var(--seal);font-weight:700;margin-top:10px}
+  .r-en{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--mute);margin-top:6px}
+  .r-empty{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--mute);max-width:30ch;line-height:1.5}
+  .r-flag{position:absolute;top:12px;right:14px;font-size:11px;color:var(--mute);font-style:italic;font-family:var(--serif)}
+  .acts{display:flex;gap:10px;margin-top:12px}
+  .btn{font:600 12.5px var(--sans);letter-spacing:.04em;padding:9px 14px;border:1.4px solid var(--ink2);
+       background:transparent;color:var(--ink);cursor:pointer}
+  .btn:hover{background:var(--card)}
+  .btn.pri{background:var(--seal);border-color:var(--seal);color:#F7F1E4}
+  .btn.pri:hover{background:var(--seal-lt);border-color:var(--seal-lt)}
+  .btn:focus-visible,.chip:focus-visible,.wi:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+  .wall-col{display:flex;flex-direction:column;min-height:0}
+  .wall-hd{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:8px;
+           border-bottom:1px solid var(--rule);margin-bottom:12px}
+  .wall-hd h3{font-family:var(--serif-zh);font-size:19px;margin:0;font-weight:700}
+  .wall-hd .cnt{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--mute);margin-left:8px;font-weight:400}
+  .linkbtn{font:12px var(--sans);background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;padding:2px}
+  .linkbtn:hover{color:var(--seal)}
+  .wall{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));
+        gap:10px;align-content:start;padding-right:2px}
+  .wi{background:#F7F1E4;border:1px solid var(--rule);padding:9px 10px 8px;text-align:left;cursor:pointer;
+      font:inherit;color:inherit;animation:pop .45s cubic-bezier(.2,1.5,.4,1)}
+  .wi:hover{border-color:var(--seal)}
+  .wi.cur{border-color:var(--seal);box-shadow:inset 3px 0 0 var(--seal)}
+  .wi .zh{font-size:21px;line-height:1.2;display:block;color:var(--ink)}
+  .wi .py{font-size:12.5px;color:var(--seal);display:block}
+  .wi .en{font-size:11px;color:var(--mute);display:block;margin-top:1px}
+  .wall-empty{grid-column:1/-1;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);
+              border:1px dashed var(--rule);padding:22px;text-align:center;line-height:1.5}
+  @media (prefers-reduced-motion:reduce){.wi{animation:none}}
+
+  /* ============ aligned pinyin (style-guide standard from W3-D1) ============
+     .rb > .w (one word) > .c (one character) > .h (character) + .p (syllable) */
+  .rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.3em;row-gap:.25em}
+  .rb .w{display:flex;align-items:flex-start;gap:.06em}
+  .rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em}
+  .rb .c.pu{min-width:0}
+  .rb .h{line-height:1.2}
+  .rb .p{font-family:var(--serif);font-size:.52em;line-height:1.3;color:var(--indigo);white-space:nowrap;min-height:1.3em}
+  .rb .new .h{color:var(--seal)}
+  .rb .blank{margin:0}
+  .rb.ghost .p{visibility:hidden}
+  .jw{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--mute);margin-top:6px;min-height:1.4em}
+  .jw b{font-style:normal;color:var(--ink2)}
+
+  /* =================================================================
+     W3-D3 layout — built only from the tokens above
+     ================================================================= */
+  /* P1a: pinyin dictation cards, five items + a wide bonus */
+  .dk .rb{font-size:42px;color:var(--ink);border-bottom:1.5px dotted var(--mute);padding-bottom:4px;margin-top:8px}
+  .dk .rb .p{font-size:.5em;font-weight:700;color:var(--seal)}
+  .dk.bonus{grid-column:span 3}
+  .dk.bonus .rb{margin-top:0}
+  .dk.bonus .ic{width:96px;height:96px}
+
+  /* P1b: five items, three on top and two wider below */
+  .hgrid.h5{grid-template-columns:repeat(6,1fr)}
+  .h5 .hk{grid-column:span 2;padding:18px 22px;gap:18px}
+  .h5 .hk:nth-child(4){grid-column:1 / span 3}
+  .h5 .hk:nth-child(5){grid-column:4 / span 3}
+  .hk-syl{display:flex;gap:10px;margin-bottom:10px}
+  .hk-syl span{width:104px;text-align:center;font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink)}
+
+  /* P2 / P3: sentences */
+  .sents .rb{font-size:33px;color:var(--ink)}
+  .sents.big{gap:56px}
+  .sents.big .rb{font-size:44px}
+  .sents.big .en{font-size:19px}
+  .sents.big .sent{grid-template-columns:34px 1fr;gap:20px}
+  .sents .sent .sq{margin-top:6px}
+  .sents .en{margin-top:4px}
+  .notes-card h3{margin-bottom:4px}
+  .notes-card ul{margin-top:12px}
+  .notes-card li{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+  .notes-card li::before{top:12px}
+  .notes-card li .rb{font-size:19px;color:var(--ink)}
+  .notes-card li .rb .p{font-size:.64em;color:var(--seal)}
+  .notes-card li .gl{padding-top:2px;color:var(--mute)}
+  .notes-card .qa{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);font-size:13.5px;line-height:1.6;color:var(--ink2)}
+  .notes-card .qa .zh{font-size:16px;color:var(--ink)}
+
+  /* P4: dialogue rounds */
+  .dlg.lg{gap:30px}
+  .dl .rb{font-size:27px;color:var(--ink)}
+  .dl .rb .blank{width:2.1em}
+  .dl .rb .p{color:var(--mute);font-size:.55em}
+  .dlg.lg .spk{margin-top:4px}
+  .dlg.en{gap:26px}
+  .dl .enl{font-family:var(--serif);font-size:23px;line-height:1.35;color:var(--ink)}
+  .enl .blank{width:3.4em;height:.9em}
+  .dl .ans{margin-top:6px;padding-left:10px;border-left:2px solid var(--seal)}
+  .dl .ans .rb{font-size:25px}
+  .dl .ans .rb .p{font-size:.6em}
+
+  /* P5: jobs word bank — aligned pinyin in the result card and on the list */
+  .result .r-rb{justify-content:center;flex-wrap:nowrap;color:var(--ink);font-family:var(--song)}
+  .result .r-rb .h{line-height:1.1}
+  .result .r-rb .p{font-size:.3em;font-weight:700;color:var(--seal);margin-top:4px}
+  .r-en{margin-top:14px}
+  .wall{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+  .wi{padding:9px 12px 8px}
+  .wi .rb{display:flex;font-size:20px;color:var(--ink)}
+  .wi .rb .w{gap:.22em}
+  .wi .rb .p{font-size:.58em;color:var(--seal)}
+  .wi .en{margin-top:3px}
+</style>
+</head>
+<body>
+
+<!-- ============ icon sprite (simple schematic pictograms) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="star" viewBox="-10 -10 20 20">
+      <path d="M0-10 2.35-3.24 9.51-3.09 3.8 1.24 5.88 8.09 0 4-5.88 8.09-3.8 1.24-9.51-3.09-2.35-3.24Z"/>
+    </symbol>
+
+    <!-- Montreal: twin-towered basilica -->
+    <symbol id="ic-mt" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="9" y="22" width="12" height="32" fill="#F7F1E4"/>
+        <rect x="43" y="22" width="12" height="32" fill="#F7F1E4"/>
+        <path d="M9 22 L15 8 L21 22 Z M43 22 L49 8 L55 22 Z" fill="#2E3A48"/>
+        <path d="M21 30 L32 21 L43 30 Z" fill="#F7F1E4"/>
+        <rect x="21" y="30" width="22" height="24" fill="#F7F1E4"/>
+        <path d="M24.5 54 V48 a2.5 2.5 0 0 1 5 0 V54 Z M29.5 54 V47 a2.5 2.5 0 0 1 5 0 V54 Z M34.5 54 V48 a2.5 2.5 0 0 1 5 0 V54 Z" fill="#2E3A48"/>
+        <path d="M4 54 H60" fill="none"/>
+      </g>
+      <circle cx="32" cy="38" r="3.6" fill="#AE3826"/>
+      <path d="M15 28 V34 M49 28 V34" stroke="#AE3826" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Toronto: CN Tower over the skyline and the lake -->
+    <symbol id="ic-to" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="6" y="38" width="9" height="15" fill="#F7F1E4"/>
+        <rect x="16" y="31" width="8" height="22" fill="#F7F1E4"/>
+        <rect x="42" y="35" width="8" height="18" fill="#F7F1E4"/>
+        <rect x="51" y="41" width="7" height="12" fill="#F7F1E4"/>
+        <path d="M28.5 53 L31 26 H33 L35.5 53 Z" fill="#F7F1E4"/>
+        <path d="M31.2 21 L31.6 13 H32.4 L32.8 21 Z" fill="#2E3A48"/>
+        <ellipse cx="32" cy="23.5" rx="6.5" ry="3.2" fill="#AE3826"/>
+        <path d="M32 13 V3" fill="none"/>
+        <path d="M4 53 H60" fill="none"/>
+      </g>
+      <path d="M4 59 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#2E3A48" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Ottawa: Peace Tower on Parliament Hill -->
+    <symbol id="ic-ot" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="6" y="38" width="52" height="16" fill="#F7F1E4"/>
+        <rect x="24" y="17" width="16" height="37" fill="#F7F1E4"/>
+        <path d="M24 17 L32 4 L40 17 Z" fill="#2E3A48"/>
+        <circle cx="32" cy="25" r="4" fill="#F7F1E4"/>
+        <path d="M28.5 54 V46 a3.5 3.5 0 0 1 7 0 V54 Z" fill="#2E3A48"/>
+        <path d="M4 54 H60" fill="none"/>
+      </g>
+      <path d="M32 25 V22.4 M32 25 L34 26.2" stroke="#AE3826" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M11 43 V48 M17 43 V48 M47 43 V48 M53 43 V48" stroke="#AE3826" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Pennsylvania: Liberty Bell -->
+    <symbol id="ic-pe" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="15" y="5" width="34" height="6" fill="#2E3A48"/>
+        <path d="M29 11 V15 M35 11 V15" fill="none"/>
+        <path d="M23 16 Q32 11 41 16 Q43 30 45 40 Q50 44 52 49 H12 Q14 44 19 40 Q21 30 23 16 Z" fill="#F7F1E4"/>
+        <circle cx="32" cy="53" r="3.5" fill="#2E3A48"/>
+      </g>
+      <path d="M15.5 44 H48.5" stroke="#AE3826" stroke-width="2.4"/>
+      <path d="M33 21 L30.5 27 L34 32 L30.5 38 L32.5 43" fill="none" stroke="#2E2A24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8 60 H56" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Alaska: snowy peaks under the northern lights -->
+    <symbol id="ic-ak" viewBox="0 0 64 64">
+      <path d="M4 13 Q18 5 32 12 T60 9" fill="none" stroke="#AE3826" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M4 20 Q18 12 32 19 T60 16" fill="none" stroke="#2E3A48" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M4 54 L24 24 L33 37 L42 27 L60 54 Z" fill="#2E3A48"/>
+        <path d="M18.7 32 L24 24 L29.4 32 L26.5 30.2 L24 33 L21.5 30.2 Z" fill="#F7F1E4"/>
+        <path d="M38 31.5 L42 27 L46.2 33 L43.6 31.8 L41.4 33.6 Z" fill="#F7F1E4"/>
+      </g>
+      <path d="M4 59 H60" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Brezhnev: a Kremlin tower with its red star -->
+    <symbol id="ic-kr" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="4" y="42" width="56" height="12" fill="#AE3826"/>
+        <rect x="6" y="38" width="4" height="4" fill="#AE3826"/>
+        <rect x="14" y="38" width="4" height="4" fill="#AE3826"/>
+        <rect x="46" y="38" width="4" height="4" fill="#AE3826"/>
+        <rect x="54" y="38" width="4" height="4" fill="#AE3826"/>
+        <rect x="23" y="24" width="18" height="30" fill="#AE3826"/>
+        <rect x="26.5" y="17" width="11" height="7" fill="#F7F1E4"/>
+        <path d="M26.5 17 L32 9 L37.5 17 Z" fill="#2E3A48"/>
+        <circle cx="32" cy="31" r="4" fill="#F7F1E4"/>
+        <path d="M28.5 54 V47 a3.5 3.5 0 0 1 7 0 V54 Z" fill="#2E2A24"/>
+      </g>
+      <use href="#star" x="28.4" y="1.4" width="7.2" height="7.2" fill="#AE3826"/>
+      <path d="M8 59 H56" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 人: one person -->
+    <symbol id="ic-ren" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="32" cy="14" r="8" fill="#F7F1E4"/><path d="M17 46 Q17 30 32 30 Q47 30 47 46 Z" fill="#F7F1E4"/>
+        <path d="M24 46 L22 58 M40 46 L42 58" fill="none" stroke-width="2.6"/>
+      </g>
+      <path d="M8 60 H56" stroke="#CDC0A7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 儿子: a parent and a son -->
+    <symbol id="ic-son" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="22" cy="16" r="7" fill="#F7F1E4"/><path d="M8 56 Q8 30 22 30 Q36 30 36 56 Z" fill="#F7F1E4"/>
+        <circle cx="47" cy="33" r="5.5" fill="#F7F1E4"/>
+        <path d="M38 56 Q38 44 47 44 Q56 44 56 56 Z" fill="#2E3A48"/>
+      </g>
+      <path d="M42.5 30.5 Q47 25.5 51.5 30.5" fill="none" stroke="#2E2A24" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 女儿: a parent and a daughter -->
+    <symbol id="ic-dau" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="22" cy="16" r="7" fill="#F7F1E4"/><path d="M8 56 Q8 30 22 30 Q36 30 36 56 Z" fill="#F7F1E4"/>
+        <circle cx="40.5" cy="31" r="2.6" fill="#AE3826"/>
+        <circle cx="53.5" cy="31" r="2.6" fill="#AE3826"/>
+        <circle cx="47" cy="33" r="5.5" fill="#F7F1E4"/>
+        <path d="M39 56 L43 43 H51 L55 56 Z" fill="#AE3826"/>
+      </g>
+    </symbol>
+
+    <!-- 姐姐: an older sister next to a younger sibling -->
+    <symbol id="ic-jie" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M12 26 Q10 7 22 7 Q34 7 32 26 Q32 31 29 32 H15 Q12 31 12 26 Z" fill="#2E3A48"/>
+        <circle cx="22" cy="19" r="7" fill="#F7F1E4"/>
+        <path d="M8 56 L15 33 H29 L36 56 Z" fill="#AE3826"/>
+        <circle cx="47" cy="30" r="6" fill="#F7F1E4"/>
+        <path d="M37 56 Q37 42 47 42 Q57 42 57 56 Z" fill="#F7F1E4"/>
+      </g>
+    </symbol>
+
+    <!-- 哥哥: an older brother next to a younger sibling -->
+    <symbol id="ic-ge" viewBox="0 0 64 64">
+      <g stroke="#2E2A24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="22" cy="15" r="7" fill="#F7F1E4"/><path d="M8 56 Q8 29 22 29 Q36 29 36 56 Z" fill="#2E3A48"/>
+        <circle cx="47" cy="30" r="6" fill="#F7F1E4"/>
+        <path d="M37 56 Q37 42 47 42 Q57 42 57 56 Z" fill="#F7F1E4"/>
+      </g>
+      <path d="M15.5 12 Q22 4.5 28.5 12" fill="none" stroke="#2E2A24" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="viewport"><div id="stage">
+
+  <!-- ============ SLIDES START ============ -->
+
+  <!-- 01 · Title -->
+  <section class="slide night on" data-notes="开场：今天一共五个部分——听写（先地名拼音、后汉字）、复习两个句子、新句子（几口人、做什么工作）、两人对话（第一遍照着读，第二遍看英文说中文）、工作词库小游戏。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">Chinese Drill · Week 3 · Session 3</p>
+      <h1>第三周　第三次操练</h1>
+      <p class="dek" style="margin-top:14px">Place-name dictation, family words, asking about families and jobs, a dialogue, and a jobs word bank</p>
+      <div class="agenda">
+        <div class="num"><div class="sq">一</div><div><h4>听写</h4><p>Place names in pinyin, then characters</p></div></div>
+        <div class="num"><div class="sq">二</div><div><h4>复习句子</h4><p>Whose photo, likes and dislikes</p></div></div>
+        <div class="num"><div class="sq">三</div><div><h4>新句子</h4><p>Family size and jobs</p></div></div>
+        <div class="num"><div class="sq">四</div><div><h4>对话练习</h4><p>Read it, then say it from English</p></div></div>
+        <div class="num"><div class="sq">五</div><div><h4>工作词库</h4><p>Jobs word bank game</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · P1a questions -->
+  <section class="slide" data-notes="按顺序念，每个念两遍，语速放慢。提醒学生写完整拼音，包括声调；地名、人名首字母大写，一个地名连写。前三个是加拿大的城市，后两个是美国的州。最后念附加题：列昂尼德·勃列日涅夫（苏联领导人，1964 到 1982 年在任）。念完翻到下一页核对。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 1</p>
+      <h2>听写一：听中文，写拼音</h2>
+      <p class="dek">Listen, then write the full pinyin with tone marks.</p>
+    </div>
+    <div class="dgrid">
+      <div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-mt"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">蒙</span><span class="p">Méng</span></span><span class="c"><span class="h">特</span><span class="p">tè</span></span><span class="c"><span class="h">利</span><span class="p">lì</span></span><span class="c"><span class="h">尔</span><span class="p">ěr</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-to"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">多</span><span class="p">Duō</span></span><span class="c"><span class="h">伦</span><span class="p">lún</span></span><span class="c"><span class="h">多</span><span class="p">duō</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-ot"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">渥</span><span class="p">Wò</span></span><span class="c"><span class="h">太</span><span class="p">tài</span></span><span class="c"><span class="h">华</span><span class="p">huá</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-pe"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">宾</span><span class="p">Bīn</span></span><span class="c"><span class="h">夕</span><span class="p">xī</span></span><span class="c"><span class="h">法</span><span class="p">fǎ</span></span><span class="c"><span class="h">尼</span><span class="p">ní</span></span><span class="c"><span class="h">亚</span><span class="p">yà</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-ak"/></svg></div><div><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">阿</span><span class="p">Ā</span></span><span class="c"><span class="h">拉</span><span class="p">lā</span></span><span class="c"><span class="h">斯</span><span class="p">sī</span></span><span class="c"><span class="h">加</span><span class="p">jiā</span></span></span></div><div class="jw"></div></div></div>
+      <div class="dk bonus">
+        <div class="tag"><span class="zh">附加题</span>Bonus</div>
+        <div class="sq">附</div>
+        <svg class="ic"><use href="#ic-kr"/></svg>
+        <div class="bx"><div class="zh rb ghost"><span class="w"><span class="c"><span class="h">列</span><span class="p">Liè</span></span><span class="c"><span class="h">昂</span><span class="p">áng</span></span><span class="c"><span class="h">尼</span><span class="p">ní</span></span><span class="c"><span class="h">德</span><span class="p">dé</span></span><span class="c pu"><span class="h">·</span></span></span><span class="w"><span class="c"><span class="h">勃</span><span class="p">Bó</span></span><span class="c"><span class="h">列</span><span class="p">liè</span></span><span class="c"><span class="h">日</span><span class="p">rì</span></span><span class="c"><span class="h">涅</span><span class="p">niè</span></span><span class="c"><span class="h">夫</span><span class="p">fū</span></span></span></div><div class="jw"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · P1a answers -->
+  <section class="slide" data-notes="按 → 或点击，一个一个出答案，每个字下面是它的音节，下面一行是正式写法。可提的点：① 蒙特利尔 Méngtèlì'ěr：ěr 以元音开头，前面加隔音符号（上次也出现过）。② 渥太华 Wòtàihuá：渥 读 wò，不读 wū。③ 宾夕法尼亚 Bīnxīfǎníyà、阿拉斯加 Ālāsījiā：五个字、四个字也连成一个词写。④ 勃列日涅夫：名字 Liè'ángnídé 里 áng 前面要加隔音符号；间隔号（·）在拼音里写成空格，名和姓各自首字母大写。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 1</p>
+      <h2>核对答案：拼音</h2>
+      <p class="dek">Check your pinyin, one place at a time.</p>
+    </div>
+    <div class="dgrid">
+      <div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-mt"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">蒙</span><span class="p" data-step="a1">Méng</span></span><span class="c"><span class="h">特</span><span class="p" data-step="a1">tè</span></span><span class="c"><span class="h">利</span><span class="p" data-step="a1">lì</span></span><span class="c"><span class="h">尔</span><span class="p" data-step="a1">ěr</span></span></span></div><div class="jw" data-step="a1">Written as <b>Méngtèlì'ěr</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-to"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">多</span><span class="p" data-step="a2">Duō</span></span><span class="c"><span class="h">伦</span><span class="p" data-step="a2">lún</span></span><span class="c"><span class="h">多</span><span class="p" data-step="a2">duō</span></span></span></div><div class="jw" data-step="a2">Written as <b>Duōlúnduō</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-ot"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">渥</span><span class="p" data-step="a3">Wò</span></span><span class="c"><span class="h">太</span><span class="p" data-step="a3">tài</span></span><span class="c"><span class="h">华</span><span class="p" data-step="a3">huá</span></span></span></div><div class="jw" data-step="a3">Written as <b>Wòtàihuá</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-pe"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">宾</span><span class="p" data-step="a4">Bīn</span></span><span class="c"><span class="h">夕</span><span class="p" data-step="a4">xī</span></span><span class="c"><span class="h">法</span><span class="p" data-step="a4">fǎ</span></span><span class="c"><span class="h">尼</span><span class="p" data-step="a4">ní</span></span><span class="c"><span class="h">亚</span><span class="p" data-step="a4">yà</span></span></span></div><div class="jw" data-step="a4">Written as <b>Bīnxīfǎníyà</b></div></div></div>
+      <div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-ak"/></svg></div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">阿</span><span class="p" data-step="a5">Ā</span></span><span class="c"><span class="h">拉</span><span class="p" data-step="a5">lā</span></span><span class="c"><span class="h">斯</span><span class="p" data-step="a5">sī</span></span><span class="c"><span class="h">加</span><span class="p" data-step="a5">jiā</span></span></span></div><div class="jw" data-step="a5">Written as <b>Ālāsījiā</b></div></div></div>
+      <div class="dk bonus">
+        <div class="tag"><span class="zh">附加题</span>Bonus</div>
+        <div class="sq">附</div>
+        <svg class="ic"><use href="#ic-kr"/></svg>
+        <div class="bx"><div class="zh rb "><span class="w"><span class="c"><span class="h">列</span><span class="p" data-step="a6">Liè</span></span><span class="c"><span class="h">昂</span><span class="p" data-step="a6">áng</span></span><span class="c"><span class="h">尼</span><span class="p" data-step="a6">ní</span></span><span class="c"><span class="h">德</span><span class="p" data-step="a6">dé</span></span><span class="c pu"><span class="h">·</span></span></span><span class="w"><span class="c"><span class="h">勃</span><span class="p" data-step="a6">Bó</span></span><span class="c"><span class="h">列</span><span class="p" data-step="a6">liè</span></span><span class="c"><span class="h">日</span><span class="p" data-step="a6">rì</span></span><span class="c"><span class="h">涅</span><span class="p" data-step="a6">niè</span></span><span class="c"><span class="h">夫</span><span class="p" data-step="a6">fū</span></span></span></div><div class="jw" data-step="a6">Written as <b>Liè'ángnídé Bólièrìnièfū</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · P1b questions -->
+  <section class="slide" data-notes="照着屏幕上的拼音念，每个念两遍。学生在纸上写汉字，每个格子写一个字。提醒：儿子的“子”、姐姐和哥哥的第二个字都读轻声。念完翻页核对。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 2</p>
+      <h2>听写二：听拼音，写汉字</h2>
+      <p class="dek">Listen, then write the characters. One box per character.</p>
+    </div>
+    <div class="hgrid h5">
+      <div class="hk"><div class="hk-side"><div class="sq">一</div><svg class="ic"><use href="#ic-ren"/></svg></div>
+        <div><div class="hk-syl"><span>rén</span></div><div class="hzrow"><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">二</div><svg class="ic"><use href="#ic-son"/></svg></div>
+        <div><div class="hk-syl"><span>ér</span><span>zi</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">三</div><svg class="ic"><use href="#ic-dau"/></svg></div>
+        <div><div class="hk-syl"><span>nǚ</span><span>ér</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">四</div><svg class="ic"><use href="#ic-jie"/></svg></div>
+        <div><div class="hk-syl"><span>jiě</span><span>jie</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">五</div><svg class="ic"><use href="#ic-ge"/></svg></div>
+        <div><div class="hk-syl"><span>gē</span><span>ge</span></div><div class="hzrow"><div class="box"></div><div class="box"></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 05 · P1b answers -->
+  <section class="slide" data-notes="按 → 或点击，一个词一个词出汉字，并自动播放笔顺；点任意一个格子可以重播那个字。可提的笔顺：人——撇、捺，两笔；儿——撇、竖弯钩，不要写成“几”；子——横撇、竖钩、横；女——撇点、撇、横，三笔；姐——女字旁最后一笔变成“提”，右边“且”最后一横最长；哥——两个“可”上下叠，上面那个的竖钩变成竖。需要联网加载笔顺数据；没网时会直接显示汉字。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P1 · 听写 Dictation · Part 2</p>
+      <h2>核对答案：汉字和笔顺</h2>
+      <p class="dek">Watch the stroke order. Click any box to replay it.</p>
+    </div>
+    <div class="hgrid h5">
+      <div class="hk"><div class="hk-side"><div class="sq">一</div><svg class="ic"><use href="#ic-ren"/></svg></div>
+        <div><div class="hk-syl"><span>rén</span></div><div class="hzrow" data-step><div class="box hb" data-ch="人" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">二</div><svg class="ic"><use href="#ic-son"/></svg></div>
+        <div><div class="hk-syl"><span>ér</span><span>zi</span></div><div class="hzrow" data-step><div class="box hb" data-ch="儿" tabindex="0"></div><div class="box hb" data-ch="子" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">三</div><svg class="ic"><use href="#ic-dau"/></svg></div>
+        <div><div class="hk-syl"><span>nǚ</span><span>ér</span></div><div class="hzrow" data-step><div class="box hb" data-ch="女" tabindex="0"></div><div class="box hb" data-ch="儿" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">四</div><svg class="ic"><use href="#ic-jie"/></svg></div>
+        <div><div class="hk-syl"><span>jiě</span><span>jie</span></div><div class="hzrow" data-step><div class="box hb" data-ch="姐" tabindex="0"></div><div class="box hb" data-ch="姐" tabindex="0"></div></div></div></div>
+      <div class="hk"><div class="hk-side"><div class="sq">五</div><svg class="ic"><use href="#ic-ge"/></svg></div>
+        <div><div class="hk-syl"><span>gē</span><span>ge</span></div><div class="hzrow" data-step><div class="box hb" data-ch="哥" tabindex="0"></div><div class="box hb" data-ch="哥" tabindex="0"></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 · P2 review sentences -->
+  <section class="slide" data-notes="先让学生不看拼音读这两句（可以点名读）。按 → 显示拼音，再按一次显示英文。可提：“谁的”= whose，回答可以说“是我的”；“不喜欢”的“不”在三声前面还是读 bù。可以接着问：“这张照片是谁的？”指着教室里的东西问“这是谁的？”">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P2 · 复习 Review</p>
+      <h2>复习句子</h2>
+      <p class="dek">Read each sentence aloud first. Pinyin comes next, then English.</p>
+    </div>
+    <div class="split one">
+      <div class="sents big">
+        <div class="sent"><div class="sq">一</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">这</span><span class="p" data-step="py">Zhè</span></span></span><span class="w"><span class="c"><span class="h">张</span><span class="p" data-step="py">zhāng</span></span></span><span class="w"><span class="c"><span class="h">照</span><span class="p" data-step="py">zhào</span></span><span class="c"><span class="h">片</span><span class="p" data-step="py">piàn</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p" data-step="py">shì</span></span></span><span class="w"><span class="c"><span class="h">谁</span><span class="p" data-step="py">shéi</span></span><span class="c"><span class="h">的</span><span class="p" data-step="py">de</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">Whose photo is this?</div></div></div>
+        <div class="sent"><div class="sq">二</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">安</span><span class="p" data-step="py">Ān</span></span><span class="c"><span class="h">哲</span><span class="p" data-step="py">Zhé</span></span><span class="c"><span class="h">宇</span><span class="p" data-step="py">yǔ</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p" data-step="py">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p" data-step="py">huan</span></span></span><span class="w"><span class="c"><span class="h">女</span><span class="p" data-step="py">nǚ</span></span><span class="c"><span class="h">生</span><span class="p" data-step="py">shēng</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p" data-step="py">bù</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p" data-step="py">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p" data-step="py">huan</span></span></span><span class="w"><span class="c"><span class="h">男</span><span class="p" data-step="py">nán</span></span><span class="c"><span class="h">生</span><span class="p" data-step="py">shēng</span></span><span class="c pu"><span class="h">。</span></span></span></div>
+          <div class="en" data-step="en">An Zheyu likes girls, not boys.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · P3 new sentences -->
+  <section class="slide" data-notes="先读，按 → 出拼音，再按出英文。红色是新词。讲三点：① “几口人”：“口”是数家人用的量词，只用在问家里有几口人的时候；“几”问的数字一般比十小。几口 读 jí kǒu（三声变调）。② “A 还是 B”用在问句里，问两个选一个，句尾不加“吗”。③ “做什么工作”= 问职业，回答“我是律师 / 我是老师”。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P3 · 新句子 New sentences</p>
+      <h2>学习新句子</h2>
+      <p class="dek">New words are in red. Read first, then check the pinyin and English.</p>
+    </div>
+    <div class="split s155">
+      <div class="sents">
+        <div class="sent"><div class="sq">一</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p" data-step="py">Nǐ</span></span></span><span class="w"><span class="c new"><span class="h">家</span><span class="p" data-step="py">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p" data-step="py">yǒu</span></span></span><span class="w"><span class="c new"><span class="h">几</span><span class="p" data-step="py">jǐ</span></span></span><span class="w"><span class="c new"><span class="h">口</span><span class="p" data-step="py">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p" data-step="py">rén</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">How many people are in your family?</div></div></div>
+        <div class="sent"><div class="sq">二</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">这</span><span class="p" data-step="py">Zhè</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p" data-step="py">shì</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p" data-step="py">nǐ</span></span><span class="c"><span class="h">的</span><span class="p" data-step="py">de</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p" data-step="py">mā</span></span><span class="c"><span class="h">妈</span><span class="p" data-step="py">ma</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p" data-step="py">hái</span></span><span class="c"><span class="h">是</span><span class="p" data-step="py">shi</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p" data-step="py">bà</span></span><span class="c"><span class="h">爸</span><span class="p" data-step="py">ba</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">Is this your mom or your dad?</div></div></div>
+        <div class="sent"><div class="sq">三</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p" data-step="py">Nǐ</span></span><span class="c"><span class="h">的</span><span class="p" data-step="py">de</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p" data-step="py">mā</span></span><span class="c"><span class="h">妈</span><span class="p" data-step="py">ma</span></span></span><span class="w"><span class="c new"><span class="h">做</span><span class="p" data-step="py">zuò</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p" data-step="py">shén</span></span><span class="c"><span class="h">么</span><span class="p" data-step="py">me</span></span></span><span class="w"><span class="c new"><span class="h">工</span><span class="p" data-step="py">gōng</span></span><span class="c new"><span class="h">作</span><span class="p" data-step="py">zuò</span></span><span class="c pu"><span class="h">？</span></span></span></div>
+          <div class="en" data-step="en">What does your mom do for work?</div></div></div>
+        <div class="sent"><div class="sq">四</div><div>
+          <div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p" data-step="py">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p" data-step="py">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p" data-step="py">bà</span></span><span class="c"><span class="h">爸</span><span class="p" data-step="py">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p" data-step="py">shì</span></span></span><span class="w"><span class="c new"><span class="h">律</span><span class="p" data-step="py">lǜ</span></span><span class="c new"><span class="h">师</span><span class="p" data-step="py">shī</span></span><span class="c pu"><span class="h">。</span></span></span></div>
+          <div class="en" data-step="en">My dad is a lawyer.</div></div></div>
+      </div>
+      <div class="card notes-card">
+        <h3>新词</h3>
+        <p class="sub">New words</p>
+        <ul>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span></div><span class="gl">family; home</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">几</span><span class="p">jǐ</span></span></span></div><span class="gl">how many (a small number)</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span></div><span class="gl">measure word for family members</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">做</span><span class="p">zuò</span></span></span></div><span class="gl">to do</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">工</span><span class="p">gōng</span></span><span class="c"><span class="h">作</span><span class="p">zuò</span></span></span></div><span class="gl">job; work</span></li>
+          <li><div class="zh rb "><span class="w"><span class="c"><span class="h">律</span><span class="p">lǜ</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span></span></div><span class="gl">lawyer</span></li>
+        </ul>
+        <p class="qa"><span class="zh">口</span> counts family members only:<br><span class="zh">我家有四口人。</span><br>A question with <span class="zh">还是</span> takes no <span class="zh">吗</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · P4 dialogue round 1 -->
+  <section class="slide" data-notes="第一遍：两人一组，照着中文和拼音读，横线处换成自己的名字和家里的人数。读完交换角色。提醒：“几口人”回答时数字放在“口”前面：我家有五口人；“两口人”不说“二口人”。翻页进入第二遍。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P4 · 对话 Dialogue · Round 1</p>
+      <h2>对话练习：第一遍</h2>
+      <p class="dek">Read it in pairs. Fill each blank with your own name or number.</p>
+    </div>
+    <div class="dlg-wrap">
+      <div class="dcol">
+        <p class="phase"><span class="zh">名字和家人</span>Names and family size</p>
+        <div class="dlg lg">
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">几</span><span class="p">jǐ</span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+        </div>
+      </div>
+      <div class="dcol">
+        <p class="phase"><span class="zh">工作</span>Parents’ jobs</p>
+        <div class="dlg lg">
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">做</span><span class="p">zuò</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">工</span><span class="p">gōng</span></span><span class="c"><span class="h">作</span><span class="p">zuò</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">律</span><span class="p">lǜ</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+        </div>
+        <p class="swap">Read it once as written, then <b>swap roles</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · P4 dialogue round 2 -->
+  <section class="slide" data-notes="第二遍：只看英文，两人一组用中文说出来，顺序和第一遍一样。说完一句按 → 显示这一句的中文和拼音核对，一共八句。可以鼓励学生把“律师”“老师”换成自己爸爸妈妈真正的工作——下一部分的工作词库正好可以查。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+      <h2>对话练习：第二遍</h2>
+      <p class="dek">Say each line in Chinese from the English. Press → to check it.</p>
+    </div>
+    <div class="dlg-wrap">
+      <div class="dcol">
+        <p class="phase"><span class="zh">名字和家人</span>Names and family size</p>
+        <div class="dlg en">
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>. And you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. How many people are in your family?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">几</span><span class="p">jǐ</span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">There are <span class="blank"></span> people in my family. What about you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+        </div>
+      </div>
+      <div class="dcol">
+        <p class="phase"><span class="zh">工作</span>Parents’ jobs</p>
+        <div class="dlg en">
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">There are <span class="blank"></span> people in my family.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">What does your dad do?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">做</span><span class="p">zuò</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">工</span><span class="p">gōng</span></span><span class="c"><span class="h">作</span><span class="p">zuò</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk a">A</div><div><div class="enl">My dad is a lawyer. What about your dad?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">律</span><span class="p">lǜ</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
+          <div class="dl"><div class="spk b">B</div><div><div class="enl">My dad is a teacher.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · P5 jobs word bank -->
+  <section class="slide" data-noclick data-notes="请学生用英文说出自己以后想做的工作（或者爸爸妈妈的工作），老师输入，按回车加入右边的列表；最后可以让大家一起读一遍列表，再用句型练：“我想做投资银行家。”“我的妈妈是医生。”支持模糊搜索：打错几个字母也能找到（比如 consaltant），也可以输入缩写（IB、PE、VC、MBB、SWE、PM）、公司名（McKinsey、BCG、Bain）、拼音（不用声调，比如 lvshi 或 lushi）或汉字。按 / 键直接跳到输入框；Esc 离开输入框后方向键才能翻页。没人说话时点“Random job”。">
+    <div class="seal">练</div>
+    <div class="rail"><span>中文操练　第三周　第三次</span></div>
+    <div class="hd">
+      <p class="kicker">P5 · 互动游戏 Word bank game</p>
+      <h2>工作词库</h2>
+      <p class="dek">Name a job you’d like in English. We’ll find it in Chinese.</p>
+    </div>
+    <div class="wb">
+      <div class="search">
+        <input id="wb-in" class="inp" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Type a job: banker, consultant, nurse…" aria-label="Type a job in English">
+        <p class="hint"><kbd>Enter</kbd> adds it to the list · <kbd>/</kbd> jumps here · <kbd>Esc</kbd> leaves the box</p>
+        <div class="sugg" id="wb-sugg"></div>
+        <div class="result" id="wb-res" aria-live="polite">
+          <p class="r-empty">Type a job above. The Chinese shows up here as you type.</p>
+        </div>
+        <div class="acts">
+          <button class="btn pri" id="wb-add" type="button">Add to list</button>
+          <button class="btn" id="wb-rand" type="button">Random job</button>
+        </div>
+      </div>
+      <div class="wall-col">
+        <div class="wall-hd">
+          <h3>我们的工作<span class="cnt" id="wb-cnt">0 jobs</span></h3>
+          <button class="linkbtn" id="wb-clear" type="button">Clear list</button>
+        </div>
+        <div class="wall" id="wb-wall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDES END ============ -->
+
+</div></div>
+
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <span id="stp"></span>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move / reveal &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>F</kbd> full screen
+</div>
+<div id="lb"><img alt=""></div>
+
+<!-- Stroke-order data (needs internet; falls back to plain characters offline) -->
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3/dist/hanzi-writer.min.js"></script>
+
+<script>
+/* ================= deck controller (style-guide script + step reveals) ================= */
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      stp=document.getElementById('stp'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('img'),
+      i=-1, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  /* ---- stroke-order writers ---- */
+  var HZ=(typeof HanziWriter!=='undefined');
+  [].forEach.call(document.querySelectorAll('.hb'),function(b){
+    var ch=b.getAttribute('data-ch');
+    var fb=document.createElement('span'); fb.className='hz-fb'; fb.textContent=ch; b.appendChild(fb);
+    var host=document.createElement('div'); host.className='hw'; b.appendChild(host);
+    b.setAttribute('aria-label',ch);
+    if(HZ){
+      try{
+        b._w=HanziWriter.create(host,ch,{
+          width:100,height:100,padding:7,
+          showCharacter:false,showOutline:false,
+          strokeColor:'#2E2A24',outlineColor:'#D8CCB4',
+          strokeAnimationSpeed:1.1,delayBetweenStrokes:150,
+          onLoadCharDataError:function(){b.classList.add('static');}
+        });
+      }catch(err){b.classList.add('static');}
+    } else { b.classList.add('static'); }
+    function replay(e){
+      e.stopPropagation();
+      var row=b.closest('.hzrow');
+      if(!row.classList.contains('shown')) return;
+      if(b._w&&!b.classList.contains('static')){ b._w.showOutline(); b._w.animateCharacter(); }
+    }
+    b.addEventListener('click',replay);
+    b.addEventListener('keydown',function(e){ if(e.key==='Enter'){replay(e);} });
+  });
+
+  function reveal(el,quiet){
+    if(!el.classList.contains('hzrow')) return;
+    var tok=el._tok=(el._tok||0)+1;
+    var bs=[].slice.call(el.querySelectorAll('.hb'));
+    bs.forEach(function(b){b.classList.add('on');});
+    if(quiet){ bs.forEach(function(b){ if(b._w){b._w.showOutline();b._w.showCharacter();} }); return; }
+    (function run(j){
+      if(el._tok!==tok||j>=bs.length) return;
+      var b=bs[j];
+      if(!b._w||b.classList.contains('static')){ setTimeout(function(){run(j+1);},280); return; }
+      b._w.showOutline();
+      b._w.animateCharacter({onComplete:function(){ setTimeout(function(){run(j+1);},120); }});
+    })(0);
+  }
+  function conceal(el){
+    if(!el.classList.contains('hzrow')) return;
+    el._tok=(el._tok||0)+1;
+    [].forEach.call(el.querySelectorAll('.hb'),function(b){
+      b.classList.remove('on');
+      if(b._w){ b._w.hideCharacter(); b._w.hideOutline(); }
+    });
+  }
+
+  /* ---- step groups: same data-step value = revealed together ---- */
+  slides.forEach(function(s){
+    var map={}, groups=[];
+    [].forEach.call(s.querySelectorAll('[data-step]'),function(el,idx){
+      var key=el.getAttribute('data-step')||('_'+idx);
+      if(!(key in map)){map[key]=groups.length;groups.push([]);}
+      groups[map[key]].push(el);
+    });
+    s._g=groups; s._k=0;
+  });
+
+  function status(){
+    var s=slides[i];
+    pos.textContent=(i+1)+' / '+slides.length;
+    stp.textContent=s._g.length?('reveal '+s._k+' / '+s._g.length):'';
+  }
+  function setStep(s,k,quiet){
+    s._g.forEach(function(g,idx){
+      var on=idx<k;
+      g.forEach(function(el){
+        var has=el.classList.contains('shown');
+        if(on&&!has){ el.classList.add('shown'); el.classList.toggle('quiet',!!quiet); reveal(el,quiet); }
+        else if(!on&&has){ el.classList.remove('shown','quiet'); conceal(el); }
+      });
+    });
+    s._k=k; status();
+  }
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n);});
+    ticks.appendChild(t);
+  });
+
+  function go(n,back){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    if(n===i) return;
+    i=n;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i);});
+    var s=slides[i];
+    setStep(s, back?s._g.length:0, true);
+    nbody.textContent=s.getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+    if(document.activeElement&&document.activeElement!==document.body&&!s.contains(document.activeElement)){document.activeElement.blur();}
+  }
+  function next(){ var s=slides[i]; if(s._k<s._g.length) setStep(s,s._k+1); else go(i+1); }
+  function prev(){ var s=slides[i]; if(s._k>0) setStep(s,s._k-1); else go(i-1,true); }
+
+  document.addEventListener('keydown',function(e){
+    var t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')){ if(e.key==='Escape'){t.blur();} return; }
+    if(e.key==='/'){ var inp=slides[i].querySelector('input'); if(inp){inp.focus();inp.select();e.preventDefault();} return; }
+    if(t&&t.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter')) return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){next();e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+    else if(e.key==='Escape'&&lb.classList.contains('on')){lb.classList.remove('on');}
+  });
+
+  stage.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.closest('input,button,a,textarea,.hb,[data-noclick]')) return;
+    if(t.tagName==='IMG'&&/zoom-in/.test(getComputedStyle(t).cursor)){
+      lbImg.src=t.src; lb.classList.add('on');
+    } else { next(); }
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on');});
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide'); },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
+
+/* ================= P5 jobs word bank ================= */
+(function(){
+  // [汉字, syllables ('/' between words, one syllable per character), English, aliases]
+  var DATA=[["投资银行家", "tóu zī/yín háng jiā", "investment banker", ["investment banking", "ib", "i banking", "ibanking", "banker", "ibd", "wall street"]], ["投行分析师", "tóu háng/fēn xī shī", "investment banking analyst", ["ib analyst", "banking analyst", "analyst", "summer analyst"]], ["并购顾问", "bìng gòu/gù wèn", "M&A advisor", ["m&a", "mergers and acquisitions", "mergers", "m and a"]], ["管理咨询顾问", "guǎn lǐ/zī xún/gù wèn", "management consultant", ["management consulting", "consulting", "consultant", "mbb", "mckinsey", "bcg", "bain"]], ["战略咨询顾问", "zhàn lüè/zī xún/gù wèn", "strategy consultant", ["strategy consulting", "strategy"]], ["私募股权投资人", "sī mù/gǔ quán/tóu zī rén", "private equity investor", ["private equity", "pe", "buyout"]], ["风险投资人", "fēng xiǎn/tóu zī rén", "venture capitalist", ["venture capital", "vc", "investor"]], ["对冲基金经理", "duì chōng/jī jīn/jīng lǐ", "hedge fund manager", ["hedge fund", "hedge funds"]], ["交易员", "jiāo yì yuán", "trader", ["trading", "sales and trading", "s&t", "markets"]], ["量化研究员", "liàng huà/yán jiū yuán", "quant researcher", ["quant", "quantitative analyst", "quant trader", "quantitative finance"]], ["金融分析师", "jīn róng/fēn xī shī", "financial analyst", ["finance", "financial analysis", "corporate finance"]], ["基金经理", "jī jīn/jīng lǐ", "portfolio manager", ["fund manager", "asset management", "asset manager"]], ["理财顾问", "lǐ cái/gù wèn", "financial advisor", ["wealth management", "financial planner", "financial adviser"]], ["会计师", "kuài jì shī", "accountant", ["accounting", "cpa", "big 4", "big four", "tax"]], ["审计师", "shěn jì shī", "auditor", ["audit", "auditing"]], ["精算师", "jīng suàn shī", "actuary", ["actuarial"]], ["银行柜员", "yín háng/guì yuán", "bank teller", ["teller", "bank"]], ["经济学家", "jīng jì/xué jiā", "economist", ["economics", "econ"]], ["软件工程师", "ruǎn jiàn/gōng chéng shī", "software engineer", ["swe", "software developer", "developer", "software", "sde", "coding"]], ["程序员", "chéng xù yuán", "programmer", ["coder", "computer programmer", "coding"]], ["数据科学家", "shù jù/kē xué jiā", "data scientist", ["data science"]], ["数据分析师", "shù jù/fēn xī shī", "data analyst", ["data analytics", "analytics"]], ["人工智能工程师", "rén gōng/zhì néng/gōng chéng shī", "AI engineer", ["ai", "machine learning engineer", "ml engineer", "artificial intelligence"]], ["人工智能研究员", "rén gōng/zhì néng/yán jiū yuán", "AI researcher", ["ai research", "machine learning researcher", "ml researcher"]], ["产品经理", "chǎn pǐn/jīng lǐ", "product manager", ["pm", "product management", "apm"]], ["用户体验设计师", "yòng hù/tǐ yàn/shè jì shī", "UX designer", ["ux", "ui designer", "product designer", "ui ux"]], ["网络安全工程师", "wǎng luò/ān quán/gōng chéng shī", "cybersecurity engineer", ["cybersecurity", "security engineer", "cyber security", "hacker"]], ["游戏设计师", "yóu xì/shè jì shī", "game designer", ["game developer", "video games", "gaming"]], ["创业者", "chuàng yè zhě", "startup founder", ["founder", "entrepreneur", "startup", "start up"]], ["首席执行官", "shǒu xí/zhí xíng guān", "CEO", ["chief executive officer", "chief executive", "boss"]], ["市场营销经理", "shì chǎng/yíng xiāo/jīng lǐ", "marketing manager", ["marketing", "brand manager", "advertising"]], ["销售代表", "xiāo shòu/dài biǎo", "sales representative", ["sales", "salesperson", "sales rep", "account executive"]], ["人力资源专员", "rén lì/zī yuán/zhuān yuán", "HR specialist", ["hr", "human resources", "people operations"]], ["招聘专员", "zhāo pìn/zhuān yuán", "recruiter", ["recruiting", "headhunter", "talent acquisition"]], ["公关专员", "gōng guān/zhuān yuán", "PR specialist", ["pr", "public relations", "communications", "comms"]], ["项目经理", "xiàng mù/jīng lǐ", "project manager", ["project management", "program manager"]], ["运营经理", "yùn yíng/jīng lǐ", "operations manager", ["operations", "ops", "bizops"]], ["供应链经理", "gōng yìng liàn/jīng lǐ", "supply chain manager", ["supply chain", "logistics"]], ["房地产经纪人", "fáng dì chǎn/jīng jì rén", "real estate agent", ["realtor", "real estate", "realty"]], ["律师", "lǜ shī", "lawyer", ["attorney", "law", "legal", "big law", "biglaw", "corporate lawyer"]], ["法官", "fǎ guān", "judge", []], ["律师助理", "lǜ shī/zhù lǐ", "paralegal", ["legal assistant"]], ["公务员", "gōng wù yuán", "civil servant", ["government", "public service", "government worker", "public sector"]], ["外交官", "wài jiāo guān", "diplomat", ["foreign service", "state department", "ambassador"]], ["政治家", "zhèng zhì jiā", "politician", ["politics", "senator", "congressman"]], ["政策分析师", "zhèng cè/fēn xī shī", "policy analyst", ["policy", "think tank", "public policy"]], ["警察", "jǐng chá", "police officer", ["police", "cop"]], ["消防员", "xiāo fáng yuán", "firefighter", ["fireman", "fire fighter"]], ["军人", "jūn rén", "soldier", ["military", "army", "navy", "marine", "air force"]], ["飞行员", "fēi xíng yuán", "pilot", ["airline pilot"]], ["空乘", "kōng chéng", "flight attendant", ["stewardess", "cabin crew"]], ["医生", "yī shēng", "doctor", ["physician", "md", "medicine", "med school", "premed", "pre med"]], ["外科医生", "wài kē/yī shēng", "surgeon", ["surgery"]], ["护士", "hù shi", "nurse", ["nursing", "rn"]], ["牙医", "yá yī", "dentist", ["dental"]], ["药剂师", "yào jì shī", "pharmacist", ["pharmacy"]], ["兽医", "shòu yī", "veterinarian", ["vet", "animal doctor"]], ["心理咨询师", "xīn lǐ/zī xún shī", "therapist", ["counselor", "mental health counselor", "counseling"]], ["心理学家", "xīn lǐ/xué jiā", "psychologist", ["psychology"]], ["理疗师", "lǐ liáo shī", "physical therapist", ["pt", "physio", "physiotherapist"]], ["社工", "shè gōng", "social worker", ["social work", "nonprofit", "non profit"]], ["老师", "lǎo shī", "teacher", ["teaching", "educator"]], ["教授", "jiào shòu", "professor", ["prof", "academic", "academia", "faculty"]], ["研究员", "yán jiū yuán", "researcher", ["research", "research assistant", "ra", "phd"]], ["科学家", "kē xué jiā", "scientist", ["science", "lab"]], ["工程师", "gōng chéng shī", "engineer", ["engineering", "mechanical engineer", "civil engineer"]], ["建筑师", "jiàn zhù shī", "architect", ["architecture"]], ["历史学家", "lì shǐ/xué jiā", "historian", ["history"]], ["图书管理员", "tú shū/guǎn lǐ yuán", "librarian", ["library"]], ["记者", "jì zhě", "journalist", ["reporter", "journalism", "news"]], ["作家", "zuò jiā", "writer", ["author", "novelist", "writing"]], ["编辑", "biān jí", "editor", ["editing"]], ["平面设计师", "píng miàn/shè jì shī", "graphic designer", ["graphic design", "designer", "design"]], ["时装设计师", "shí zhuāng/shè jì shī", "fashion designer", ["fashion"]], ["摄影师", "shè yǐng shī", "photographer", ["photography"]], ["演员", "yǎn yuán", "actor", ["actress", "acting", "hollywood"]], ["导演", "dǎo yǎn", "film director", ["director", "movie director", "filmmaker"]], ["音乐人", "yīn yuè rén", "musician", ["music", "music producer", "band"]], ["歌手", "gē shǒu", "singer", ["pop star", "rapper", "singing"]], ["网红", "wǎng hóng", "influencer", ["content creator", "youtuber", "tiktoker", "instagram", "creator"]], ["主播", "zhǔ bō", "streamer", ["twitch", "live streamer", "anchor"]], ["职业运动员", "zhí yè/yùn dòng yuán", "pro athlete", ["athlete", "professional athlete", "nba player", "sports"]], ["教练", "jiào liàn", "coach", ["sports coach"]], ["健身教练", "jiàn shēn/jiào liàn", "personal trainer", ["trainer", "fitness instructor", "gym"]], ["厨师", "chú shī", "chef", ["cook", "culinary"]], ["咖啡师", "kā fēi shī", "barista", ["coffee"]], ["服务员", "fú wù yuán", "server", ["waiter", "waitress", "restaurant"]], ["调酒师", "tiáo jiǔ shī", "bartender", ["bar", "mixologist"]], ["司机", "sī jī", "driver", ["uber driver", "truck driver", "taxi"]], ["电工", "diàn gōng", "electrician", []], ["水管工", "shuǐ guǎn gōng", "plumber", ["plumbing"]], ["农民", "nóng mín", "farmer", ["farming", "agriculture"]], ["实习生", "shí xí shēng", "intern", ["internship", "summer intern"]], ["学生", "xué sheng", "student", ["college student"]]];
+
+  function norm(s){
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+            .replace(/[^a-z0-9\u4e00-\u9fff ]/g,' ').replace(/\s+/g,' ').trim();
+  }
+  var ITEMS=DATA.map(function(d,k){
+    return {id:k,zh:d[0],syl:d[1],en:d[2],
+            keys:[d[2]].concat(d[3]).map(norm),
+            pyk:norm(d[1].replace(/\//g,' ')).replace(/ /g,'')};
+  });
+
+  // edit distance (with adjacent swaps) for typo-tolerant matching
+  function lev(a,b){
+    var m=a.length,n=b.length,d=[],i,j;
+    for(i=0;i<=m;i++){d[i]=[i];}
+    for(j=0;j<=n;j++){d[0][j]=j;}
+    for(i=1;i<=m;i++)for(j=1;j<=n;j++){
+      var c=a[i-1]===b[j-1]?0:1;
+      d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+      if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);
+    }
+    return d[m][n];
+  }
+  function tol(len){ return len<4?0:len<7?1:2; }
+
+  function score(it,q){
+    var qn=norm(q), qc=qn.replace(/ /g,''), raw=q.trim(), best=0;
+    if(!qn&&!raw) return 0;
+    if(raw&&/[\u4e00-\u9fff]/.test(raw)&&it.zh.indexOf(raw)>-1) best=Math.max(best,it.zh===raw?100:88);
+    if(!qn) return best;
+    var t=tol(qc.length);
+    it.keys.forEach(function(k){
+      var s=0, kc=k.replace(/ /g,'');
+      if(k===qn) s=100;
+      else if(k.indexOf(qn)===0) s=86-Math.min(10,(k.length-qn.length)*.3);
+      else if(kc.indexOf(qc)===0) s=80;
+      else if(k.split(' ').some(function(w){return w.indexOf(qn)===0;})) s=70;
+      else if(qn.length>=3&&k.indexOf(qn)>-1) s=48;
+      else if(t){
+        // typos: whole phrase, start of the phrase, or any single word
+        var dp=Math.min(lev(qc,kc), lev(qc,kc.slice(0,qc.length))), dw=99;
+        k.split(' ').forEach(function(w){ if(w.length>=3) dw=Math.min(dw,lev(qc,w),lev(qc,w.slice(0,qc.length))); });
+        if(dp<=t) s=44-dp*6; else if(dw<=t) s=36-dw*6;
+      }
+      if(s>best) best=s;
+    });
+    if(qc.length>=2){
+      var qp=qc.replace(/v/g,'u');
+      if(it.pyk===qc||it.pyk===qp) best=Math.max(best,96);
+      else if(it.pyk.indexOf(qc)===0||it.pyk.indexOf(qp)===0) best=Math.max(best,60);
+      else if(qc.length>=5&&lev(qp,it.pyk)<=1) best=Math.max(best,42);
+    }
+    return best;
+  }
+  function search(q){
+    return ITEMS.map(function(it){return {it:it,s:score(it,q)};})
+      .filter(function(r){return r.s>0;})
+      .sort(function(a,b){return b.s-a.s||a.it.en.length-b.it.en.length;})
+      .map(function(r){return r.it;});
+  }
+
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // aligned pinyin: one syllable under each character, words grouped
+  function rb(it,cls,style){
+    var chars=it.zh.split(''), p=0, html='';
+    it.syl.split('/').forEach(function(w){
+      html+='<span class="w">';
+      w.split(' ').forEach(function(s){
+        html+='<span class="c"><span class="h">'+chars[p++]+'</span><span class="p">'+esc(s)+'</span></span>';
+      });
+      html+='</span>';
+    });
+    return '<div class="zh rb '+cls+'"'+(style?' style="'+style+'"':'')+'>'+html+'</div>';
+  }
+
+  var inp=document.getElementById('wb-in'), sugg=document.getElementById('wb-sugg'),
+      res=document.getElementById('wb-res'), wall=document.getElementById('wb-wall'),
+      cnt=document.getElementById('wb-cnt'), addBtn=document.getElementById('wb-add'),
+      randBtn=document.getElementById('wb-rand'), clearBtn=document.getElementById('wb-clear');
+  var list=[], cur=null, top=null;
+  var EMPTY='<p class="r-empty">Type a job above. The Chinese shows up here as you type.</p>';
+
+  function show(it){
+    cur=it;
+    if(!it){ res.innerHTML=EMPTY; renderWall(); return; }
+    var nw=it.syl.split('/').length, n=it.zh.length;
+    var size=Math.min(116,Math.floor(500/(n*1.06+0.3*(nw-1))));
+    var inList=list.indexOf(it)>-1;
+    res.innerHTML='<span class="r-flag">'+(inList?'On our list':'Press Enter to add')+'</span>'+
+      rb(it,'r-rb','font-size:'+size+'px')+
+      '<div class="r-en">'+esc(it.en)+'</div>';
+    renderWall();
+  }
+  function noMatch(q){
+    cur=null;
+    res.innerHTML='<p class="r-empty">Nothing matches “'+esc(q)+'”. Try one word, like <i>bank</i>, <i>design</i>, or <i>doctor</i>.</p>';
+    renderWall();
+  }
+  function renderSugg(arr){
+    sugg.innerHTML='';
+    arr.forEach(function(it){
+      var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=it.en;
+      b.addEventListener('click',function(){ inp.value=it.en; top=it; add(it); renderSugg([]); inp.focus(); inp.select(); });
+      sugg.appendChild(b);
+    });
+  }
+  function add(it){
+    if(!it) return;
+    if(list.indexOf(it)<0) list.push(it);
+    show(it);
+  }
+  function renderWall(){
+    cnt.textContent=list.length+(list.length===1?' job':' jobs');
+    if(!list.length){ wall.innerHTML='<div class="wall-empty">Jobs we look up land here, so we can read the whole list together at the end.</div>'; return; }
+    wall.innerHTML='';
+    list.forEach(function(it){
+      var b=document.createElement('button'); b.type='button'; b.className='wi'+(it===cur?' cur':'');
+      b.innerHTML=rb(it,'')+'<span class="en">'+esc(it.en)+'</span>';
+      b.addEventListener('click',function(){ show(it); });
+      wall.appendChild(b);
+    });
+    var c=wall.querySelector('.cur'); if(c&&c.scrollIntoView){ c.scrollIntoView({block:'nearest'}); }
+  }
+
+  inp.addEventListener('input',function(){
+    var q=inp.value;
+    if(!q.trim()){ top=null; renderSugg([]); show(null); return; }
+    var r=search(q); top=r[0]||null;
+    renderSugg(r.slice(1,6));
+    if(top) show(top); else noMatch(q.trim());
+  });
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){ e.preventDefault(); if(top){ add(top); inp.select(); } }
+  });
+  addBtn.addEventListener('click',function(){ if(cur) add(cur); else if(top) add(top); });
+  randBtn.addEventListener('click',function(){
+    var pool=ITEMS.filter(function(it){return list.indexOf(it)<0;}); if(!pool.length) pool=ITEMS;
+    var it=pool[Math.floor(Math.random()*pool.length)];
+    inp.value=it.en; top=it; renderSugg([]); add(it);
+  });
+  clearBtn.addEventListener('click',function(){ list=[]; show(cur); });
+  window.__wbSearch=search;
+  show(null);
+})();
+</script>
+</body>
+</html>
