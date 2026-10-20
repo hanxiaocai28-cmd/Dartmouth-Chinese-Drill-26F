@@ -1,192 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>26F Chinese 1 Drill</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26F Chinese 1 Drill · Week 1 Session 1</title>
 <style>
+  /* ============ DESIGN TOKENS — matches the course style guide ============ */
   :root{
-    --paper:#f6f1e6;
-    --paper-2:#fffdf6;
-    --ink:#231f19;
-    --ink-soft:#6b645939;
-    --ink-mute:#7a7264;
-    --red:#a12b24;
-    --red-deep:#7c1c17;
-    --gold:#b98a34;
-    --line:#e5dcc9;
-    --cn:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
-    --sans:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",sans-serif;
+    --paper:#EFE6D6; --card:#E4D7C0; --rule:#CDC0A7;
+    --ink:#2E2A24; --ink2:#4C4536; --mute:#7C7160;
+    --seal:#AE3826; --seal-lt:#D2563C; --indigo:#2E3A48;
+    --night:#211E1A; --night2:#2C2823; --night-tx:#F1EADC; --night-mu:#A79D8A;
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mincho:"Yu Mincho",YuMincho,"Hiragino Mincho ProN","Noto Serif JP","MS Mincho","Songti SC",serif;
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#15130F;overflow:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
 
-  html,body{height:100%;}
-  body{
-    font-family:var(--sans);
-    color:var(--ink);
-    background:
-      radial-gradient(1200px 600px at 15% -10%, #241a12 0%, transparent 60%),
-      radial-gradient(1000px 700px at 100% 110%, #1c211c 0%, transparent 55%),
-      #120e0a;
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;
-  }
+  /* ============ fixed 1280x720 stage, scaled to viewport ============ */
+  #viewport{position:fixed;top:0;left:0;right:0;bottom:34px;display:grid;place-items:center}
+  #stage{width:1280px;height:720px;position:relative;transform-origin:center center;
+         box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+         padding:42px 92px 38px 58px;display:flex;flex-direction:column;
+         opacity:0;visibility:hidden;transition:opacity .3s ease;overflow:hidden}
+  .slide.on{opacity:1;visibility:visible}
+  .slide.night{background:var(--night);color:var(--night-tx)}
+  .main{flex:1;min-height:0;display:flex;flex-direction:column}
 
-  .deck{
-    position:relative;
-    width:min(1200px,94vw);
-    height:min(770px,90vh);
-  }
+  /* ============ signature: vertical rail + seal square ============ */
+  .rail{position:absolute;top:0;right:0;width:50px;height:100%;
+        display:flex;align-items:center;justify-content:center;border-left:1px solid var(--rule)}
+  .rail span{writing-mode:vertical-rl;font-family:var(--mincho);font-size:13px;
+             letter-spacing:.32em;color:var(--mute)}
+  .seal{position:absolute;top:36px;right:14px;width:32px;height:32px;
+        border:1.5px solid var(--seal);display:grid;place-items:center;
+        font-family:var(--mincho);font-size:16px;color:var(--seal);z-index:2}
 
-  .slide{
-    position:absolute;inset:0;
-    background:var(--paper);
-    border-radius:4px;
-    box-shadow:0 40px 90px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.05) inset;
-    padding:64px 76px 78px;
-    display:none;
-    flex-direction:column;
-    overflow:hidden;
-    animation:fade .5s ease;
-  }
-  .slide::before{
-    content:"";position:absolute;inset:14px;border:1px solid var(--line);
-    pointer-events:none;border-radius:2px;
-  }
-  .slide::after{
-    content:attr(data-mark);
-    position:absolute;right:-10px;bottom:-70px;
-    font-family:var(--cn);font-weight:700;font-size:340px;line-height:1;
-    color:#a12b2408;pointer-events:none;user-select:none;
-  }
-  .slide.active{display:flex;}
-  @keyframes fade{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  /* ============ headings ============ */
+  h1{font-family:var(--serif);font-size:55px;line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-size:35px;line-height:1.12;margin:0 0 5px;font-weight:700}
+  .kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--seal);margin:0 0 12px}
+  .night .kicker{color:var(--seal-lt)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--mute);margin:0}
+  .night .dek{color:var(--night-mu)}
+  .hd{flex:none;margin:0 0 20px}
 
-  /* top rule */
-  .rule{height:3px;width:100%;background:linear-gradient(90deg,var(--red) 0 60px,var(--gold) 60px 120px,var(--line) 120px 100%);margin-bottom:26px;}
+  /* ============ slide 1: title (night variant) ============ */
+  .lead-cn{font-family:var(--mincho);font-size:28px;color:var(--seal-lt);margin:18px 0 0;font-weight:600}
+  .lead-en{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--night-mu);margin:10px 0 0}
 
-  .eyebrow{
-    font-family:var(--sans);font-size:13px;letter-spacing:.42em;text-transform:uppercase;
-    color:var(--red);font-weight:600;margin-bottom:14px;
-  }
+  /* ============ prompt cards (slide 1) ============ */
+  .prompts{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+  .prompt{background:var(--night2);border:1px solid #3D382F;padding:22px 24px 22px 62px;position:relative}
+  .prompt .n{position:absolute;left:20px;top:20px;font-family:var(--mincho);font-size:24px;
+             color:var(--seal-lt);font-weight:600;line-height:1}
+  .prompt h3{font-family:var(--serif);font-size:18px;margin:0 0 6px;font-weight:700;color:var(--night-tx)}
+  .prompt p{font-size:14px;line-height:1.5;color:var(--night-mu);margin:0}
 
-  h1{font-family:var(--cn);font-weight:700;font-size:66px;line-height:1.02;letter-spacing:.01em;}
-  h2{font-family:var(--cn);font-weight:600;font-size:44px;line-height:1.1;}
+  /* ============ two-column layout (tones slide) ============ */
+  .two{flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:36px}
+  .col{display:flex;flex-direction:column;min-height:0}
 
-  .cn-sub{font-family:var(--cn);color:var(--red);font-weight:600;}
-  .en-sub{color:var(--ink-mute);font-weight:300;font-size:20px;margin-top:12px;}
+  /* ============ tone chart ============ */
+  .tone-chart{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+  .tone-chart svg{width:100%;height:auto;max-height:100%}
 
-  .seal{
-    position:absolute;top:40px;right:44px;
-    width:54px;height:54px;border:2.5px solid var(--red);border-radius:8px;
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--cn);font-weight:700;font-size:30px;color:var(--red);
-    transform:rotate(-3deg);
-    opacity:.92;
-  }
-  .seal span{transform:rotate(-360deg);} /* keep glyph upright visually */
+  /* ============ tone list ============ */
+  .tone-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+  .tone-item{display:flex;gap:14px;align-items:flex-start;padding-bottom:14px;border-bottom:1px dashed var(--rule)}
+  .tone-item:last-child{border-bottom:none;padding-bottom:0}
+  .swatch{width:12px;height:32px;border-radius:2px;flex:none;margin-top:2px}
+  .tone-item .num{font-size:11px;letter-spacing:.16em;color:var(--seal);font-weight:600;text-transform:uppercase}
+  .tone-item .cn{font-family:var(--mincho);font-size:20px;font-weight:600;margin:2px 0}
+  .tone-item .en{font-size:13.5px;color:var(--mute);line-height:1.45;margin:2px 0 0}
 
-  .content{flex:1;min-height:0;overflow:auto;padding-right:8px;}
-  .content::-webkit-scrollbar{width:8px;}
-  .content::-webkit-scrollbar-thumb{background:#d9cfba;border-radius:8px;}
+  /* ============ phrase cards (slide 3) ============ */
+  .phrases{display:grid;gap:14px;margin-top:14px}
+  .phrase{display:grid;grid-template-columns:1.1fr 1fr auto;gap:24px;align-items:center;
+          background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--seal);
+          border-radius:2px;padding:18px 26px}
+  .phrase .zh{font-family:var(--mincho);font-size:36px;font-weight:600;line-height:1.1}
+  .phrase .py{font-size:18px;color:var(--seal);font-style:italic;font-weight:400}
+  .phrase .en{font-size:15px;color:var(--ink2);text-align:right;max-width:220px}
 
-  /* ---- slide 1 ---- */
-  .lead{margin-top:22px;max-width:760px;}
-  .lead .cn{font-family:var(--cn);font-size:30px;color:var(--ink);}
-  .prompts{
-    margin-top:38px;display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;
-  }
-  .prompt{
-    position:relative;padding:22px 24px 22px 64px;
-    background:var(--paper-2);border:1px solid var(--line);border-radius:3px;
-  }
-  .prompt .n{
-    position:absolute;left:22px;top:22px;
-    font-family:var(--cn);font-size:26px;color:var(--red);font-weight:700;line-height:1;
-  }
-  .prompt h3{font-size:19px;font-weight:600;margin-bottom:7px;}
-  .prompt p{font-size:15px;color:var(--ink-mute);line-height:1.5;}
+  /* ============ conversation turns (slide 4) ============ */
+  .convo{margin-top:14px;display:flex;flex-direction:column;gap:14px}
+  .turn{display:grid;grid-template-columns:110px 1fr;gap:22px;align-items:center;
+        background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:18px 26px}
+  .turn.who-a{border-left:3px solid var(--indigo)}
+  .turn.who-b{border-left:3px solid var(--seal)}
+  .turn .role{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .turn .zh{font-family:var(--mincho);font-size:30px;font-weight:600}
+  .turn .py{font-size:16.5px;color:var(--seal);font-style:italic;margin-top:4px}
+  .turn .en{font-size:14px;color:var(--ink2);margin-top:4px;line-height:1.5}
 
-  /* ---- slide 2 : tones ---- */
-  .tone-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:44px;align-items:center;height:100%;}
-  .tone-chart{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-  .tone-chart svg{width:100%;height:auto;max-height:100%;}
-  .tone-list{list-style:none;display:flex;flex-direction:column;gap:18px;}
-  .tone-item{display:flex;gap:16px;align-items:flex-start;padding-bottom:16px;border-bottom:1px dashed var(--line);}
-  .tone-item:last-child{border-bottom:none;padding-bottom:0;}
-  .swatch{width:14px;height:34px;border-radius:3px;flex:none;margin-top:2px;}
-  .tone-item .cn{font-family:var(--cn);font-size:22px;font-weight:600;}
-  .tone-item .en{font-size:14px;color:var(--ink-mute);margin-top:2px;}
-  .tone-item .num{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:600;text-transform:uppercase;}
+  /* ============ tip bar ============ */
+  .tipbar{margin-top:18px;padding:16px 22px;border:1px dashed var(--seal);border-radius:2px;
+          background:#F7F1E4;font-size:15px;color:#5C4E36;line-height:1.6}
+  .tipbar b{color:var(--seal);font-family:var(--mincho);font-weight:600}
 
-  /* ---- slide 3 : phrases ---- */
-  .phrases{display:grid;gap:16px;margin-top:10px;}
-  .phrase{
-    display:grid;grid-template-columns:1.15fr 1fr auto;gap:26px;align-items:center;
-    background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--red);
-    border-radius:3px;padding:20px 28px;
-  }
-  .phrase .zh{font-family:var(--cn);font-size:40px;font-weight:600;line-height:1.1;}
-  .phrase .py{font-size:20px;color:var(--red);font-style:italic;font-weight:400;}
-  .phrase .en{font-size:16px;color:var(--ink-mute);text-align:right;max-width:230px;}
-
-  /* ---- slide 4 : conversation ---- */
-  .convo{margin-top:14px;display:flex;flex-direction:column;gap:16px;}
-  .turn{
-    display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:center;
-    background:var(--paper-2);border:1px solid var(--line);border-radius:3px;padding:20px 28px;
-  }
-  .turn.who-a{border-left:3px solid var(--gold);}
-  .turn.who-b{border-left:3px solid var(--red);}
-  .turn .role{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;}
-  .turn .zh{font-family:var(--cn);font-size:34px;font-weight:600;}
-  .turn .py{font-size:18px;color:var(--red);font-style:italic;margin-top:5px;}
-  .turn .en{font-size:15px;color:var(--ink-mute);margin-top:5px;}
-
-  .tipbar{
-    margin-top:22px;padding:18px 24px;border:1px dashed var(--gold);border-radius:3px;
-    background:#fbf6e9;font-size:16px;color:#6a5222;line-height:1.6;
-  }
-  .tipbar b{color:var(--red-deep);font-family:var(--cn);}
-
-  /* ---- controls ---- */
-  .controls{
-    position:absolute;left:0;right:0;bottom:22px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 24px;pointer-events:none;
-  }
-  .controls > *{pointer-events:auto;}
-  .btn{
-    border:1px solid var(--ink);background:transparent;color:var(--ink);
-    font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:.06em;
-    padding:11px 22px;border-radius:40px;cursor:pointer;transition:.22s;
-  }
-  .btn:hover:not(:disabled){background:var(--red);border-color:var(--red);color:#fff;}
-  .btn:disabled{opacity:.28;cursor:default;}
-  .dots{display:flex;gap:10px;}
-  .dot{width:8px;height:8px;border-radius:50%;background:#c6bca6;border:none;cursor:pointer;transition:.25s;}
-  .dot.on{background:var(--red);transform:scale(1.35);}
+  /* ============ chrome: bottom bar / notes ============ */
+  #bar{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;
+       gap:14px;padding:0 16px;background:rgba(18,16,13,.88);color:#8A8172;
+       font-size:11px;letter-spacing:.05em;z-index:40;transition:opacity .3s}
+  #bar.hide{opacity:0;pointer-events:none}
+  #ticks{display:flex;gap:5px;flex:1}
+  #ticks i{width:22px;height:3px;background:#3A362E;cursor:pointer;transition:background .2s}
+  #ticks i.on{background:var(--seal-lt)}
+  #bar b{color:#C9C0AE;font-weight:600}
+  #bar kbd{font:inherit;color:#6E665A}
+  #notes{position:fixed;left:0;right:0;bottom:34px;max-height:32vh;overflow:auto;
+         background:rgba(18,16,13,.95);color:#CDC5B4;padding:14px 22px 18px;font-size:13.5px;
+         line-height:1.6;z-index:39;display:none;border-top:1px solid #3A362E}
+  #notes.on{display:block}
+  #notes strong{color:var(--seal-lt);letter-spacing:.13em;font-size:10.5px;
+                text-transform:uppercase;display:block;margin-bottom:6px}
+  #notes p{margin:0}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
 </style>
 </head>
 <body>
+<div id="viewport"><div id="stage">
 
-<div class="deck">
+  <!-- ============ SLIDE 1: Title (night) ============ -->
+  <section class="slide night on" data-notes="Opening slide — introduce the course and set expectations.">
+    <div class="seal">印</div>
+    <div class="rail"><span>中文操練・二六年秋</span></div>
+    <div class="main" style="justify-content:center">
+      <p class="kicker">汉语 · Chinese Language</p>
+      <h1>26F Chinese 1 Drill</h1>
+      <p class="lead-cn">你好，欢迎！</p>
+      <p class="lead-en">Let's meet each other and talk about why we're here.</p>
 
-  <!-- 1 -->
-  <section class="slide active" data-mark="汉">
-    <div class="seal"><span>语</span></div>
-    <div class="rule"></div>
-    <div class="eyebrow">汉语 · Chinese Language</div>
-    <h1>26F Chinese 1 Drill</h1>
-    <div class="lead">
-      <div class="cn cn-sub">你好，欢迎！</div>
-      <p class="en-sub">Let's meet each other and talk about why we're here.</p>
-    </div>
-
-    <div class="content">
       <div class="prompts">
         <div class="prompt"><span class="n">一</span><h3>Who are you?</h3><p>Your name, your year, your major.</p></div>
         <div class="prompt"><span class="n">二</span><h3>Why Chinese?</h3><p>What drew you to the language — career, family, travel, curiosity?</p></div>
@@ -196,16 +144,17 @@
     </div>
   </section>
 
-  <!-- 2 -->
-  <section class="slide" data-mark="声">
-    <div class="seal"><span>调</span></div>
-    <div class="rule"></div>
-    <div class="eyebrow">声调 · The Four Tones</div>
-    <h2>One syllable, four meanings</h2>
-    <p class="en-sub">The pitch you use changes the word. Think of it as singing, not speaking.</p>
-
-    <div class="content">
-      <div class="tone-wrap">
+  <!-- ============ SLIDE 2: Tones ============ -->
+  <section class="slide" data-notes="Walk through each tone with the chart, then practice ma examples together.">
+    <div class="seal">印</div>
+    <div class="rail"><span>中文操練・二六年秋</span></div>
+    <div class="hd">
+      <p class="kicker">声调 · The Four Tones</p>
+      <h2>One syllable, four meanings</h2>
+      <p class="dek">The pitch you use changes the word. Think of it as singing, not speaking.</p>
+    </div>
+    <div class="two">
+      <div class="col">
         <div class="tone-chart">
           <svg viewBox="0 0 680 700" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mandarin tone pitch chart">
             <defs>
@@ -218,8 +167,6 @@
               <marker id="ar4" markerWidth="14" markerHeight="14" refX="9" refY="5" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="#8fb073"/></marker>
             </defs>
-
-            <!-- pitch levels 5..1 -->
             <g stroke="#e7dfcd" stroke-width="1">
               <line x1="70" y1="78"  x2="600" y2="78"/>
               <line x1="70" y1="224" x2="600" y2="224"/>
@@ -227,51 +174,45 @@
               <line x1="70" y1="516" x2="600" y2="516"/>
               <line x1="70" y1="662" x2="600" y2="662"/>
             </g>
-            <g font-family="Inter, sans-serif" font-size="34" fill="#a99f8b" text-anchor="middle">
+            <g font-family="Avenir Next,Segoe UI,sans-serif" font-size="34" fill="#a99f8b" text-anchor="middle">
               <text x="630" y="90">5</text>
               <text x="630" y="236">4</text>
               <text x="630" y="382">3</text>
               <text x="630" y="528">2</text>
               <text x="630" y="674">1</text>
             </g>
-
-            <!-- first tone 55 : high flat -->
             <line x1="85" y1="78" x2="500" y2="78" stroke="#3a76ad" stroke-width="5" stroke-linecap="round" marker-end="url(#ar1)"/>
-            <text x="288" y="56" font-family="Inter,sans-serif" font-size="25" font-weight="600" fill="#3a76ad" text-anchor="middle">First Tone 一声</text>
-
-            <!-- fourth tone 51 : steep fall -->
+            <text x="288" y="56" font-family="Avenir Next,sans-serif" font-size="25" font-weight="600" fill="#3a76ad" text-anchor="middle">First Tone 一声</text>
             <line x1="95" y1="90" x2="408" y2="660" stroke="#8fb073" stroke-width="5" stroke-linecap="round" marker-end="url(#ar4)"/>
-            <text x="232" y="368" transform="rotate(60 232 368)" font-family="Inter,sans-serif" font-size="25" font-weight="600" fill="#7f9c62" text-anchor="middle">Fourth Tone 四声</text>
-
-            <!-- second tone 35 : rising -->
+            <text x="232" y="368" transform="rotate(60 232 368)" font-family="Avenir Next,sans-serif" font-size="25" font-weight="600" fill="#7f9c62" text-anchor="middle">Fourth Tone 四声</text>
             <line x1="112" y1="392" x2="488" y2="120" stroke="#c76e6c" stroke-width="5" stroke-linecap="round" marker-end="url(#ar2)"/>
-            <text x="320" y="248" transform="rotate(-37 320 248)" font-family="Inter,sans-serif" font-size="25" font-weight="600" fill="#c05f5d" text-anchor="middle">Second Tone 二声</text>
-
-            <!-- third tone 214 : dip and rise -->
+            <text x="320" y="248" transform="rotate(-37 320 248)" font-family="Avenir Next,sans-serif" font-size="25" font-weight="600" fill="#c05f5d" text-anchor="middle">Second Tone 二声</text>
             <path d="M150 522 L334 662 L498 250" fill="none" stroke="#8577c0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#ar3)"/>
-            <text x="214" y="596" transform="rotate(40 214 596)" font-family="Inter,sans-serif" font-size="25" font-weight="600" fill="#7869b5" text-anchor="middle">Third Tone 三声</text>
+            <text x="214" y="596" transform="rotate(40 214 596)" font-family="Avenir Next,sans-serif" font-size="25" font-weight="600" fill="#7869b5" text-anchor="middle">Third Tone 三声</text>
           </svg>
         </div>
-
+      </div>
+      <div class="col">
         <ul class="tone-list">
           <li class="tone-item"><span class="swatch" style="background:#3a76ad"></span><div><div class="num">55 · 一声</div><div class="cn">高平</div><div class="en">High and level — hold a steady, even note.</div></div></li>
-          <li class="tone-item"><span class="swatch" style="background:#c76e6c"></span><div><div class="num">35 · 二声</div><div class="cn">上扬</div><div class="en">Rising — like the end of a surprised “huh?”</div></div></li>
+          <li class="tone-item"><span class="swatch" style="background:#c76e6c"></span><div><div class="num">35 · 二声</div><div class="cn">上扬</div><div class="en">Rising — like the end of a surprised "huh?"</div></div></li>
           <li class="tone-item"><span class="swatch" style="background:#8577c0"></span><div><div class="num">214 · 三声</div><div class="cn">先降后升</div><div class="en">Dips low, then lifts — a valley of pitch.</div></div></li>
-          <li class="tone-item"><span class="swatch" style="background:#8fb073"></span><div><div class="num">51 · 四声</div><div class="cn">下降</div><div class="en">A firm drop — like a quick, decisive “stop!”</div></div></li>
+          <li class="tone-item"><span class="swatch" style="background:#8fb073"></span><div><div class="num">51 · 四声</div><div class="cn">下降</div><div class="en">A firm drop — like a quick, decisive "stop!"</div></div></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 3 -->
-  <section class="slide" data-mark="语">
-    <div class="seal"><span>习</span></div>
-    <div class="rule"></div>
-    <div class="eyebrow">练习 · Practice</div>
-    <h2>Greetings to try</h2>
-    <p class="en-sub">Read the tone marks, then say it out loud. <span class="cn-sub cn">你好！</span></p>
-
-    <div class="content">
+  <!-- ============ SLIDE 3: Greetings ============ -->
+  <section class="slide" data-notes="Read each phrase, mark the tones, then practice pronunciation as a group.">
+    <div class="seal">印</div>
+    <div class="rail"><span>中文操練・二六年秋</span></div>
+    <div class="hd">
+      <p class="kicker">练习 · Practice</p>
+      <h2>Greetings to try</h2>
+      <p class="dek">Read the tone marks, then say it out loud. <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">你好！</span></p>
+    </div>
+    <div class="main">
       <div class="phrases">
         <div class="phrase"><div class="zh">你好</div><div class="py">nǐ hǎo</div><div class="en">Hello</div></div>
         <div class="phrase"><div class="zh">你叫什么名字？</div><div class="py">nǐ jiào shénme míngzi?</div><div class="en">What's your name?</div></div>
@@ -282,15 +223,16 @@
     </div>
   </section>
 
-  <!-- 4 -->
-  <section class="slide" data-mark="话">
-    <div class="seal"><span>说</span></div>
-    <div class="rule"></div>
-    <div class="eyebrow">对话 · Conversation</div>
-    <h2>Put it together</h2>
-    <p class="en-sub">Two people meeting for the first time.</p>
-
-    <div class="content">
+  <!-- ============ SLIDE 4: Conversation ============ -->
+  <section class="slide" data-notes="Model the exchange, then have students pair up and swap in their own names.">
+    <div class="seal">印</div>
+    <div class="rail"><span>中文操練・二六年秋</span></div>
+    <div class="hd">
+      <p class="kicker">对话 · Conversation</p>
+      <h2>Put it together</h2>
+      <p class="dek">Two people meeting for the first time.</p>
+    </div>
+    <div class="main">
       <div class="convo">
         <div class="turn who-a">
           <div class="role">A</div>
@@ -302,44 +244,78 @@
         </div>
         <div class="turn who-a">
           <div class="role">A</div>
-          <div><div class="zh">我叫晗啸，我是老师。</div><div class="py">Wǒ jiào Hánxiào, wǒ shì lǎoshī.</div><div class="en">I'm Hanxiao — I'm the teacher.</div></div>
+          <div><div class="zh">我叫汉晓，我是老师。</div><div class="py">Wǒ jiào Hànxiǎo, wǒ shì lǎoshī.</div><div class="en">I'm Hanxiao — I'm the teacher.</div></div>
         </div>
       </div>
 
       <div class="tipbar">
-        <b>试一试</b> — Swap in your own name: <span class="cn-sub cn">我叫 ______ 。</span> Then trade roles with a partner.
+        <b>试一试</b> — Swap in your own name: <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">我叫 ______ 。</span> Then trade roles with a partner.
       </div>
     </div>
   </section>
 
-  <div class="controls">
-    <button class="btn" id="prev">← Back</button>
-    <div class="dots" id="dots"></div>
-    <button class="btn" id="next">Next →</button>
-  </div>
+</div></div>
 
+<div id="notes"><strong>Speaker notes</strong><p id="notes-body"></p></div>
+<div id="bar">
+  <b id="pos">1 / 1</b>
+  <div id="ticks"></div>
+  <kbd>← →</kbd> move &nbsp; <kbd>N</kbd> notes &nbsp; <kbd>F</kbd> full screen
 </div>
 
 <script>
-  const slides=[...document.querySelectorAll('.slide')];
-  const dots=document.getElementById('dots');
-  let i=0;
-  slides.forEach((_,n)=>{const d=document.createElement('button');d.className='dot'+(n?'':' on');d.onclick=()=>go(n);dots.appendChild(d);});
-  const dotEls=[...dots.children];
-  function go(n){
-    if(n<0||n>=slides.length)return;
-    slides[i].classList.remove('active');dotEls[i].classList.remove('on');
-    i=n;slides[i].classList.add('active');dotEls[i].classList.add('on');
-    document.getElementById('prev').disabled=i===0;
-    document.getElementById('next').disabled=i===slides.length-1;
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      ticks=document.getElementById('ticks'),
+      pos=document.getElementById('pos'),
+      notes=document.getElementById('notes'),
+      nbody=document.getElementById('notes-body'),
+      bar=document.getElementById('bar'),
+      i=0, idle;
+
+  function fit(){
+    var s=Math.min(window.innerWidth/1280,(window.innerHeight-34)/720);
+    stage.style.transform='scale('+s+')';
   }
-  document.getElementById('next').onclick=()=>go(i+1);
-  document.getElementById('prev').onclick=()=>go(i-1);
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(i+1);}
-    if(e.key==='ArrowLeft'){e.preventDefault();go(i-1);}
+  window.addEventListener('resize',fit); fit();
+
+  slides.forEach(function(_,n){
+    var t=document.createElement('i');
+    t.addEventListener('click',function(e){e.stopPropagation();go(n)});
+    ticks.appendChild(t);
   });
-  go(0);
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    [].forEach.call(ticks.children,function(t,k){t.classList.toggle('on',k===i)});
+    pos.textContent=(i+1)+' / '+slides.length;
+    nbody.textContent=slides[i].getAttribute('data-notes')||'—';
+    history.replaceState(null,'','#'+(i+1));
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(i+1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);e.preventDefault();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on');}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+      else{document.exitFullscreen();}
+    }
+  });
+
+  function wake(){
+    bar.classList.remove('hide'); clearTimeout(idle);
+    idle=setTimeout(function(){ if(!notes.classList.contains('on')) bar.classList.add('hide') },3200);
+  }
+  document.addEventListener('mousemove',wake);
+  document.addEventListener('keydown',wake);
+  wake();
+
+  var h=parseInt(location.hash.slice(1),10);
+  go(h>0?h-1:0);
+})();
 </script>
 </body>
 </html>
