@@ -79,6 +79,11 @@
   .drill .d-file{font-size:11.5px;color:var(--mute);font-style:italic}
   .note{font-size:12.5px;font-style:italic;color:var(--mute);margin:0 0 28px;line-height:1.5}
 
+  /* sessions not posted yet: greyed out, not clickable */
+  a.drill.soon{opacity:.45;filter:grayscale(1);cursor:default;pointer-events:none;background:transparent;border-style:dashed}
+  a.drill.soon .d-file::after{content:" \00b7  coming soon"}
+  .week-hd .file-hint.done{color:var(--seal);font-style:normal;font-weight:700;letter-spacing:.04em}
+
   /* ============ footer ============ */
   footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);
          font-size:11px;letter-spacing:.08em;color:var(--mute)}
@@ -158,8 +163,8 @@
 
   <!-- ============ SLIDES ============ -->
   <section id="view-slides" class="view" role="tabpanel" aria-labelledby="tab-slides">
-    <p class="note">Slides are posted after each session. Links follow the pattern
-      <em>w&lt;week&gt;-d&lt;drill&gt;.html</em> — a link becomes live once the file is uploaded to this repository.</p>
+    <p class="note">Slides are posted after each session. Sessions that are greyed out
+      haven&rsquo;t been posted yet &mdash; they light up on their own once the deck is uploaded.</p>
     <div id="weeks"><!-- generated --></div>
   </section>
 
@@ -211,6 +216,25 @@
     wk.appendChild(grid);
     root.appendChild(wk);
   }
+
+  /* ---- grey out sessions whose deck is not on the site yet ----
+     Asks the server (HEAD) whether each file exists, so the page can never go stale.
+     If the check itself fails (opened from disk, offline) every link is left active. */
+  [].forEach.call(document.querySelectorAll('a.drill'), function(a){
+    var file=a.getAttribute('href');
+    fetch(file,{method:'HEAD',cache:'no-store'}).then(function(r){
+      if(r.status===404||r.status===410){
+        a.classList.add('soon'); a.removeAttribute('href');
+        a.setAttribute('aria-disabled','true'); a.tabIndex=-1;
+      }
+    }).catch(function(){}).then(function(){
+      var wk=a.closest('.week'), hint=wk.querySelector('.file-hint'),
+          all=wk.querySelectorAll('a.drill').length,
+          live=all-wk.querySelectorAll('a.drill.soon').length;
+      hint.textContent=live+' of '+all+' posted';
+      hint.classList.toggle('done', live===all);
+    });
+  });
 
   /* ---- restore tab from URL hash ---- */
   if(location.hash==='#slides') show('slides');
