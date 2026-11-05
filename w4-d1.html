@@ -467,6 +467,20 @@
   .jw b{font-style:normal;color:var(--ink2)}
   .hk-syl{display:flex;gap:10px;margin-bottom:10px}
   .hk-syl span{width:104px;text-align:center}
+
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -897,36 +911,36 @@
     </div>
   </section>
 
-  <section class="slide" data-notes="第二遍：学生只看英文，用中文说出来，顺序不变。每说完一句，按 → 或点击出那句的中文和拼音核对，一共八步。可以让 A、B 两人一句一句接着说。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第四周　第一次</span></div>
-    <div class="hd">
-      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
-      <h2>对话练习：看英文说中文</h2>
-      <p class="dek">Same dialogue, same order. Say each line in Chinese, then check.</p>
-    </div>
-    <div class="dlg-wrap">
-      <div class="dcol">
-        <p class="phase"><span class="zh">名字和星期</span>Names and the day</p>
-        <div class="dlg r2">
-          <div class="dl dl2"><div class="spk a">A</div><div><div class="en">Hi! What’s your name?</div><div class="ans" data-step="d0"><div class="zh rb"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk b">B</div><div><div class="en">My name is <span class="blank" style="width:3.2em"></span>. And you?</div><div class="ans" data-step="d1"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk a">A</div><div><div class="en">My name is <span class="blank" style="width:3.2em"></span>. What day is it today?</div><div class="ans" data-step="d2"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">今</span><span class="p">jīn</span></span><span class="c"><span class="h">天</span><span class="p">tiān</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">星</span><span class="p">xīng</span></span><span class="c"><span class="h">期</span><span class="p">qī</span></span><span class="c"><span class="h">几</span><span class="p">jǐ</span></span></span><span class="w"><span class="c"><span class="h">了</span><span class="p">le</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk b">B</div><div><div class="en">Today is Monday.</div><div class="ans" data-step="d3"><div class="zh rb"><span class="w"><span class="c"><span class="h">今</span><span class="p">Jīn</span></span><span class="c"><span class="h">天</span><span class="p">tiān</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">星</span><span class="p">xīng</span></span><span class="c"><span class="h">期</span><span class="p">qī</span></span><span class="c"><span class="h">一</span><span class="p">yī</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-        </div>
-        <p class="swap">Say each line in Chinese first, then reveal it to check.</p>
-      </div>
-      <div class="dcol">
-        <p class="phase"><span class="zh">星期和时间</span>The day and the time</p>
-        <div class="dlg r2">
-          <div class="dl dl2"><div class="spk a">A</div><div><div class="en">That’s not right. Today isn’t Monday, is it?</div><div class="ans" data-step="d4"><div class="zh rb"><span class="w"><span class="c"><span class="h">不</span><span class="p">Bú</span></span><span class="c"><span class="h">对</span><span class="p">duì</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">今</span><span class="p">jīn</span></span><span class="c"><span class="h">天</span><span class="p">tiān</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">星</span><span class="p">xīng</span></span><span class="c"><span class="h">期</span><span class="p">qī</span></span><span class="c"><span class="h">一</span><span class="p">yī</span></span></span><span class="w"><span class="c"><span class="h">吧</span><span class="p">ba</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk b">B</div><div><div class="en">Oh! Today is Wednesday!</div><div class="ans" data-step="d5"><div class="zh rb"><span class="w"><span class="c"><span class="h">哦</span><span class="p">Ò</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">今</span><span class="p">jīn</span></span><span class="c"><span class="h">天</span><span class="p">tiān</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">星</span><span class="p">xīng</span></span><span class="c"><span class="h">期</span><span class="p">qī</span></span><span class="c"><span class="h">三</span><span class="p">sān</span></span><span class="c pu"><span class="h">！</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk a">A</div><div><div class="en">What time is it now?</div><div class="ans" data-step="d6"><div class="zh rb"><span class="w"><span class="c"><span class="h">现</span><span class="p">Xiàn</span></span><span class="c"><span class="h">在</span><span class="p">zài</span></span></span><span class="w"><span class="c"><span class="h">几</span><span class="p">jǐ</span></span><span class="c"><span class="h">点</span><span class="p">diǎn</span></span><span class="c"><span class="h">钟</span><span class="p">zhōng</span></span></span><span class="w"><span class="c"><span class="h">了</span><span class="p">le</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl dl2"><div class="spk b">B</div><div><div class="en">It’s nine o’clock.</div><div class="ans" data-step="d7"><div class="zh rb"><span class="w"><span class="c"><span class="h">现</span><span class="p">Xiàn</span></span><span class="c"><span class="h">在</span><span class="p">zài</span></span></span><span class="w"><span class="c"><span class="h">九</span><span class="p">jiǔ</span></span><span class="c"><span class="h">点</span><span class="p">diǎn</span></span><span class="c"><span class="h">钟</span><span class="p">zhōng</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="slide drill-en-only" data-notes="第二遍只看英文，按第一遍顺序说中文，然后交换角色。">
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第四周　第一次</span></div>
+<div class="hd">
+<p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+<h2>对话练习：看英文说中文</h2>
+<p class="dek">Same dialogue, same order. Look at the English and say each line in Chinese.</p>
+</div>
+<div class="dlg-wrap">
+<div class="dcol">
+<p class="phase"><span class="zh">名字和星期</span>Names and the day</p>
+<div class="dlg r2">
+<div class="dl dl2"><div class="spk a">A</div><div><div class="en">Hi! What’s your name?</div></div></div>
+<div class="dl dl2"><div class="spk b">B</div><div><div class="en">My name is <span class="blank" style="width:3.2em"></span>. And you?</div></div></div>
+<div class="dl dl2"><div class="spk a">A</div><div><div class="en">My name is <span class="blank" style="width:3.2em"></span>. What day is it today?</div></div></div>
+<div class="dl dl2"><div class="spk b">B</div><div><div class="en">Today is Monday.</div></div></div>
+</div>
+<p class="swap">Say each line in Chinese, then swap roles and repeat.</p>
+</div>
+<div class="dcol">
+<p class="phase"><span class="zh">星期和时间</span>The day and the time</p>
+<div class="dlg r2">
+<div class="dl dl2"><div class="spk a">A</div><div><div class="en">That’s not right. Today isn’t Monday, is it?</div></div></div>
+<div class="dl dl2"><div class="spk b">B</div><div><div class="en">Oh! Today is Wednesday!</div></div></div>
+<div class="dl dl2"><div class="spk a">A</div><div><div class="en">What time is it now?</div></div></div>
+<div class="dl dl2"><div class="spk b">B</div><div><div class="en">It’s nine o’clock.</div></div></div>
+</div>
+</div>
+</div>
+</section>
 
   <section class="slide" data-noclick data-game data-notes="数字快答：屏幕上出一个数字、时间、星期或年龄，学生抢答，用中文说出来；按空格出答案（带拼音和易错提示），再按空格出下一题。学生分成两队，谁先说对按 1（A 队）或 2（B 队）加一分并直接出下一题。右边可以选练习内容：0–10 热身、11–99 两位数、Time（几点、几点半、几点几分）、Day（星期几）、Age（我今年……岁）、Mix 混合。“Show the Chinese”是反过来：屏幕出汉字，学生说出数字或时间。Auto-reveal 可以设 5 秒或 10 秒自动出答案。方向键 ← 仍然可以翻回上一页。">
     <div class="seal">练</div>

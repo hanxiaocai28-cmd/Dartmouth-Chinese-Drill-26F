@@ -462,6 +462,20 @@
   .jw b{font-style:normal;color:var(--ink2)}
   .hk-syl{display:flex;gap:10px;margin-bottom:10px}
   .hk-syl span{width:104px;text-align:center}
+
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -806,25 +820,24 @@
     </div>
   </section>
 
-  <section class="slide">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第四周　第二次</span></div>
-    <div class="hd">
-      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
-      <h2>对话练习：看英文说中文</h2>
-      <p class="dek">Same dialogue, same order. Say each line in Chinese, then reveal it to check.</p>
-    </div>
-    <div class="d2">
-      <div class="d2-hd"><span></span><span>English</span><span><span class="zh">中文</span>Say it, then check</span></div>
-        <div class="dl"><div class="spk a">A</div><div class="en">Hi! What’s your name?</div><div class="ans" data-step="d0"><div class="zh rb"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
-        <div class="dl"><div class="spk b">B</div><div class="en">My name is <span class="blank"></span>. And you?</div><div class="ans" data-step="d1"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
-        <div class="dl"><div class="spk a">A</div><div class="en">My name is <span class="blank"></span>. Do you like Chinese food or American food?</div><div class="ans" data-step="d2"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p">huan</span></span></span><span class="w"><span class="c"><span class="h">吃</span><span class="p">chī</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p">hái</span></span><span class="c"><span class="h">是</span><span class="p">shi</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
-        <div class="dl"><div class="spk b">B</div><div class="en">I like American food. And you?</div><div class="ans" data-step="d3"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p">huan</span></span></span><span class="w"><span class="c"><span class="h">吃</span><span class="p">chī</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
-        <div class="dl"><div class="spk a">A</div><div class="en">I like Chinese food, and I like American food too.</div><div class="ans" data-step="d4"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p">huan</span></span></span><span class="w"><span class="c"><span class="h">吃</span><span class="p">chī</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">喜</span><span class="p">xǐ</span></span><span class="c"><span class="h">欢</span><span class="p">huan</span></span></span><span class="w"><span class="c"><span class="h">吃</span><span class="p">chī</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div>
-        <div class="dl"><div class="spk b">B</div><div class="en">Let me treat you to Chinese food tomorrow, OK?</div><div class="ans" data-step="d5"><div class="zh rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">明</span><span class="p">míng</span></span><span class="c"><span class="h">天</span><span class="p">tiān</span></span></span><span class="w"><span class="c"><span class="h">请</span><span class="p">qǐng</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">吃</span><span class="p">chī</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span><span class="c"><span class="h">国</span><span class="p">guó</span></span><span class="c"><span class="h">菜</span><span class="p">cài</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div>
-        <div class="dl"><div class="spk a">A</div><div class="en">Sure!</div><div class="ans" data-step="d6"><div class="zh rb"><span class="w"><span class="c"><span class="h">好</span><span class="p">Hǎo</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span><span class="c pu"><span class="h">！</span></span></span></div></div></div>
-    </div>
-  </section>
+  <section class="slide drill-en-only" data-notes="第二遍只看英文，按第一遍顺序说中文，然后交换角色。">
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第四周　第二次</span></div>
+<div class="hd">
+<p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+<h2>对话练习：看英文说中文</h2>
+<p class="dek">Same dialogue, same order. Look at the English and say each line in Chinese.</p>
+</div>
+<div class="d2 en-only">
+<div class="dl"><div class="spk a">A</div><div class="en">Hi! What’s your name?</div></div>
+<div class="dl"><div class="spk b">B</div><div class="en">My name is <span class="blank"></span>. And you?</div></div>
+<div class="dl"><div class="spk a">A</div><div class="en">My name is <span class="blank"></span>. Do you like Chinese food or American food?</div></div>
+<div class="dl"><div class="spk b">B</div><div class="en">I like American food. And you?</div></div>
+<div class="dl"><div class="spk a">A</div><div class="en">I like Chinese food, and I like American food too.</div></div>
+<div class="dl"><div class="spk b">B</div><div class="en">Let me treat you to Chinese food tomorrow, OK?</div></div>
+<div class="dl"><div class="spk a">A</div><div class="en">Sure!</div></div>
+</div>
+</section>
 
   <section class="slide" data-noclick data-game>
     <div class="seal">练</div>

@@ -120,6 +120,35 @@
                 text-transform:uppercase;display:block;margin-bottom:6px}
   #notes p{margin:0}
   @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+
+/* LEGACY-PINYIN-START */
+.legacy-rb.rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.18em;row-gap:.18em;line-height:1.2}
+.legacy-rb.rb .w{display:flex;align-items:flex-start;gap:.03em}
+.legacy-rb.rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em;flex-shrink:0}
+.legacy-rb.rb .c.pu{min-width:0}
+.legacy-rb.rb .h{font-size:1em;line-height:1.2;font-weight:inherit;color:inherit}
+.legacy-rb.rb .p{font-family:var(--serif,Georgia,serif);font-size:.48em;line-height:1.3;color:var(--indigo,#2E3A48);white-space:nowrap;min-height:1.3em;margin:0;padding:0 .08em;letter-spacing:0;text-transform:none;font-style:normal}
+.legacy-rb.rb .new .h{color:var(--seal)}
+.legacy-rb.rb .blank{margin:0}
+.legacy-marker{display:none!important}
+/* LEGACY-PINYIN-END */
+
+
+.phrases{display:grid;grid-template-columns:1fr;gap:10px}.phrases .phrase{padding:8px 26px;grid-template-columns:minmax(0,1fr) 240px}.phrases .phrase .legacy-rb{font-size:32px}
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -205,54 +234,53 @@
 
   <!-- ============ SLIDE 3: Greetings ============ -->
   <section class="slide" data-notes="Read each phrase, mark the tones, then practice pronunciation as a group.">
-    <div class="seal">印</div>
-    <div class="rail"><span>中文操練・二六年秋</span></div>
-    <div class="hd">
-      <p class="kicker">练习 · Practice</p>
-      <h2>Greetings to try</h2>
-      <p class="dek">Read the tone marks, then say it out loud. <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">你好！</span></p>
-    </div>
-    <div class="main">
-      <div class="phrases">
-        <div class="phrase"><div class="zh">你好</div><div class="py">nǐ hǎo</div><div class="en">Hello</div></div>
-        <div class="phrase"><div class="zh">你叫什么名字？</div><div class="py">nǐ jiào shénme míngzi?</div><div class="en">What's your name?</div></div>
-        <div class="phrase"><div class="zh">我叫……</div><div class="py">wǒ jiào…</div><div class="en">My name is…</div></div>
-        <div class="phrase"><div class="zh">您贵姓？</div><div class="py">nín guì xìng?</div><div class="en">May I ask your surname? <em>(polite)</em></div></div>
-        <div class="phrase"><div class="zh">老师好</div><div class="py">lǎoshī hǎo</div><div class="en">Hello, teacher</div></div>
-      </div>
-    </div>
-  </section>
+<div class="seal">印</div>
+<div class="rail"><span>中文操練・二六年秋</span></div>
+<div class="hd">
+<p class="kicker">练习 · Practice</p>
+<h2>Greetings to try</h2>
+<p class="dek">Read the tone marks, then say it out loud. <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">你好！</span></p>
+</div>
+<div class="main">
+<div class="phrases">
+<div class="phrase"><div class="zh rb legacy-rb" id="legacy-line-1"><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span></div><div class="en">Hello</div></div>
+<div class="phrase"><div class="zh rb legacy-rb" id="legacy-line-2"><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="en">What's your name?</div></div>
+<div class="phrase"><div class="zh rb legacy-rb" id="legacy-line-3"><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span></div><div class="en">My name is…</div></div>
+<div class="phrase"><div class="zh rb legacy-rb" id="legacy-line-4"><span class="w"><span class="c"><span class="h">您</span><span class="p">nín</span></span></span><span class="w"><span class="c"><span class="h">贵</span><span class="p">guì</span></span></span><span class="w"><span class="c"><span class="h">姓</span><span class="p">xìng</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="en">May I ask your surname? <em>(polite)</em></div></div>
+<div class="phrase"><div class="zh rb legacy-rb" id="legacy-line-5"><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span></div><div class="en">Hello, teacher</div></div>
+</div>
+</div>
+</section>
 
   <!-- ============ SLIDE 4: Conversation ============ -->
   <section class="slide" data-notes="Model the exchange, then have students pair up and swap in their own names.">
-    <div class="seal">印</div>
-    <div class="rail"><span>中文操練・二六年秋</span></div>
-    <div class="hd">
-      <p class="kicker">对话 · Conversation</p>
-      <h2>Put it together</h2>
-      <p class="dek">Two people meeting for the first time.</p>
-    </div>
-    <div class="main">
-      <div class="convo">
-        <div class="turn who-a">
-          <div class="role">A</div>
-          <div><div class="zh">你好！</div><div class="py">Nǐ hǎo!</div><div class="en">Hello!</div></div>
-        </div>
-        <div class="turn who-b">
-          <div class="role">B</div>
-          <div><div class="zh">你好！你叫什么名字？</div><div class="py">Nǐ hǎo! Nǐ jiào shénme míngzi?</div><div class="en">Hello! What's your name?</div></div>
-        </div>
-        <div class="turn who-a">
-          <div class="role">A</div>
-          <div><div class="zh">我叫汉晓，我是老师。</div><div class="py">Wǒ jiào Hànxiǎo, wǒ shì lǎoshī.</div><div class="en">I'm Hanxiao — I'm the teacher.</div></div>
-        </div>
+<div class="seal">印</div>
+<div class="rail"><span>中文操練・二六年秋</span></div>
+<div class="hd">
+<p class="kicker">对话 · Conversation</p>
+<h2>Put it together</h2>
+<p class="dek">Two people meeting for the first time.</p>
+</div>
+<div class="main">
+<div class="convo">
+<div class="turn who-a">
+<div class="role">A</div>
+<div><div class="zh rb legacy-rb" id="legacy-line-6"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span></div><div class="en">Hello!</div></div>
+</div>
+<div class="turn who-b">
+<div class="role">B</div>
+<div><div class="zh rb legacy-rb" id="legacy-line-7"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="en">Hello! What's your name?</div></div>
+</div>
+<div class="turn who-a">
+<div class="role">A</div>
+<div><div class="zh rb legacy-rb" id="legacy-line-8"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">汉</span><span class="p">Hàn</span></span></span><span class="w"><span class="c"><span class="h">晓</span><span class="p">xiǎo</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div><div class="en">I'm Hanxiao — I'm the teacher.</div></div>
+</div>
+</div>
+<div class="tipbar">
+<b>试一试</b> — Swap in your own name: <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">我叫 ______ 。</span> Then trade roles with a partner.
       </div>
-
-      <div class="tipbar">
-        <b>试一试</b> — Swap in your own name: <span style="font-family:var(--mincho);color:var(--seal);font-weight:600">我叫 ______ 。</span> Then trade roles with a partner.
-      </div>
-    </div>
-  </section>
+</div>
+</section>
 
 </div></div>
 

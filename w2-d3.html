@@ -290,6 +290,47 @@
   .wall-empty{grid-column:1/-1;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);
               border:1px dashed var(--rule);padding:22px;text-align:center;line-height:1.5}
   @media (prefers-reduced-motion:reduce){.wi{animation:none}}
+
+
+/* LEGACY-PINYIN-START */
+.legacy-rb.rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.18em;row-gap:.18em;line-height:1.2}
+.legacy-rb.rb .w{display:flex;align-items:flex-start;gap:.03em}
+.legacy-rb.rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em;flex-shrink:0}
+.legacy-rb.rb .c.pu{min-width:0}
+.legacy-rb.rb .h{font-size:1em;line-height:1.2;font-weight:inherit;color:inherit}
+.legacy-rb.rb .p{font-family:var(--serif,Georgia,serif);font-size:.48em;line-height:1.3;color:var(--indigo,#2E3A48);white-space:nowrap;min-height:1.3em;margin:0;padding:0 .08em;letter-spacing:0;text-transform:none;font-style:normal}
+.legacy-rb.rb .new .h{color:var(--seal)}
+.legacy-rb.rb .blank{margin:0}
+.legacy-marker{display:none!important}
+/* LEGACY-PINYIN-END */
+.slide:not(:has(#legacy-reveal-1.shown,#legacy-reveal-1.in,#legacy-reveal-1.show)) #legacy-line-1 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-2.shown,#legacy-reveal-2.in,#legacy-reveal-2.show)) #legacy-line-2 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-3.shown,#legacy-reveal-3.in,#legacy-reveal-3.show)) #legacy-line-3 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-4.shown,#legacy-reveal-4.in,#legacy-reveal-4.show)) #legacy-line-4 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-13.shown,#legacy-reveal-13.in,#legacy-reveal-13.show)) #legacy-line-13 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-14.shown,#legacy-reveal-14.in,#legacy-reveal-14.show)) #legacy-line-14 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-15.shown,#legacy-reveal-15.in,#legacy-reveal-15.show)) #legacy-line-15 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-16.shown,#legacy-reveal-16.in,#legacy-reveal-16.show)) #legacy-line-16 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-27.shown,#legacy-reveal-27.in,#legacy-reveal-27.show)) #legacy-line-27 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-28.shown,#legacy-reveal-28.in,#legacy-reveal-28.show)) #legacy-line-28 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-29.shown,#legacy-reveal-29.in,#legacy-reveal-29.show)) #legacy-line-29 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-30.shown,#legacy-reveal-30.in,#legacy-reveal-30.show)) #legacy-line-30 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-31.shown,#legacy-reveal-31.in,#legacy-reveal-31.show)) #legacy-line-31 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-32.shown,#legacy-reveal-32.in,#legacy-reveal-32.show)) #legacy-line-32 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-33.shown,#legacy-reveal-33.in,#legacy-reveal-33.show)) #legacy-line-33 .p{visibility:hidden}
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -456,28 +497,28 @@
 
   <!-- 03 · P1a answers -->
   <section class="slide" data-notes="按 → 或点击，一个一个出答案。可提的点：① 李老师 写作 Lǐ lǎoshī，但读的时候 Lǐ 变成二声（三声 + 三声变调），写拼音仍标三声。② 中国人、美国人 连写为一个词，rén 是二声。③ 鄂尔多斯 È'ěrduōsī：第二个音节以元音开头，要加隔音符号（'）。④ 地名、国名首字母大写。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第二周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P1 · 听写 Dictation · Part 1</p>
-      <h2>核对答案：拼音</h2>
-      <p class="dek">Check your pinyin, one word at a time.</p>
-    </div>
-    <div class="dgrid">
-      <div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-tn"/></svg></div><div class="zh dk-zh">田纳西</div><div class="dk-ans"><span class="py dk-py" data-step>Tiánnàxī</span></div></div>
-      <div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-sh"/></svg></div><div class="zh dk-zh">上海</div><div class="dk-ans"><span class="py dk-py" data-step>Shànghǎi</span></div></div>
-      <div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-bj"/></svg></div><div class="zh dk-zh">北京</div><div class="dk-ans"><span class="py dk-py" data-step>Běijīng</span></div></div>
-      <div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-cn"/></svg></div><div class="zh dk-zh">中国人</div><div class="dk-ans"><span class="py dk-py" data-step>Zhōngguórén</span></div></div>
-      <div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-teacher"/></svg></div><div class="zh dk-zh">李老师</div><div class="dk-ans"><span class="py dk-py" data-step>Lǐ lǎoshī</span></div></div>
-      <div class="dk"><div class="dk-top"><div class="sq">六</div><svg class="ic"><use href="#ic-us"/></svg></div><div class="zh dk-zh">美国人</div><div class="dk-ans"><span class="py dk-py" data-step>Měiguórén</span></div></div>
-      <div class="dk bonus">
-        <div class="tag"><span class="zh">附加题</span>Bonus</div>
-        <div class="sq">附</div>
-        <svg class="ic"><use href="#ic-yurt"/></svg>
-        <div class="bx"><div class="zh dk-zh">鄂尔多斯</div><div class="dk-ans"><span class="py dk-py" data-step>È'ěrduōsī</span></div></div>
-      </div>
-    </div>
-  </section>
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第二周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P1 · 听写 Dictation · Part 1</p>
+<h2>核对答案：拼音</h2>
+<p class="dek">Check your pinyin, one word at a time.</p>
+</div>
+<div class="dgrid">
+<div class="dk"><div class="dk-top"><div class="sq">一</div><svg class="ic"><use href="#ic-tn"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-27"><span class="w"><span class="c"><span class="h">田</span><span class="p">Tián</span></span></span><span class="w"><span class="c"><span class="h">纳</span><span class="p">nà</span></span></span><span class="w"><span class="c"><span class="h">西</span><span class="p">xī</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-27">Written as Tiánnàxī</span></div></div>
+<div class="dk"><div class="dk-top"><div class="sq">二</div><svg class="ic"><use href="#ic-sh"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-28"><span class="w"><span class="c"><span class="h">上</span><span class="p">Shàng</span></span></span><span class="w"><span class="c"><span class="h">海</span><span class="p">hǎi</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-28">Written as Shànghǎi</span></div></div>
+<div class="dk"><div class="dk-top"><div class="sq">三</div><svg class="ic"><use href="#ic-bj"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-29"><span class="w"><span class="c"><span class="h">北</span><span class="p">Běi</span></span></span><span class="w"><span class="c"><span class="h">京</span><span class="p">jīng</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-29">Written as Běijīng</span></div></div>
+<div class="dk"><div class="dk-top"><div class="sq">四</div><svg class="ic"><use href="#ic-cn"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-30"><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-30">Written as Zhōngguórén</span></div></div>
+<div class="dk"><div class="dk-top"><div class="sq">五</div><svg class="ic"><use href="#ic-teacher"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-31"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-31">Written as Lǐ lǎoshī</span></div></div>
+<div class="dk"><div class="dk-top"><div class="sq">六</div><svg class="ic"><use href="#ic-us"></use></svg></div><div class="zh dk-zh rb legacy-rb" id="legacy-line-32"><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-32">Written as Měiguórén</span></div></div>
+<div class="dk bonus">
+<div class="tag"><span class="zh">附加题</span>Bonus</div>
+<div class="sq">附</div>
+<svg class="ic"><use href="#ic-yurt"></use></svg>
+<div class="bx"><div class="zh dk-zh rb legacy-rb" id="legacy-line-33"><span class="w"><span class="c"><span class="h">鄂</span><span class="p">È</span></span></span><span class="w"><span class="c"><span class="h">尔</span><span class="p">ěr</span></span></span><span class="w"><span class="c"><span class="h">多</span><span class="p">duō</span></span></span><span class="w"><span class="c"><span class="h">斯</span><span class="p">sī</span></span></span></div><div class="dk-ans"><span class="legacy-written" data-step="" id="legacy-reveal-33">Written as È'ěrduōsī</span></div></div>
+</div>
+</div>
+</section>
 
   <!-- 04 · P1b questions: hear pinyin, write characters -->
   <section class="slide" data-notes="照着屏幕上的拼音念，每个念两遍。学生在纸上写汉字，格子的数量就是字数。念完翻页核对。">
@@ -523,134 +564,134 @@
 
   <!-- 06 · P2 review sentences -->
   <section class="slide" data-notes="先让学生不看拼音、自己读一遍（可以点名每人读一句）。按 → 显示全部拼音，再按一次显示英文。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第二周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P2 · 复习 Review</p>
-      <h2>复习句子</h2>
-      <p class="dek">Read each sentence aloud first. Pinyin comes next, then English.</p>
-    </div>
-    <div class="split one">
-      <div class="sents">
-        <div class="sent"><div class="sq">一</div><div>
-          <div class="zh">我的专业是中文。</div>
-          <div class="py" data-step="py">Wǒ de zhuānyè shì Zhōngwén.</div>
-          <div class="en" data-step="en">My major is Chinese.</div></div></div>
-        <div class="sent"><div class="sq">二</div><div>
-          <div class="zh">你的哥哥是学生还是老师？</div>
-          <div class="py" data-step="py">Nǐ de gēge shì xuésheng háishi lǎoshī?</div>
-          <div class="en" data-step="en">Is your older brother a student or a teacher?</div></div></div>
-        <div class="sent"><div class="sq">三</div><div>
-          <div class="zh">你的爸爸也是美国人吗？</div>
-          <div class="py" data-step="py">Nǐ de bàba yě shì Měiguórén ma?</div>
-          <div class="en" data-step="en">Is your dad American too?</div></div></div>
-        <div class="sent"><div class="sq">四</div><div>
-          <div class="zh">我是美国人，但我的妈妈不是美国人。</div>
-          <div class="py" data-step="py">Wǒ shì Měiguórén, dàn wǒ de māma bú shì Měiguórén.</div>
-          <div class="en" data-step="en">I’m American, but my mom isn’t American.</div></div></div>
-      </div>
-    </div>
-  </section>
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第二周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P2 · 复习 Review</p>
+<h2>复习句子</h2>
+<p class="dek">Read each sentence aloud first. Pinyin comes next, then English.</p>
+</div>
+<div class="split one">
+<div class="sents">
+<div class="sent"><div class="sq">一</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-1"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span></span><span class="w"><span class="c"><span class="h">文</span><span class="p">wén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-1"></div>
+<div class="en" data-step="en">My major is Chinese.</div></div></div>
+<div class="sent"><div class="sq">二</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-2"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p">hái</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shi</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-2"></div>
+<div class="en" data-step="en">Is your older brother a student or a teacher?</div></div></div>
+<div class="sent"><div class="sq">三</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-3"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-3"></div>
+<div class="en" data-step="en">Is your dad American too?</div></div></div>
+<div class="sent"><div class="sq">四</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-4"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">但</span><span class="p">dàn</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p">mā</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p">ma</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-4"></div>
+<div class="en" data-step="en">I’m American, but my mom isn’t American.</div></div></div>
+</div>
+</div>
+</section>
 
   <!-- 07 · P3a new words: siblings + titles -->
   <section class="slide" data-notes="先讲左边表格：横向是比我大 / 比我小，纵向是男 / 女。四个词的第二个字都读轻声。右边：先生、小姐是称呼，放在姓后面，和“李老师”一样。小姐 实际读 xiáojiě（三声变调）。可以快速问答：指着表格问“这是谁？”">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第二周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P3 · 新词 New words</p>
-      <h2>新词：兄弟姐妹和称呼</h2>
-      <p class="dek">Siblings by age and gender, and two polite titles.</p>
-    </div>
-    <div class="split s155">
-      <div class="fam">
-        <div class="axis"><span>older than me</span><span class="ln"></span><span class="me">我</span><span class="ln"></span><span>younger than me</span></div>
-        <div class="rowlab"><span class="zh">男</span>male</div>
-        <div class="fcell"><span class="zh">哥哥</span><span class="py">gēge</span><span class="en">older brother</span></div>
-        <div class="fcell"><span class="zh">弟弟</span><span class="py">dìdi</span><span class="en">younger brother</span></div>
-        <div class="rowlab"><span class="zh">女</span>female</div>
-        <div class="fcell"><span class="zh">姐姐</span><span class="py">jiějie</span><span class="en">older sister</span></div>
-        <div class="fcell"><span class="zh">妹妹</span><span class="py">mèimei</span><span class="en">younger sister</span></div>
-      </div>
-      <div class="titles">
-        <div class="tt">
-          <div class="row1"><span class="zh">先生</span><span class="py">xiānsheng</span></div>
-          <p class="en">Mr.; also “husband”</p>
-          <div class="eg"><span class="zh">王先生</span>　<span class="py">Wáng xiānsheng</span>　Mr. Wang</div>
-        </div>
-        <div class="tt">
-          <div class="row1"><span class="zh">小姐</span><span class="py">xiǎojiě</span></div>
-          <p class="en">Miss; a young woman</p>
-          <div class="eg"><span class="zh">李小姐</span>　<span class="py">Lǐ xiǎojiě</span>　Miss Li</div>
-        </div>
-        <p class="tip">The surname comes first and the title after, just like <span class="zh">李老师</span>. In speech, <span class="zh">小姐</span> sounds like <i>xiáojiě</i>.</p>
-      </div>
-    </div>
-  </section>
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第二周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P3 · 新词 New words</p>
+<h2>新词：兄弟姐妹和称呼</h2>
+<p class="dek">Siblings by age and gender, and two polite titles.</p>
+</div>
+<div class="split s155">
+<div class="fam">
+<div class="axis"><span>older than me</span><span class="ln"></span><span class="me">我</span><span class="ln"></span><span>younger than me</span></div>
+<div class="rowlab"><span class="zh">男</span>male</div>
+<div class="fcell"><span class="zh rb legacy-rb" id="legacy-line-5"><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span></span><span class="en">older brother</span></div>
+<div class="fcell"><span class="zh rb legacy-rb" id="legacy-line-6"><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">di</span></span></span></span><span class="en">younger brother</span></div>
+<div class="rowlab"><span class="zh">女</span>female</div>
+<div class="fcell"><span class="zh rb legacy-rb" id="legacy-line-7"><span class="w"><span class="c"><span class="h">姐</span><span class="p">jiě</span></span></span><span class="w"><span class="c"><span class="h">姐</span><span class="p">jie</span></span></span></span><span class="en">older sister</span></div>
+<div class="fcell"><span class="zh rb legacy-rb" id="legacy-line-8"><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mei</span></span></span></span><span class="en">younger sister</span></div>
+</div>
+<div class="titles">
+<div class="tt">
+<div class="row1"><span class="zh rb legacy-rb" id="legacy-line-9"><span class="w"><span class="c"><span class="h">先</span><span class="p">xiān</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span></span></div>
+<p class="en">Mr.; also “husband”</p>
+<div class="eg"><span class="zh rb legacy-rb" id="legacy-line-10"><span class="w"><span class="c"><span class="h">王</span><span class="p">Wáng</span></span></span><span class="w"><span class="c"><span class="h">先</span><span class="p">xiān</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span></span>　　Mr. Wang</div>
+</div>
+<div class="tt">
+<div class="row1"><span class="zh rb legacy-rb" id="legacy-line-11"><span class="w"><span class="c"><span class="h">小</span><span class="p">xiǎo</span></span></span><span class="w"><span class="c"><span class="h">姐</span><span class="p">jiě</span></span></span></span></div>
+<p class="en">Miss; a young woman</p>
+<div class="eg"><span class="zh rb legacy-rb" id="legacy-line-12"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">小</span><span class="p">xiǎo</span></span></span><span class="w"><span class="c"><span class="h">姐</span><span class="p">jiě</span></span></span></span>　　Miss Li</div>
+</div>
+<p class="tip">The surname comes first and the title after, just like <span class="zh">李老师</span>. In speech, <span class="zh">小姐</span> sounds like <i>xiáojiě</i>.</p>
+</div>
+</div>
+</section>
 
   <!-- 08 · P3b new sentences -->
   <section class="slide" data-notes="和复习句子一样：先读，按 → 出拼音，再按出英文。红色是今天的新词。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第二周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P3 · 新句子 New sentences</p>
-      <h2>学习新句子</h2>
-      <p class="dek">New words are in red. Read first, then check the pinyin and English.</p>
-    </div>
-    <div class="split one">
-      <div class="sents">
-        <div class="sent"><div class="sq">一</div><div>
-          <div class="zh">李<span class="new">小姐</span>，<span class="new">请问</span>你是学生吗？</div>
-          <div class="py" data-step="py">Lǐ xiǎojiě, qǐngwèn nǐ shì xuésheng ma?</div>
-          <div class="en" data-step="en">Miss Li, may I ask, are you a student?</div></div></div>
-        <div class="sent"><div class="sq">二</div><div>
-          <div class="zh">王<span class="new">先生</span>，<span class="new">您</span>是美国人吗？</div>
-          <div class="py" data-step="py">Wáng xiānsheng, nín shì Měiguórén ma?</div>
-          <div class="en" data-step="en">Mr. Wang, are you American?</div></div></div>
-        <div class="sent"><div class="sq">三</div><div>
-          <div class="zh">安<span class="new">先生</span>，<span class="new">请问</span>你的专业是什么？</div>
-          <div class="py" data-step="py">Ān xiānsheng, qǐngwèn nǐ de zhuānyè shì shénme?</div>
-          <div class="en" data-step="en">Mr. An, may I ask what your major is?</div></div></div>
-        <div class="sent"><div class="sq">四</div><div>
-          <div class="zh">李老师是好老师，我也是好学生，但王朋不是好学生！</div>
-          <div class="py" data-step="py">Lǐ lǎoshī shì hǎo lǎoshī, wǒ yě shì hǎo xuésheng, dàn Wáng Péng bú shì hǎo xuésheng!</div>
-          <div class="en" data-step="en">Teacher Li is a good teacher, and I’m a good student too, but Wang Peng isn’t a good student!</div></div></div>
-      </div>
-    </div>
-  </section>
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第二周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P3 · 新句子 New sentences</p>
+<h2>学习新句子</h2>
+<p class="dek">New words are in red. Read first, then check the pinyin and English.</p>
+</div>
+<div class="split one">
+<div class="sents">
+<div class="sent"><div class="sq">一</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-13"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c new"><span class="h">小</span><span class="p">xiǎo</span></span></span><span class="w"><span class="c new"><span class="h">姐</span><span class="p">jiě</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c new"><span class="h">请</span><span class="p">qǐng</span></span></span><span class="w"><span class="c new"><span class="h">问</span><span class="p">wèn</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-13"></div>
+<div class="en" data-step="en">Miss Li, may I ask, are you a student?</div></div></div>
+<div class="sent"><div class="sq">二</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-14"><span class="w"><span class="c"><span class="h">王</span><span class="p">Wáng</span></span></span><span class="w"><span class="c new"><span class="h">先</span><span class="p">xiān</span></span></span><span class="w"><span class="c new"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c new"><span class="h">您</span><span class="p">nín</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-14"></div>
+<div class="en" data-step="en">Mr. Wang, are you American?</div></div></div>
+<div class="sent"><div class="sq">三</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-15"><span class="w"><span class="c"><span class="h">安</span><span class="p">Ān</span></span></span><span class="w"><span class="c new"><span class="h">先</span><span class="p">xiān</span></span></span><span class="w"><span class="c new"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c new"><span class="h">请</span><span class="p">qǐng</span></span></span><span class="w"><span class="c new"><span class="h">问</span><span class="p">wèn</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-15"></div>
+<div class="en" data-step="en">Mr. An, may I ask what your major is?</div></div></div>
+<div class="sent"><div class="sq">四</div><div>
+<div class="zh rb legacy-rb" id="legacy-line-16"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">但</span><span class="p">dàn</span></span></span><span class="w"><span class="c"><span class="h">王</span><span class="p">Wáng</span></span></span><span class="w"><span class="c"><span class="h">朋</span><span class="p">Péng</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span></div>
+<div class="py legacy-marker" data-step="py" id="legacy-reveal-16"></div>
+<div class="en" data-step="en">Teacher Li is a good teacher, and I’m a good student too, but Wang Peng isn’t a good student!</div></div></div>
+</div>
+</div>
+</section>
 
   <!-- 09 · P4 dialogue -->
   <section class="slide" data-notes="两人一组，先照着读一遍（A、B 都读）。然后交换角色，横线处换成自己的名字和专业。时间允许的话，请一两组到前面表演，并把“李老师”换成别的老师。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第二周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P4 · 对话 Dialogue</p>
-      <h2>对话练习</h2>
-      <p class="dek">Work in pairs. Fill each blank with your own name or major.</p>
-    </div>
-    <div class="dlg-wrap">
-      <div class="dcol">
-        <p class="phase"><span class="zh">名字和老师</span>Names and teachers</p>
-        <div class="dlg">
-          <div class="dl"><div class="spk a">A</div><div><div class="zh">你好！你叫什么名字？</div><div class="py">Nǐ hǎo! Nǐ jiào shénme míngzi?</div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="zh">我叫<span class="blank"></span>，你呢？</div><div class="py">Wǒ jiào <span class="blank"></span>, nǐ ne?</div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="zh">我叫<span class="blank"></span>。你的老师叫什么名字？</div><div class="py">Wǒ jiào <span class="blank"></span>. Nǐ de lǎoshī jiào shénme míngzi?</div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="zh">我的老师叫李老师。</div><div class="py">Wǒ de lǎoshī jiào Lǐ lǎoshī.</div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="zh">李老师好不好？</div><div class="py">Lǐ lǎoshī hǎo bu hǎo?</div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="zh">李老师很好。</div><div class="py">Lǐ lǎoshī hěn hǎo.</div></div></div>
-        </div>
-        <p class="swap">Read it once as written, then <b>swap roles</b> and use your own name and major.</p>
-      </div>
-      <div class="dcol">
-        <p class="phase"><span class="zh">专业</span>Majors</p>
-        <div class="dlg">
-          <div class="dl"><div class="spk a">A</div><div><div class="zh">你是中文专业吗？</div><div class="py">Nǐ shì Zhōngwén zhuānyè ma?</div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="zh">不，我不是中文专业的。</div><div class="py">Bù, wǒ bú shì Zhōngwén zhuānyè de.</div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="zh">你是什么专业的？</div><div class="py">Nǐ shì shénme zhuānyè de?</div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="zh">我是<span class="blank"></span>专业的。</div><div class="py">Wǒ shì <span class="blank"></span> zhuānyè de.</div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第二周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P4 · 对话 Dialogue</p>
+<h2>对话练习</h2>
+<p class="dek">Work in pairs. Fill each blank with your own name or major.</p>
+</div>
+<div class="dlg-wrap">
+<div class="dcol">
+<p class="phase"><span class="zh">名字和老师</span>Names and teachers</p>
+<div class="dlg">
+<div class="dl"><div class="spk a">A</div><div><div class="zh rb legacy-rb" id="legacy-line-17"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="zh rb legacy-rb" id="legacy-line-18"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="zh rb legacy-rb" id="legacy-line-19"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="zh rb legacy-rb" id="legacy-line-20"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="zh rb legacy-rb" id="legacy-line-21"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bu</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="zh rb legacy-rb" id="legacy-line-22"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">很</span><span class="p">hěn</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+</div>
+<p class="swap">Read it once as written, then <b>swap roles</b> and use your own name and major.</p>
+</div>
+<div class="dcol">
+<p class="phase"><span class="zh">专业</span>Majors</p>
+<div class="dlg">
+<div class="dl"><div class="spk a">A</div><div><div class="zh rb legacy-rb" id="legacy-line-23"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span></span><span class="w"><span class="c"><span class="h">文</span><span class="p">wén</span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="zh rb legacy-rb" id="legacy-line-24"><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span></span><span class="w"><span class="c"><span class="h">文</span><span class="p">wén</span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="zh rb legacy-rb" id="legacy-line-25"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="zh rb legacy-rb" id="legacy-line-26"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">专</span><span class="p">zhuān</span></span></span><span class="w"><span class="c"><span class="h">业</span><span class="p">yè</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+</div>
+</div>
+</div>
+</section>
 
   <!-- 10 · P5 sports word bank -->
   <section class="slide" data-noclick data-notes="请学生用英文说出自己喜欢的运动，老师输入，按回车加入右边的列表；最后可以让大家一起读一遍列表。按 / 键直接跳到输入框；Esc 离开输入框后方向键才能翻页。也可以输入拼音（不用声调，比如 lanqiu）或汉字来查。没人说话时点“随机一个”。">

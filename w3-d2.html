@@ -324,6 +324,20 @@
   .nk .hz-fb{font-size:118px}
   .hand{width:150px;height:181px;display:block}
   .nk-cap{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--mute);text-align:center;line-height:1.35;min-height:2.7em;margin:0}
+
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -706,35 +720,35 @@
   </section>
 
   <!-- 09 · P4 dialogue round 2 -->
-  <section class="slide" data-notes="第二遍：只看英文，两人一组用中文说出来，顺序和第一遍一样。说完一句按 → 显示这一句的中文和拼音核对，一共八句。时间允许的话，请一两组到前面表演。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第三周　第二次</span></div>
-    <div class="hd">
-      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
-      <h2>对话练习：第二遍</h2>
-      <p class="dek">Say each line in Chinese from the English. Press → to check it.</p>
-    </div>
-    <div class="dlg-wrap">
-      <div class="dcol">
-        <p class="phase"><span class="zh">名字和弟弟妹妹</span>Names and younger siblings</p>
-        <div class="dlg en">
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>, and you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. Do you have a younger brother or a younger sister?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span></span><span class="w"><span class="c"><span class="h">或</span><span class="p">huò</span></span><span class="c"><span class="h">者</span><span class="p">zhě</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">No. I don’t have a younger brother, or a younger sister.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">弟</span><span class="p">dì</span></span><span class="c"><span class="h">弟</span><span class="p">di</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">没</span><span class="p">méi</span></span><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">妹</span><span class="p">mèi</span></span><span class="c"><span class="h">妹</span><span class="p">mei</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-        </div>
-      </div>
-      <div class="dcol">
-        <p class="phase"><span class="zh">哥哥</span>An older brother</p>
-        <div class="dlg en">
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">Do you have an older brother?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">I do! My older brother is called Monroe.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">有</span><span class="p">Yǒu</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">哥</span><span class="p">gē</span></span><span class="c"><span class="h">哥</span><span class="p">ge</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">Is Monroe a guy or a girl?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">梦</span><span class="p">Mèng</span></span><span class="c"><span class="h">露</span><span class="p">lù</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">男</span><span class="p">nán</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span></span><span class="w"><span class="c"><span class="h">还</span><span class="p">hái</span></span><span class="c"><span class="h">是</span><span class="p">shi</span></span></span><span class="w"><span class="c"><span class="h">女</span><span class="p">nǚ</span></span><span class="c"><span class="h">生</span><span class="p">shēng</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">They’re gender fluid.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c lat"><span class="h">TA</span><span class="p">Tā</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c lat"><span class="h">gender fluid</span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="slide drill-en-only" data-notes="第二遍只看英文，按第一遍顺序说中文，然后交换角色。">
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第三周　第二次</span></div>
+<div class="hd">
+<p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+<h2>对话练习：第二遍</h2>
+<p class="dek">Same dialogue, same order. Look at the English and say each line in Chinese.</p>
+</div>
+<div class="dlg-wrap">
+<div class="dcol">
+<p class="phase"><span class="zh">名字和弟弟妹妹</span>Names and younger siblings</p>
+<div class="dlg en">
+<div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>, and you?</div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. Do you have a younger brother or a younger sister?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">No. I don’t have a younger brother, or a younger sister.</div></div></div>
+</div>
+</div>
+<div class="dcol">
+<p class="phase"><span class="zh">哥哥</span>An older brother</p>
+<div class="dlg en">
+<div class="dl"><div class="spk a">A</div><div><div class="enl">Do you have an older brother?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">I do! My older brother is called Monroe.</div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="enl">Is Monroe a guy or a girl?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">They’re gender fluid.</div></div></div>
+</div>
+</div>
+</div>
+</section>
 
   <!-- 10 · P5 numbers 1-5 -->
   <section class="slide" data-notes="按 → 一个一个出数字：自动播放笔顺，同时出现手势；点格子可以重播。让学生在纸上跟着写，再跟着比划。笔顺：二、三——都是从上到下，二上短下长，三中间那横最短、最下面最长；四——先左竖，再横折，里面撇、竖弯，最后一横封口；五——横、竖、横折、横，一共四笔。手势：一到五和英语差不多，但“三”中国人多用食指、中指、无名指。">

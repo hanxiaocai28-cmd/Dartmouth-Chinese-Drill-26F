@@ -173,6 +173,44 @@
   .bub .hz{font-size:24px;color:var(--ink)}
   .bub .py{font-size:15px}
   .blank{display:inline-block;min-width:88px;border-bottom:2px solid var(--seal);margin:0 4px}
+
+
+/* LEGACY-PINYIN-START */
+.legacy-rb.rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.18em;row-gap:.18em;line-height:1.2}
+.legacy-rb.rb .w{display:flex;align-items:flex-start;gap:.03em}
+.legacy-rb.rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em;flex-shrink:0}
+.legacy-rb.rb .c.pu{min-width:0}
+.legacy-rb.rb .h{font-size:1em;line-height:1.2;font-weight:inherit;color:inherit}
+.legacy-rb.rb .p{font-family:var(--serif,Georgia,serif);font-size:.48em;line-height:1.3;color:var(--indigo,#2E3A48);white-space:nowrap;min-height:1.3em;margin:0;padding:0 .08em;letter-spacing:0;text-transform:none;font-style:normal}
+.legacy-rb.rb .new .h{color:var(--seal)}
+.legacy-rb.rb .blank{margin:0}
+.legacy-marker{display:none!important}
+/* LEGACY-PINYIN-END */
+.slide:not(:has(#legacy-reveal-2.shown,#legacy-reveal-2.in,#legacy-reveal-2.show)) #legacy-line-2 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-3.shown,#legacy-reveal-3.in,#legacy-reveal-3.show)) #legacy-line-3 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-4.shown,#legacy-reveal-4.in,#legacy-reveal-4.show)) #legacy-line-4 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-5.shown,#legacy-reveal-5.in,#legacy-reveal-5.show)) #legacy-line-5 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-9.shown,#legacy-reveal-9.in,#legacy-reveal-9.show)) #legacy-line-9 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-10.shown,#legacy-reveal-10.in,#legacy-reveal-10.show)) #legacy-line-10 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-11.shown,#legacy-reveal-11.in,#legacy-reveal-11.show)) #legacy-line-11 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-12.shown,#legacy-reveal-12.in,#legacy-reveal-12.show)) #legacy-line-12 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-13.shown,#legacy-reveal-13.in,#legacy-reveal-13.show)) #legacy-line-13 .p{visibility:hidden}
+.slide:not(:has(#legacy-reveal-14.shown,#legacy-reveal-14.in,#legacy-reveal-14.show)) #legacy-line-14 .p{visibility:hidden}
+
+.legacy-lines>.legacy-rb{font-size:inherit;margin:0 0 5px}
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -259,21 +297,21 @@
 
   <!-- ============ 1 · TITLE ============ -->
   <section class="slide night on" data-notes="Welcome back. Today: tone dictation with place names, a quick review of Session 2 sentences, then new sentences with 来自 and 也, and finally a pair dialogue.">
-    <div class="seal zh">声</div>
-    <div class="rail"><span class="zh">第一周 · 第三课</span></div>
-    <div class="main" style="justify-content:center">
-      <p class="kicker">Chinese Drill · Week 1 · Session 3</p>
-      <h1 class="zh" style="font-size:64px">你来自哪里？</h1>
-      <p class="py" style="font-size:24px;margin:8px 0 14px;color:var(--seal-lt)">Nǐ láizì nǎlǐ?</p>
-      <p class="dek">Where are you from? · Tone dictation, review, new patterns, and dialogue practice</p>
-      <ul style="margin-top:34px;max-width:560px">
-        <li>一 · 听写练习 &nbsp;Tone dictation</li>
-        <li>二 · 复习句子 &nbsp;Review</li>
-        <li>三 · 学习新句子 &nbsp;New sentences</li>
-        <li>四 · 对话练习 &nbsp;Dialogue practice</li>
-      </ul>
-    </div>
-  </section>
+<div class="seal zh">声</div>
+<div class="rail"><span class="zh">第一周 · 第三课</span></div>
+<div class="main" style="justify-content:center">
+<p class="kicker">Chinese Drill · Week 1 · Session 3</p>
+<h1 class="zh rb legacy-rb" id="legacy-line-1" style="font-size:64px"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">来</span><span class="p">lái</span></span></span><span class="w"><span class="c"><span class="h">自</span><span class="p">zì</span></span></span><span class="w"><span class="c"><span class="h">哪</span><span class="p">nǎ</span></span></span><span class="w"><span class="c"><span class="h">里</span><span class="p">lǐ</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></h1>
+
+<p class="dek">Where are you from? · Tone dictation, review, new patterns, and dialogue practice</p>
+<ul style="margin-top:34px;max-width:560px">
+<li>一 · 听写练习  Tone dictation</li>
+<li>二 · 复习句子  Review</li>
+<li>三 · 学习新句子  New sentences</li>
+<li>四 · 对话练习  Dialogue practice</li>
+</ul>
+</div>
+</section>
 
   <!-- ============ 2 · DICTATION (questions) ============ -->
   <section class="slide" data-notes="Read each place name aloud 2–3 times: 1 加利福尼亚, 2 新罕布什尔, 3 南卡罗琳娜, 4 田纳西, 5 汉诺威, 6 纽约, 7 柬埔寨. Students write one tone number (1–4) per box, one box per syllable. Then go to the next slide to check.">
@@ -333,61 +371,61 @@
 
   <!-- ============ 4 · REVIEW ============ -->
   <section class="slide" data-notes="Review from Session 2. Students read the characters aloud first; click to reveal pinyin + English for each sentence. Ask students to answer each question (e.g. 我姓…, 我是学生, 我叫…).">
-    <div class="seal zh">习</div>
-    <div class="rail"><span class="zh">二 · 复习句子</span></div>
-    <div class="hd" style="margin-bottom:6px">
-      <p class="kicker">Part 2 · 复习句子 · Review</p>
-      <h2>Read it aloud, then check</h2>
-    </div>
-    <div class="lst">
-      <div class="sent"><div class="sq">一</div><div><div class="hz zh">我是美国人。</div><div class="frag"><div class="py">Wǒ shì Měiguó rén.</div><div class="en">I am American.</div></div></div></div>
-      <div class="sent"><div class="sq">二</div><div><div class="hz zh">您贵姓？</div><div class="frag"><div class="py">Nín guì xìng?</div><div class="en">What is your (honorable) surname? — polite</div></div></div></div>
-      <div class="sent"><div class="sq">三</div><div><div class="hz zh">请问，你是老师吗？</div><div class="frag"><div class="py">Qǐngwèn, nǐ shì lǎoshī ma?</div><div class="en">Excuse me, are you a teacher?</div></div></div></div>
-      <div class="sent"><div class="sq">四</div><div><div class="hz zh">你叫什么名字？</div><div class="frag"><div class="py">Nǐ jiào shénme míngzi?</div><div class="en">What is your name?</div></div></div></div>
-    </div>
-  </section>
+<div class="seal zh">习</div>
+<div class="rail"><span class="zh">二 · 复习句子</span></div>
+<div class="hd" style="margin-bottom:6px">
+<p class="kicker">Part 2 · 复习句子 · Review</p>
+<h2>Read it aloud, then check</h2>
+</div>
+<div class="lst">
+<div class="sent"><div class="sq">一</div><div><div class="hz zh rb legacy-rb" id="legacy-line-2"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div><div class="frag" id="legacy-reveal-2"><div class="en">I am American.</div></div></div></div>
+<div class="sent"><div class="sq">二</div><div><div class="hz zh rb legacy-rb" id="legacy-line-3"><span class="w"><span class="c"><span class="h">您</span><span class="p">Nín</span></span></span><span class="w"><span class="c"><span class="h">贵</span><span class="p">guì</span></span></span><span class="w"><span class="c"><span class="h">姓</span><span class="p">xìng</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="frag" id="legacy-reveal-3"><div class="en">What is your (honorable) surname? — polite</div></div></div></div>
+<div class="sent"><div class="sq">三</div><div><div class="hz zh rb legacy-rb" id="legacy-line-4"><span class="w"><span class="c"><span class="h">请</span><span class="p">Qǐng</span></span></span><span class="w"><span class="c"><span class="h">问</span><span class="p">wèn</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="frag" id="legacy-reveal-4"><div class="en">Excuse me, are you a teacher?</div></div></div></div>
+<div class="sent"><div class="sq">四</div><div><div class="hz zh rb legacy-rb" id="legacy-line-5"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="frag" id="legacy-reveal-5"><div class="en">What is your name?</div></div></div></div>
+</div>
+</section>
 
   <!-- ============ 5 · NEW SENTENCES ============ -->
   <section class="slide" data-notes="Model each sentence, choral repeat, then individuals. Focus: 来自 = come from; 也 = also, always placed before the verb (也是 / 也不是). Note 不 becomes bú before a 4th tone: bú shì. Substitution drill: swap in 中国人 / 法国人 / 美国人 and other names.">
-    <div class="seal zh">新</div>
-    <div class="rail"><span class="zh">三 · 学习新句子</span></div>
-    <div class="hd" style="margin-bottom:6px">
-      <p class="kicker">Part 3 · 学习新句子 · New Sentences</p>
-      <h2>Where you're from, and what you are</h2>
-    </div>
-    <div class="two" style="grid-template-columns:1.45fr 1fr;gap:30px">
-      <div class="col lst">
-        <div class="sent"><div class="sq">一</div><div><div class="hz zh">你来自哪里？</div><div class="py">Nǐ láizì nǎlǐ?</div><div class="en">Where are you from?</div></div></div>
-        <div class="sent"><div class="sq">二</div><div><div class="hz zh">晗啸是老师，也是学生。</div><div class="py">Hánxiào shì lǎoshī, yě shì xuésheng.</div><div class="en">Hanxiao is a teacher, and also a student.</div></div></div>
-        <div class="sent"><div class="sq">三</div><div><div class="hz zh" style="font-size:28px">我不是中国人，也不是法国人，<br>我是美国人。</div><div class="py">Wǒ bú shì Zhōngguó rén, yě bú shì Fǎguó rén, wǒ shì Měiguó rén.</div><div class="en">I'm not Chinese, and not French either — I'm American.</div></div></div>
-      </div>
-      <div class="pat" style="align-self:center;padding:30px 28px">
-        <p class="kicker" style="color:var(--seal-lt);margin:0">句型 · Patterns</p>
-        <div class="row"><div class="f zh">A <em>来自</em> 哪里？</div><p>来自 láizì = “to come from”. 哪里 nǎlǐ = where.</p></div>
-        <div class="row"><div class="f zh">A 是 X，<em>也</em>是 Y。</div><p>也 yě = “also”. It goes <b style="color:var(--night-tx)">before</b> the verb, never at the end.</p></div>
-        <div class="row"><div class="f zh">A <em>不是</em> X，<em>也不是</em> Y。</div><p>“Not X, and not Y either.” 不 bù → <b style="color:var(--night-tx)">bú</b> before a 4th tone (bú shì).</p></div>
-      </div>
-    </div>
-  </section>
+<div class="seal zh">新</div>
+<div class="rail"><span class="zh">三 · 学习新句子</span></div>
+<div class="hd" style="margin-bottom:6px">
+<p class="kicker">Part 3 · 学习新句子 · New Sentences</p>
+<h2>Where you're from, and what you are</h2>
+</div>
+<div class="two" style="grid-template-columns:1.45fr 1fr;gap:30px">
+<div class="col lst">
+<div class="sent"><div class="sq">一</div><div><div class="hz zh rb legacy-rb" id="legacy-line-6"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">来</span><span class="p">lái</span></span></span><span class="w"><span class="c"><span class="h">自</span><span class="p">zì</span></span></span><span class="w"><span class="c"><span class="h">哪</span><span class="p">nǎ</span></span></span><span class="w"><span class="c"><span class="h">里</span><span class="p">lǐ</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div><div class="en">Where are you from?</div></div></div>
+<div class="sent"><div class="sq">二</div><div><div class="hz zh rb legacy-rb" id="legacy-line-7"><span class="w"><span class="c"><span class="h">晗</span><span class="p">Hán</span></span></span><span class="w"><span class="c"><span class="h">啸</span><span class="p">xiào</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div><div class="en">Hanxiao is a teacher, and also a student.</div></div></div>
+<div class="sent"><div class="sq">三</div><div><div class="hz zh legacy-lines" id="legacy-line-8" style="font-size:28px"><div class="rb legacy-rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">中</span><span class="p">Zhōng</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span></div><div class="rb legacy-rb"><span class="w"><span class="c"><span class="h">也</span><span class="p">yě</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">法</span><span class="p">Fǎ</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span></div><div class="rb legacy-rb"><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div><div class="en">I'm not Chinese, and not French either — I'm American.</div></div></div>
+</div>
+<div class="pat" style="align-self:center;padding:30px 28px">
+<p class="kicker" style="color:var(--seal-lt);margin:0">句型 · Patterns</p>
+<div class="row"><div class="f zh">A <em>来自</em> 哪里？</div><p>来自 láizì = “to come from”. 哪里 nǎlǐ = where.</p></div>
+<div class="row"><div class="f zh">A 是 X，<em>也</em>是 Y。</div><p>也 yě = “also”. It goes <b style="color:var(--night-tx)">before</b> the verb, never at the end.</p></div>
+<div class="row"><div class="f zh">A <em>不是</em> X，<em>也不是</em> Y。</div><p>“Not X, and not Y either.” 不 bù → <b style="color:var(--night-tx)">bú</b> before a 4th tone (bú shì).</p></div>
+</div>
+</div>
+</section>
 
   <!-- ============ 6 · DIALOGUE ============ -->
   <section class="slide" data-notes="Click to reveal the dialogue line by line. Model with a student first, then pairs practice using their own names. Switch roles A/B. English: A: Hi, what's your name? B: I'm ___, and you? A: I'm ___. Are you a teacher? B: I'm not a teacher, I'm a student. A: Ah, where are you from? B: I'm American. Extension: B answers with 我不是…，也不是…，我是….">
-    <div class="seal zh">话</div>
-    <div class="rail"><span class="zh">四 · 对话练习</span></div>
-    <div class="hd" style="margin-bottom:8px">
-      <p class="kicker">Part 4 · 对话练习 · Dialogue Practice</p>
-      <h2>Practice with a partner</h2>
-      <p class="dek">Fill in your own names, then switch roles.</p>
-    </div>
-    <div class="dlg">
-      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">你好，你叫什么名字？</div><div class="py">Nǐ hǎo, nǐ jiào shénme míngzi?</div></div></div>
-      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我叫<span class="blank"></span>，你呢？</div><div class="py">Wǒ jiào ___, nǐ ne?</div></div></div>
-      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">我叫<span class="blank"></span>。你是老师吗？</div><div class="py">Wǒ jiào ___. Nǐ shì lǎoshī ma?</div></div></div>
-      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我不是老师，我是学生。</div><div class="py">Wǒ bú shì lǎoshī, wǒ shì xuésheng.</div></div></div>
-      <div class="ln a frag"><div class="who">A</div><div class="bub"><div class="hz zh">啊～，你来自哪里？</div><div class="py">À～, nǐ láizì nǎlǐ?</div></div></div>
-      <div class="ln b frag"><div class="who">B</div><div class="bub"><div class="hz zh">我是美国人。</div><div class="py">Wǒ shì Měiguó rén.</div></div></div>
-    </div>
-  </section>
+<div class="seal zh">话</div>
+<div class="rail"><span class="zh">四 · 对话练习</span></div>
+<div class="hd" style="margin-bottom:8px">
+<p class="kicker">Part 4 · 对话练习 · Dialogue Practice</p>
+<h2>Practice with a partner</h2>
+<p class="dek">Fill in your own names, then switch roles.</p>
+</div>
+<div class="dlg">
+<div class="ln a frag" id="legacy-reveal-9"><div class="who">A</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-9"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="ln b frag" id="legacy-reveal-10"><div class="who">B</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-10"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="ln a frag" id="legacy-reveal-11"><div class="who">A</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-11"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="ln b frag" id="legacy-reveal-12"><div class="who">B</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-12"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+<div class="ln a frag" id="legacy-reveal-13"><div class="who">A</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-13"><span class="w"><span class="c"><span class="h">啊</span><span class="p">À</span></span></span><span class="w"><span class="c pu"><span class="h">～</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">来</span><span class="p">lái</span></span></span><span class="w"><span class="c"><span class="h">自</span><span class="p">zì</span></span></span><span class="w"><span class="c"><span class="h">哪</span><span class="p">nǎ</span></span></span><span class="w"><span class="c"><span class="h">里</span><span class="p">lǐ</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></div></div></div>
+<div class="ln b frag" id="legacy-reveal-14"><div class="who">B</div><div class="bub"><div class="hz zh rb legacy-rb" id="legacy-line-14"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></div></div></div>
+</div>
+</section>
 
   <!-- ============ SLIDES END ============ -->
 

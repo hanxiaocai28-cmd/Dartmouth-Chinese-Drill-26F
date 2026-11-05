@@ -365,6 +365,20 @@
   .wi .rb .w{gap:.22em}
   .wi .rb .p{font-size:.58em;color:var(--seal)}
   .wi .en{margin-top:3px}
+
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -727,35 +741,35 @@
   </section>
 
   <!-- 09 · P4 dialogue round 2 -->
-  <section class="slide" data-notes="第二遍：只看英文，两人一组用中文说出来，顺序和第一遍一样。说完一句按 → 显示这一句的中文和拼音核对，一共八句。可以鼓励学生把“律师”“老师”换成自己爸爸妈妈真正的工作——下一部分的工作词库正好可以查。">
-    <div class="seal">练</div>
-    <div class="rail"><span>中文操练　第三周　第三次</span></div>
-    <div class="hd">
-      <p class="kicker">P4 · 对话 Dialogue · Round 2</p>
-      <h2>对话练习：第二遍</h2>
-      <p class="dek">Say each line in Chinese from the English. Press → to check it.</p>
-    </div>
-    <div class="dlg-wrap">
-      <div class="dcol">
-        <p class="phase"><span class="zh">名字和家人</span>Names and family size</p>
-        <div class="dlg en">
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">好</span><span class="p">hǎo</span></span><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span><span class="c"><span class="h">字</span><span class="p">zi</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>. And you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. How many people are in your family?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c"><span class="h">几</span><span class="p">jǐ</span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">There are <span class="blank"></span> people in my family. What about you?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-        </div>
-      </div>
-      <div class="dcol">
-        <p class="phase"><span class="zh">工作</span>Parents’ jobs</p>
-        <div class="dlg en">
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">There are <span class="blank"></span> people in my family.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">家</span><span class="p">jiā</span></span></span><span class="w"><span class="c"><span class="h">有</span><span class="p">yǒu</span></span></span><span class="w"><span class="c bl"><span class="h"><span class="blank"></span></span><span class="p"></span></span></span><span class="w"><span class="c"><span class="h">口</span><span class="p">kǒu</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">What does your dad do?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">做</span><span class="p">zuò</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">工</span><span class="p">gōng</span></span><span class="c"><span class="h">作</span><span class="p">zuò</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk a">A</div><div><div class="enl">My dad is a lawyer. What about your dad?</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">律</span><span class="p">lǜ</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span><span class="c pu"><span class="h">？</span></span></span></div></div></div></div>
-          <div class="dl"><div class="spk b">B</div><div><div class="enl">My dad is a teacher.</div><div class="ans" data-step><div class="zh rb "><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">爸</span><span class="p">bà</span></span><span class="c"><span class="h">爸</span><span class="p">ba</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span><span class="c"><span class="h">师</span><span class="p">shī</span></span><span class="c pu"><span class="h">。</span></span></span></div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="slide drill-en-only" data-notes="第二遍只看英文，按第一遍顺序说中文，然后交换角色。">
+<div class="seal">练</div>
+<div class="rail"><span>中文操练　第三周　第三次</span></div>
+<div class="hd">
+<p class="kicker">P4 · 对话 Dialogue · Round 2</p>
+<h2>对话练习：第二遍</h2>
+<p class="dek">Same dialogue, same order. Look at the English and say each line in Chinese.</p>
+</div>
+<div class="dlg-wrap">
+<div class="dcol">
+<p class="phase"><span class="zh">名字和家人</span>Names and family size</p>
+<div class="dlg en">
+<div class="dl"><div class="spk a">A</div><div><div class="enl">Hi! What’s your name?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">I’m <span class="blank"></span>. And you?</div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="enl">I’m <span class="blank"></span>. How many people are in your family?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">There are <span class="blank"></span> people in my family. What about you?</div></div></div>
+</div>
+</div>
+<div class="dcol">
+<p class="phase"><span class="zh">工作</span>Parents’ jobs</p>
+<div class="dlg en">
+<div class="dl"><div class="spk a">A</div><div><div class="enl">There are <span class="blank"></span> people in my family.</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">What does your dad do?</div></div></div>
+<div class="dl"><div class="spk a">A</div><div><div class="enl">My dad is a lawyer. What about your dad?</div></div></div>
+<div class="dl"><div class="spk b">B</div><div><div class="enl">My dad is a teacher.</div></div></div>
+</div>
+</div>
+</div>
+</section>
 
   <!-- 10 · P5 jobs word bank -->
   <section class="slide" data-noclick data-notes="请学生用英文说出自己以后想做的工作（或者爸爸妈妈的工作），老师输入，按回车加入右边的列表；最后可以让大家一起读一遍列表，再用句型练：“我想做投资银行家。”“我的妈妈是医生。”支持模糊搜索：打错几个字母也能找到（比如 consaltant），也可以输入缩写（IB、PE、VC、MBB、SWE、PM）、公司名（McKinsey、BCG、Bain）、拼音（不用声调，比如 lvshi 或 lushi）或汉字。按 / 键直接跳到输入框；Esc 离开输入框后方向键才能翻页。没人说话时点“Random job”。">

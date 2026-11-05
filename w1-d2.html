@@ -153,6 +153,33 @@
   #lb.on{display:grid}
   #lb img{max-width:100%;max-height:100%;object-fit:contain}
   @media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+
+/* LEGACY-PINYIN-START */
+.legacy-rb.rb{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.18em;row-gap:.18em;line-height:1.2}
+.legacy-rb.rb .w{display:flex;align-items:flex-start;gap:.03em}
+.legacy-rb.rb .c{display:flex;flex-direction:column;align-items:center;min-width:1em;flex-shrink:0}
+.legacy-rb.rb .c.pu{min-width:0}
+.legacy-rb.rb .h{font-size:1em;line-height:1.2;font-weight:inherit;color:inherit}
+.legacy-rb.rb .p{font-family:var(--serif,Georgia,serif);font-size:.48em;line-height:1.3;color:var(--indigo,#2E3A48);white-space:nowrap;min-height:1.3em;margin:0;padding:0 .08em;letter-spacing:0;text-transform:none;font-style:normal}
+.legacy-rb.rb .new .h{color:var(--seal)}
+.legacy-rb.rb .blank{margin:0}
+.legacy-marker{display:none!important}
+/* LEGACY-PINYIN-END */
+
+
+/* DRILL-CONSISTENCY-START: shared projection and aligned-pinyin rules */
+.rb .c{flex-shrink:0;align-items:center}
+.rb .p{white-space:nowrap;text-align:center}
+.rb .new .h{color:var(--seal)}
+.drill-en-only .d2 .dl,.drill-en-only .d2-hd{grid-template-columns:30px minmax(0,1fr)}
+.drill-en-only .d2 .en{font-size:25px;line-height:1.35;color:var(--ink)}
+.drill-en-only .d2 .dl{padding:11px 0}
+.drill-en-only .dl .enl{font-size:25px}
+.drill-en-only .dlg{gap:23px}
+.wl:has(>.legacy-rb){grid-template-columns:minmax(100px,auto) minmax(0,1fr);gap:9px 20px}
+.ar:has(>.legacy-rb){grid-template-columns:30px 58px minmax(0,1fr) 160px 38px}
+/* DRILL-CONSISTENCY-END */
 </style>
 </head>
 <body>
@@ -219,147 +246,147 @@
 
   <!-- 3 · Hometowns I -->
   <section class="slide" data-notes="From Session 1: everyone introduced their hometown. Read each place name aloud; class repeats. Ask each student: 你是哪里人? Just have them recognize their own place name for now.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">Review · 复习 · Our Hometowns I</p>
-      <h2>Where We Come From <span class="zh">我们的家乡</span></h2>
-    </div>
-    <div class="homes g4">
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <circle cx="88" cy="30" r="12" fill="none" stroke="#AE3826" stroke-width="3"/>
-          <g stroke="#AE3826" stroke-width="2.5"><line x1="88" y1="10" x2="88" y2="14"/><line x1="88" y1="46" x2="88" y2="50"/><line x1="68" y1="30" x2="72" y2="30"/><line x1="104" y1="30" x2="108" y2="30"/></g>
-          <path d="M42 100 Q40 70 44 52" stroke="#2E3A48" stroke-width="5" fill="none"/>
-          <g stroke="#2E3A48" stroke-width="3.5" fill="none"><path d="M44 52 Q28 44 18 50"/><path d="M44 52 Q34 36 22 34"/><path d="M44 52 Q48 34 62 30"/><path d="M44 52 Q60 42 70 48"/></g>
-          <path d="M10 104 Q30 96 60 104 Q90 112 110 104" stroke="#2E3A48" stroke-width="3" fill="none"/>
-        </svg></div>
-        <div>
-          <h3>California</h3>
-          <span class="zh">加利福尼亚</span>
-          <span class="py">Jiālìfúníyà</span>
-          <p class="who">Angel Alejandro Avila</p>
-        </div>
-      </div>
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <rect x="44" y="16" width="32" height="8" fill="none" stroke="#2E3A48" stroke-width="3"/>
-          <path d="M40 32 Q40 24 48 24 L72 24 Q80 24 80 32 Q84 52 76 66 L44 66 Q36 52 40 32Z" fill="none" stroke="#AE3826" stroke-width="3.5"/>
-          <path d="M44 66 Q60 74 76 66" fill="none" stroke="#AE3826" stroke-width="3.5"/>
-          <line x1="60" y1="70" x2="60" y2="84" stroke="#2E3A48" stroke-width="4"/>
-          <circle cx="60" cy="90" r="5" fill="#2E3A48"/>
-          <path d="M52 40 L56 52" stroke="#AE3826" stroke-width="2.5"/>
-          <path d="M20 104 L100 104" stroke="#2E3A48" stroke-width="3"/>
-        </svg></div>
-        <div>
-          <h3>Philadelphia</h3>
-          <span class="zh">费城</span>
-          <span class="py">Fèichéng</span>
-          <p class="who">Sarah Beth Hughes · Jonathan Alexander Talero</p>
-        </div>
-      </div>
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <path d="M6 96 L38 46 L58 78 L74 52 L114 96Z" fill="none" stroke="#2E3A48" stroke-width="3.5"/>
-          <path d="M30 58 L38 46 L46 58" fill="none" stroke="#2E3A48" stroke-width="3"/>
-          <g stroke="#AE3826" stroke-width="3" fill="none">
-            <path d="M28 96 L28 82 M20 92 L28 78 L36 92 M22 84 L28 72 L34 84"/>
-            <path d="M92 96 L92 80 M83 91 L92 75 L101 91 M85 82 L92 68 L99 82"/>
-          </g>
-        </svg></div>
-        <div>
-          <h3>Hanover · New Hampshire</h3>
-          <span class="zh">汉诺威（新罕布什尔）</span>
-          <span class="py">Hànnuòwēi</span>
-          <p class="who">Rose Li Hurst</p>
-        </div>
-      </div>
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <g fill="none" stroke="#AE3826" stroke-width="3">
-            <path d="M52 96 L52 46 Q60 26 68 46 L68 96"/>
-            <path d="M24 96 L24 62 Q31 46 38 62 L38 96"/>
-            <path d="M82 96 L82 62 Q89 46 96 62 L96 96"/>
-            <line x1="56" y1="56" x2="64" y2="56"/><line x1="54" y1="70" x2="66" y2="70"/>
-          </g>
-          <line x1="10" y1="96" x2="110" y2="96" stroke="#2E3A48" stroke-width="3.5"/>
-          <line x1="16" y1="104" x2="104" y2="104" stroke="#2E3A48" stroke-width="3"/>
-        </svg></div>
-        <div>
-          <h3>Cambodia</h3>
-          <span class="zh">柬埔寨</span>
-          <span class="py">Jiǎnpǔzhài</span>
-          <p class="who">Sonisa Leng</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">Review · 复习 · Our Hometowns I</p>
+<h2>Where We Come From <span class="zh">我们的家乡</span></h2>
+</div>
+<div class="homes g4">
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<circle cx="88" cy="30" fill="none" r="12" stroke="#AE3826" stroke-width="3"></circle>
+<g stroke="#AE3826" stroke-width="2.5"><line x1="88" x2="88" y1="10" y2="14"></line><line x1="88" x2="88" y1="46" y2="50"></line><line x1="68" x2="72" y1="30" y2="30"></line><line x1="104" x2="108" y1="30" y2="30"></line></g>
+<path d="M42 100 Q40 70 44 52" fill="none" stroke="#2E3A48" stroke-width="5"></path>
+<g fill="none" stroke="#2E3A48" stroke-width="3.5"><path d="M44 52 Q28 44 18 50"></path><path d="M44 52 Q34 36 22 34"></path><path d="M44 52 Q48 34 62 30"></path><path d="M44 52 Q60 42 70 48"></path></g>
+<path d="M10 104 Q30 96 60 104 Q90 112 110 104" fill="none" stroke="#2E3A48" stroke-width="3"></path>
+</svg></div>
+<div>
+<h3>California</h3>
+<span class="zh rb legacy-rb" id="legacy-line-1"><span class="w"><span class="c"><span class="h">加</span><span class="p">Jiā</span></span></span><span class="w"><span class="c"><span class="h">利</span><span class="p">lì</span></span></span><span class="w"><span class="c"><span class="h">福</span><span class="p">fú</span></span></span><span class="w"><span class="c"><span class="h">尼</span><span class="p">ní</span></span></span><span class="w"><span class="c"><span class="h">亚</span><span class="p">yà</span></span></span></span>
+
+<p class="who">Angel Alejandro Avila</p>
+</div>
+</div>
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<rect fill="none" height="8" stroke="#2E3A48" stroke-width="3" width="32" x="44" y="16"></rect>
+<path d="M40 32 Q40 24 48 24 L72 24 Q80 24 80 32 Q84 52 76 66 L44 66 Q36 52 40 32Z" fill="none" stroke="#AE3826" stroke-width="3.5"></path>
+<path d="M44 66 Q60 74 76 66" fill="none" stroke="#AE3826" stroke-width="3.5"></path>
+<line stroke="#2E3A48" stroke-width="4" x1="60" x2="60" y1="70" y2="84"></line>
+<circle cx="60" cy="90" fill="#2E3A48" r="5"></circle>
+<path d="M52 40 L56 52" stroke="#AE3826" stroke-width="2.5"></path>
+<path d="M20 104 L100 104" stroke="#2E3A48" stroke-width="3"></path>
+</svg></div>
+<div>
+<h3>Philadelphia</h3>
+<span class="zh rb legacy-rb" id="legacy-line-2"><span class="w"><span class="c"><span class="h">费</span><span class="p">Fèi</span></span></span><span class="w"><span class="c"><span class="h">城</span><span class="p">chéng</span></span></span></span>
+
+<p class="who">Sarah Beth Hughes · Jonathan Alexander Talero</p>
+</div>
+</div>
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<path d="M6 96 L38 46 L58 78 L74 52 L114 96Z" fill="none" stroke="#2E3A48" stroke-width="3.5"></path>
+<path d="M30 58 L38 46 L46 58" fill="none" stroke="#2E3A48" stroke-width="3"></path>
+<g fill="none" stroke="#AE3826" stroke-width="3">
+<path d="M28 96 L28 82 M20 92 L28 78 L36 92 M22 84 L28 72 L34 84"></path>
+<path d="M92 96 L92 80 M83 91 L92 75 L101 91 M85 82 L92 68 L99 82"></path>
+</g>
+</svg></div>
+<div>
+<h3>Hanover · New Hampshire</h3>
+<span class="zh rb legacy-rb" id="legacy-line-3"><span class="w"><span class="c"><span class="h">汉</span><span class="p">Hàn</span></span></span><span class="w"><span class="c"><span class="h">诺</span><span class="p">nuò</span></span></span><span class="w"><span class="c"><span class="h">威</span><span class="p">wēi</span></span></span><span class="w"><span class="c pu"><span class="h">（</span></span></span><span class="w"><span class="c"><span class="h">新</span><span class="p">Xīn</span></span></span><span class="w"><span class="c"><span class="h">罕</span><span class="p">hǎn</span></span></span><span class="w"><span class="c"><span class="h">布</span><span class="p">bù</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shí</span></span></span><span class="w"><span class="c"><span class="h">尔</span><span class="p">ěr</span></span></span><span class="w"><span class="c pu"><span class="h">）</span></span></span></span>
+
+<p class="who">Rose Li Hurst</p>
+</div>
+</div>
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<g fill="none" stroke="#AE3826" stroke-width="3">
+<path d="M52 96 L52 46 Q60 26 68 46 L68 96"></path>
+<path d="M24 96 L24 62 Q31 46 38 62 L38 96"></path>
+<path d="M82 96 L82 62 Q89 46 96 62 L96 96"></path>
+<line x1="56" x2="64" y1="56" y2="56"></line><line x1="54" x2="66" y1="70" y2="70"></line>
+</g>
+<line stroke="#2E3A48" stroke-width="3.5" x1="10" x2="110" y1="96" y2="96"></line>
+<line stroke="#2E3A48" stroke-width="3" x1="16" x2="104" y1="104" y2="104"></line>
+</svg></div>
+<div>
+<h3>Cambodia</h3>
+<span class="zh rb legacy-rb" id="legacy-line-4"><span class="w"><span class="c"><span class="h">柬</span><span class="p">Jiǎn</span></span></span><span class="w"><span class="c"><span class="h">埔</span><span class="p">pǔ</span></span></span><span class="w"><span class="c"><span class="h">寨</span><span class="p">zhài</span></span></span></span>
+
+<p class="who">Sonisa Leng</p>
+</div>
+</div>
+</div>
+</section>
 
   <!-- 4 · Hometowns II -->
   <section class="slide" data-notes="Second half of hometowns. Same routine: read aloud, class repeats, students find their own name. Then set up the listening drill on the next slide.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">Review · 复习 · Our Hometowns II</p>
-      <h2>Where We Come From <span class="zh">我们的家乡</span></h2>
-    </div>
-    <div class="homes g3">
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <g fill="none" stroke="#2E3A48" stroke-width="3">
-            <rect x="14" y="60" width="18" height="40"/>
-            <rect x="38" y="40" width="20" height="60"/>
-            <rect x="64" y="52" width="16" height="48"/>
-            <rect x="86" y="30" width="20" height="70"/>
-            <line x1="96" y1="30" x2="96" y2="18"/>
-          </g>
-          <g stroke="#AE3826" stroke-width="2">
-            <line x1="43" y1="50" x2="53" y2="50"/><line x1="43" y1="60" x2="53" y2="60"/><line x1="43" y1="70" x2="53" y2="70"/>
-            <line x1="91" y1="44" x2="101" y2="44"/><line x1="91" y1="56" x2="101" y2="56"/><line x1="91" y1="68" x2="101" y2="68"/>
-          </g>
-          <line x1="8" y1="100" x2="112" y2="100" stroke="#2E3A48" stroke-width="3.5"/>
-        </svg></div>
-        <div>
-          <h3>New York</h3>
-          <span class="zh">纽约</span>
-          <span class="py">Niǔyuē</span>
-          <p class="who">Ayomide N Odumuyiwa</p>
-        </div>
-      </div>
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <path d="M18 74 Q60 18 102 74Z" fill="none" stroke="#AE3826" stroke-width="3.5"/>
-          <path d="M12 74 L108 74" stroke="#AE3826" stroke-width="3.5"/>
-          <path d="M60 38 L64 50 L77 50 L67 58 L71 70 L60 62 L49 70 L53 58 L43 50 L56 50Z" fill="#2E3A48"/>
-          <path d="M16 92 Q40 84 60 92 Q80 100 104 92" stroke="#2E3A48" stroke-width="3" fill="none"/>
-          <path d="M24 102 Q44 95 60 102 Q76 109 96 102" stroke="#2E3A48" stroke-width="2.5" fill="none"/>
-        </svg></div>
-        <div>
-          <h3>Vietnam</h3>
-          <span class="zh">越南</span>
-          <span class="py">Yuènán</span>
-          <p class="who">Quynh Lan Tran</p>
-        </div>
-      </div>
-      <div class="home">
-        <div class="pic"><svg viewBox="0 0 120 120">
-          <path d="M84 26 Q70 34 70 48 Q70 62 84 70 Q76 58 76 48 Q76 38 84 26Z" fill="#AE3826"/>
-          <path d="M40 100 Q38 74 40 56" stroke="#2E3A48" stroke-width="5" fill="none"/>
-          <g stroke="#2E3A48" stroke-width="3.5" fill="none">
-            <path d="M40 56 Q24 50 16 56"/><path d="M40 56 Q30 40 20 40"/>
-            <path d="M40 56 Q42 38 52 32"/><path d="M40 56 Q56 46 64 54"/>
-          </g>
-          <line x1="12" y1="102" x2="108" y2="102" stroke="#2E3A48" stroke-width="3"/>
-        </svg></div>
-        <div>
-          <h3>South Carolina</h3>
-          <span class="zh">南卡（南卡罗来纳）</span>
-          <span class="py">Nánkǎ · Nánkǎluóláinà</span>
-          <p class="who">Elizabeth Dylan Yong</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">Review · 复习 · Our Hometowns II</p>
+<h2>Where We Come From <span class="zh">我们的家乡</span></h2>
+</div>
+<div class="homes g3">
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<g fill="none" stroke="#2E3A48" stroke-width="3">
+<rect height="40" width="18" x="14" y="60"></rect>
+<rect height="60" width="20" x="38" y="40"></rect>
+<rect height="48" width="16" x="64" y="52"></rect>
+<rect height="70" width="20" x="86" y="30"></rect>
+<line x1="96" x2="96" y1="30" y2="18"></line>
+</g>
+<g stroke="#AE3826" stroke-width="2">
+<line x1="43" x2="53" y1="50" y2="50"></line><line x1="43" x2="53" y1="60" y2="60"></line><line x1="43" x2="53" y1="70" y2="70"></line>
+<line x1="91" x2="101" y1="44" y2="44"></line><line x1="91" x2="101" y1="56" y2="56"></line><line x1="91" x2="101" y1="68" y2="68"></line>
+</g>
+<line stroke="#2E3A48" stroke-width="3.5" x1="8" x2="112" y1="100" y2="100"></line>
+</svg></div>
+<div>
+<h3>New York</h3>
+<span class="zh rb legacy-rb" id="legacy-line-5"><span class="w"><span class="c"><span class="h">纽</span><span class="p">Niǔ</span></span></span><span class="w"><span class="c"><span class="h">约</span><span class="p">yuē</span></span></span></span>
+
+<p class="who">Ayomide N Odumuyiwa</p>
+</div>
+</div>
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<path d="M18 74 Q60 18 102 74Z" fill="none" stroke="#AE3826" stroke-width="3.5"></path>
+<path d="M12 74 L108 74" stroke="#AE3826" stroke-width="3.5"></path>
+<path d="M60 38 L64 50 L77 50 L67 58 L71 70 L60 62 L49 70 L53 58 L43 50 L56 50Z" fill="#2E3A48"></path>
+<path d="M16 92 Q40 84 60 92 Q80 100 104 92" fill="none" stroke="#2E3A48" stroke-width="3"></path>
+<path d="M24 102 Q44 95 60 102 Q76 109 96 102" fill="none" stroke="#2E3A48" stroke-width="2.5"></path>
+</svg></div>
+<div>
+<h3>Vietnam</h3>
+<span class="zh rb legacy-rb" id="legacy-line-6"><span class="w"><span class="c"><span class="h">越</span><span class="p">Yuè</span></span></span><span class="w"><span class="c"><span class="h">南</span><span class="p">nán</span></span></span></span>
+
+<p class="who">Quynh Lan Tran</p>
+</div>
+</div>
+<div class="home">
+<div class="pic"><svg viewbox="0 0 120 120">
+<path d="M84 26 Q70 34 70 48 Q70 62 84 70 Q76 58 76 48 Q76 38 84 26Z" fill="#AE3826"></path>
+<path d="M40 100 Q38 74 40 56" fill="none" stroke="#2E3A48" stroke-width="5"></path>
+<g fill="none" stroke="#2E3A48" stroke-width="3.5">
+<path d="M40 56 Q24 50 16 56"></path><path d="M40 56 Q30 40 20 40"></path>
+<path d="M40 56 Q42 38 52 32"></path><path d="M40 56 Q56 46 64 54"></path>
+</g>
+<line stroke="#2E3A48" stroke-width="3" x1="12" x2="108" y1="102" y2="102"></line>
+</svg></div>
+<div>
+<h3>South Carolina</h3>
+<span class="zh rb legacy-rb" id="legacy-line-7"><span class="w"><span class="c"><span class="h">南</span><span class="p">Nán</span></span></span><span class="w"><span class="c"><span class="h">卡</span><span class="p">kǎ</span></span></span><span class="w"><span class="c pu"><span class="h">（</span></span></span><span class="w"><span class="c"><span class="h">南</span><span class="p">Nán</span></span></span><span class="w"><span class="c"><span class="h">卡</span><span class="p">kǎ</span></span></span><span class="w"><span class="c"><span class="h">罗</span><span class="p">luó</span></span></span><span class="w"><span class="c"><span class="h">来</span><span class="p">lái</span></span></span><span class="w"><span class="c"><span class="h">纳</span><span class="p">nà</span></span></span><span class="w"><span class="c pu"><span class="h">）</span></span></span></span>
+
+<p class="who">Elizabeth Dylan Yong</p>
+</div>
+</div>
+</div>
+</section>
 
   <!-- 5 · Listening drill -->
   <section class="slide" data-notes="Read each place name aloud twice, slowly. Students write only the tone numbers, one digit per syllable, e.g. 费城 → 4 2. Do #1 together as an example if needed. Then reveal the answer key on the next slide.">
@@ -384,124 +411,124 @@
 
   <!-- 6 · Answer key -->
   <section class="slide" data-notes="Reveal answers one by one; have students self-check. Re-read any item that many people missed and drill it chorally. Note the neutral tone is not tested here; 加利福尼亚 is the long one — celebrate whoever got all five.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">Listening Drill · 核对答案</p>
-      <h2>Check Your Answers <span class="zh">核对答案</span></h2>
-      <p class="dek">How many did you get right? Let's read each one together.</p>
-    </div>
-    <div class="drill">
-      <div class="drow"><div class="n">1</div><span class="zh">费城</span><span class="py">Fèichéng</span><span class="en">Philadelphia</span><span class="tones key">4 · 2</span></div>
-      <div class="drow"><div class="n">2</div><span class="zh">纽约</span><span class="py">Niǔyuē</span><span class="en">New York</span><span class="tones key">3 · 1</span></div>
-      <div class="drow"><div class="n">3</div><span class="zh">越南</span><span class="py">Yuènán</span><span class="en">Vietnam</span><span class="tones key">4 · 2</span></div>
-      <div class="drow"><div class="n">4</div><span class="zh">南卡</span><span class="py">Nánkǎ</span><span class="en">South Carolina</span><span class="tones key">2 · 3</span></div>
-      <div class="drow"><div class="n">5</div><span class="zh">柬埔寨</span><span class="py">Jiǎnpǔzhài</span><span class="en">Cambodia</span><span class="tones key">3 · 3 · 4</span></div>
-      <div class="drow"><div class="n">6</div><span class="zh">汉诺威</span><span class="py">Hànnuòwēi</span><span class="en">Hanover</span><span class="tones key">4 · 4 · 1</span></div>
-      <div class="drow"><div class="n">7</div><span class="zh">加利福尼亚</span><span class="py">Jiālìfúníyà</span><span class="en">California</span><span class="tones key">1 · 4 · 2 · 2 · 4</span></div>
-      <div class="drow" style="background:transparent;border-style:dashed"><div class="n">★</div><span class="en" style="font-size:12.5px">Bonus challenge: say your own hometown with perfect tones!</span></div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">Listening Drill · 核对答案</p>
+<h2>Check Your Answers <span class="zh">核对答案</span></h2>
+<p class="dek">How many did you get right? Let's read each one together.</p>
+</div>
+<div class="drill">
+<div class="drow"><div class="n">1</div><span class="zh rb legacy-rb" id="legacy-line-8"><span class="w"><span class="c"><span class="h">费</span><span class="p">Fèi</span></span></span><span class="w"><span class="c"><span class="h">城</span><span class="p">chéng</span></span></span></span><span class="en">Philadelphia</span><span class="tones key">4 · 2</span></div>
+<div class="drow"><div class="n">2</div><span class="zh rb legacy-rb" id="legacy-line-9"><span class="w"><span class="c"><span class="h">纽</span><span class="p">Niǔ</span></span></span><span class="w"><span class="c"><span class="h">约</span><span class="p">yuē</span></span></span></span><span class="en">New York</span><span class="tones key">3 · 1</span></div>
+<div class="drow"><div class="n">3</div><span class="zh rb legacy-rb" id="legacy-line-10"><span class="w"><span class="c"><span class="h">越</span><span class="p">Yuè</span></span></span><span class="w"><span class="c"><span class="h">南</span><span class="p">nán</span></span></span></span><span class="en">Vietnam</span><span class="tones key">4 · 2</span></div>
+<div class="drow"><div class="n">4</div><span class="zh rb legacy-rb" id="legacy-line-11"><span class="w"><span class="c"><span class="h">南</span><span class="p">Nán</span></span></span><span class="w"><span class="c"><span class="h">卡</span><span class="p">kǎ</span></span></span></span><span class="en">South Carolina</span><span class="tones key">2 · 3</span></div>
+<div class="drow"><div class="n">5</div><span class="zh rb legacy-rb" id="legacy-line-12"><span class="w"><span class="c"><span class="h">柬</span><span class="p">Jiǎn</span></span></span><span class="w"><span class="c"><span class="h">埔</span><span class="p">pǔ</span></span></span><span class="w"><span class="c"><span class="h">寨</span><span class="p">zhài</span></span></span></span><span class="en">Cambodia</span><span class="tones key">3 · 3 · 4</span></div>
+<div class="drow"><div class="n">6</div><span class="zh rb legacy-rb" id="legacy-line-13"><span class="w"><span class="c"><span class="h">汉</span><span class="p">Hàn</span></span></span><span class="w"><span class="c"><span class="h">诺</span><span class="p">nuò</span></span></span><span class="w"><span class="c"><span class="h">威</span><span class="p">wēi</span></span></span></span><span class="en">Hanover</span><span class="tones key">4 · 4 · 1</span></div>
+<div class="drow"><div class="n">7</div><span class="zh rb legacy-rb" id="legacy-line-14"><span class="w"><span class="c"><span class="h">加</span><span class="p">Jiā</span></span></span><span class="w"><span class="c"><span class="h">利</span><span class="p">lì</span></span></span><span class="w"><span class="c"><span class="h">福</span><span class="p">fú</span></span></span><span class="w"><span class="c"><span class="h">尼</span><span class="p">ní</span></span></span><span class="w"><span class="c"><span class="h">亚</span><span class="p">yà</span></span></span></span><span class="en">California</span><span class="tones key">1 · 4 · 2 · 2 · 4</span></div>
+<div class="drow" style="background:transparent;border-style:dashed"><div class="n">★</div><span class="en" style="font-size:12.5px">Bonus challenge: say your own hometown with perfect tones!</span></div>
+</div>
+</section>
 
   <!-- 7 · Review sentences -->
   <section class="slide" data-notes="Choral reading first, then cold-call pairs. For 你贵姓 remind them it is the polite form; the answer is 我姓… . For 你呢 point out how it bounces the question back.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">Review · 复习句子</p>
-      <h2>Sentences from Session 1 <span class="zh">复习句子</span></h2>
-    </div>
-    <div class="main" style="justify-content:center">
-      <div class="sent">
-        <span class="zh">李老师好！</span>
-        <span class="py">Lǐ lǎoshī hǎo!</span>
-        <span class="en">Hello, Teacher Li!</span>
-      </div>
-      <div class="sent">
-        <span class="zh">你的妈妈叫什么名字？</span>
-        <span class="py">Nǐ de māma jiào shénme míngzi?</span>
-        <span class="en">What is your mom's name?</span>
-      </div>
-      <div class="sent">
-        <span class="zh">你贵姓？</span>
-        <span class="py">Nǐ guì xìng?</span>
-        <span class="en">What is your (honorable) family name?</span>
-      </div>
-      <div class="sent">
-        <span class="zh">我很好，你呢？</span>
-        <span class="py">Wǒ hěn hǎo, nǐ ne?</span>
-        <span class="en">I'm very well — and you?</span>
-      </div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">Review · 复习句子</p>
+<h2>Sentences from Session 1 <span class="zh">复习句子</span></h2>
+</div>
+<div class="main" style="justify-content:center">
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-15"><span class="w"><span class="c"><span class="h">李</span><span class="p">Lǐ</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span></span>
+
+<span class="en">Hello, Teacher Li!</span>
+</div>
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-16"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">的</span><span class="p">de</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p">mā</span></span></span><span class="w"><span class="c"><span class="h">妈</span><span class="p">ma</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+<span class="en">What is your mom's name?</span>
+</div>
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-17"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">贵</span><span class="p">guì</span></span></span><span class="w"><span class="c"><span class="h">姓</span><span class="p">xìng</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+<span class="en">What is your (honorable) family name?</span>
+</div>
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-18"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">很</span><span class="p">hěn</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">呢</span><span class="p">ne</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+<span class="en">I'm very well — and you?</span>
+</div>
+</div>
+</section>
 
   <!-- 8 · New sentences -->
   <section class="slide" data-notes="Teach 是 as the equative verb — no conjugation ever. Swap in each country with the hometown slide students: 美国 / 中国 / 越南 / 加拿大 / 柬埔寨. Point out 吗 turns a statement into a yes-no question, and 不 negates 是 (pronounced bú before 是). Drill 请问 as the polite opener.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">New · 学习新句子</p>
-      <h2>Saying Who You Are <span class="zh">学习新句子</span></h2>
-    </div>
-    <div class="two" style="grid-template-columns:1.35fr 1fr">
-      <div class="col" style="justify-content:center">
-        <div class="sent">
-          <span class="zh">我是美国人。</span>
-          <span class="py">Wǒ shì Měiguó rén.</span>
-          <span class="en">I am American. — swap in 中国 / 越南 / 加拿大 / 柬埔寨</span>
-        </div>
-        <div class="sent">
-          <span class="zh">你好，请问，你是老师吗？</span>
-          <span class="py">Nǐ hǎo, qǐngwèn, nǐ shì lǎoshī ma?</span>
-          <span class="en">Hello — may I ask, are you a teacher?</span>
-        </div>
-        <div class="sent">
-          <span class="zh">不是，我不是老师，我是学生。</span>
-          <span class="py">Bú shì, wǒ bú shì lǎoshī, wǒ shì xuésheng.</span>
-          <span class="en">No — I'm not a teacher, I'm a student.</span>
-        </div>
-      </div>
-      <div class="col" style="justify-content:center">
-        <div class="num"><div class="sq">是</div><div><h4>shì — to be</h4><p>Country + 人 rén = a person from there: 美国人, 中国人, 越南人…</p></div></div>
-        <div class="num"><div class="sq">吗</div><div><h4>ma — question particle</h4><p>Statement + 吗 = yes/no question. 你是老师 → 你是老师吗？</p></div></div>
-        <div class="num"><div class="sq">不</div><div><h4>bù — not</h4><p>不 + 是 = “is not”. Before 是 it is pronounced <em>bú</em>.</p></div></div>
-        <div class="num"><div class="sq">请</div><div><h4>qǐngwèn — “may I ask…”</h4><p>Polite opener before a question, like “excuse me”.</p></div></div>
-      </div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">New · 学习新句子</p>
+<h2>Saying Who You Are <span class="zh">学习新句子</span></h2>
+</div>
+<div class="two" style="grid-template-columns:1.35fr 1fr">
+<div class="col" style="justify-content:center">
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-19"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">美</span><span class="p">Měi</span></span></span><span class="w"><span class="c"><span class="h">国</span><span class="p">guó</span></span></span><span class="w"><span class="c"><span class="h">人</span><span class="p">rén</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></span>
+
+<span class="en">I am American. — swap in 中国 / 越南 / 加拿大 / 柬埔寨</span>
+</div>
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-20"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">请</span><span class="p">qǐng</span></span></span><span class="w"><span class="c"><span class="h">问</span><span class="p">wèn</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+<span class="en">Hello — may I ask, are you a teacher?</span>
+</div>
+<div class="sent">
+<span class="zh rb legacy-rb" id="legacy-line-21"><span class="w"><span class="c"><span class="h">不</span><span class="p">Bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></span>
+
+<span class="en">No — I'm not a teacher, I'm a student.</span>
+</div>
+</div>
+<div class="col" style="justify-content:center">
+<div class="num"><div class="sq">是</div><div><h4>shì — to be</h4><p>Country + 人 rén = a person from there: 美国人, 中国人, 越南人…</p></div></div>
+<div class="num"><div class="sq">吗</div><div><h4>ma — question particle</h4><p>Statement + 吗 = yes/no question. 你是老师 → 你是老师吗？</p></div></div>
+<div class="num"><div class="sq">不</div><div><h4>bù — not</h4><p>不 + 是 = “is not”. Before 是 it is pronounced <em>bú</em>.</p></div></div>
+<div class="num"><div class="sq">请</div><div><h4>qǐngwèn — “may I ask…”</h4><p>Polite opener before a question, like “excuse me”.</p></div></div>
+</div>
+</div>
+</section>
 
   <!-- 9 · Dialogue practice -->
   <section class="slide" data-notes="Pair students up; A asks first, then swap roles. Have them use their real names. Walk around and check tones on 老师 and 学生. Finish by asking two pairs to perform for the class.">
-    <div class="seal">汉</div>
-    <div class="rail"><span>中文入门・第一周・第二课</span></div>
-    <div class="hd">
-      <p class="kicker">Practice · 对话练习</p>
-      <h2>Pair Dialogue <span class="zh">对话练习</span></h2>
-      <p class="dek">Practice with a partner — use your real name, then switch roles.</p>
-    </div>
-    <div class="main" style="justify-content:center">
-      <div class="dlg"><div class="who">A</div><div>
-        <span class="zh">你好！你叫什么名字？</span>
-        <span class="py">Nǐ hǎo! Nǐ jiào shénme míngzi?</span>
-      </div></div>
-      <div class="dlg b"><div class="who">B</div><div>
-        <span class="zh">我叫……，你叫什么名字？</span>
-        <span class="py">Wǒ jiào ……, nǐ jiào shénme míngzi?</span>
-      </div></div>
-      <div class="dlg"><div class="who">A</div><div>
-        <span class="zh">我叫……；你是老师吗？</span>
-        <span class="py">Wǒ jiào ……; nǐ shì lǎoshī ma?</span>
-      </div></div>
-      <div class="dlg b"><div class="who">B</div><div>
-        <span class="zh">不，我不是老师，我是学生。请问，你是老师吗？</span>
-        <span class="py">Bù, wǒ bú shì lǎoshī, wǒ shì xuésheng. Qǐngwèn, nǐ shì lǎoshī ma?</span>
-      </div></div>
-      <div class="dlg"><div class="who">A</div><div>
-        <span class="zh">不，不是老师，我是学生。</span>
-        <span class="py">Bù, bú shì lǎoshī, wǒ shì xuésheng.</span>
-      </div></div>
-    </div>
-  </section>
+<div class="seal">汉</div>
+<div class="rail"><span>中文入门・第一周・第二课</span></div>
+<div class="hd">
+<p class="kicker">Practice · 对话练习</p>
+<h2>Pair Dialogue <span class="zh">对话练习</span></h2>
+<p class="dek">Practice with a partner — use your real name, then switch roles.</p>
+</div>
+<div class="main" style="justify-content:center">
+<div class="dlg"><div class="who">A</div><div>
+<span class="zh rb legacy-rb" id="legacy-line-22"><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">好</span><span class="p">hǎo</span></span></span><span class="w"><span class="c pu"><span class="h">！</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">Nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+</div></div>
+<div class="dlg b"><div class="who">B</div><div>
+<span class="zh rb legacy-rb" id="legacy-line-23"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c"><span class="h">什</span><span class="p">shén</span></span></span><span class="w"><span class="c"><span class="h">么</span><span class="p">me</span></span></span><span class="w"><span class="c"><span class="h">名</span><span class="p">míng</span></span></span><span class="w"><span class="c"><span class="h">字</span><span class="p">zi</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+</div></div>
+<div class="dlg"><div class="who">A</div><div>
+<span class="zh rb legacy-rb" id="legacy-line-24"><span class="w"><span class="c"><span class="h">我</span><span class="p">Wǒ</span></span></span><span class="w"><span class="c"><span class="h">叫</span><span class="p">jiào</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span><span class="w"><span class="c pu"><span class="h">…</span></span></span><span class="w"><span class="c pu"><span class="h">；</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+</div></div>
+<div class="dlg b"><div class="who">B</div><div>
+<span class="zh rb legacy-rb" id="legacy-line-25"><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span><span class="w"><span class="c"><span class="h">请</span><span class="p">Qǐng</span></span></span><span class="w"><span class="c"><span class="h">问</span><span class="p">wèn</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">你</span><span class="p">nǐ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c"><span class="h">吗</span><span class="p">ma</span></span></span><span class="w"><span class="c pu"><span class="h">？</span></span></span></span>
+
+</div></div>
+<div class="dlg"><div class="who">A</div><div>
+<span class="zh rb legacy-rb" id="legacy-line-26"><span class="w"><span class="c"><span class="h">不</span><span class="p">Bù</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">不</span><span class="p">bú</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">老</span><span class="p">lǎo</span></span></span><span class="w"><span class="c"><span class="h">师</span><span class="p">shī</span></span></span><span class="w"><span class="c pu"><span class="h">，</span></span></span><span class="w"><span class="c"><span class="h">我</span><span class="p">wǒ</span></span></span><span class="w"><span class="c"><span class="h">是</span><span class="p">shì</span></span></span><span class="w"><span class="c"><span class="h">学</span><span class="p">xué</span></span></span><span class="w"><span class="c"><span class="h">生</span><span class="p">sheng</span></span></span><span class="w"><span class="c pu"><span class="h">。</span></span></span></span>
+
+</div></div>
+</div>
+</section>
 
   <!-- ============ SLIDES END ============ -->
 
